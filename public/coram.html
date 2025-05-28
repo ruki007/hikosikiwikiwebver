@@ -1,0 +1,358 @@
+
+h4{
+  text-align: center;
+        color:whitesmoke;
+        background-color: plum;
+        font-size: larger;
+}
+h5{
+        text-align: center;
+        color:black;
+        font-size: large;
+      }
+      h6{
+        text-align: center;
+        background-color: pink;
+        color: rgb(255, 255, 255);
+        padding: 10px;
+        font-size:large;
+      }
+      #re {
+color: red;
+display: inline;
+}
+
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>名大非公式wiki</title>
+  <link rel="icon" type="image/png" href="img/icon.jpg">
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-auth.js"></script>
+
+  <script>
+    var firebaseConfig = {
+      apiKey: "AIzaSyD3ogaiRPtv870uTBDjI3S42LKTC1hlLrM",
+      authDomain: "nuwiki2024.firebaseapp.com",
+      databaseURL: "https://nuwiki2024-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "nuwiki2024",
+      storageBucket: "nuwiki2024.appspot.com",
+      messagingSenderId: "117360974314",
+      appId: "1:117360974314:web:61f450a0ae18d958627a93",
+      measurementId: "G-PWX9FWE8T3"
+    };
+    firebase.initializeApp(firebaseConfig);
+    firebase.auth().onAuthStateChanged(function(user) {
+    if (!user) {
+      // ログインしていない場合はlogin.htmlにリダイレクト
+      window.location.replace("login.html");
+    }
+  });
+    // Firebase のユーザー状態を監視
+    firebase.auth().onAuthStateChanged(function (user) {
+      if (user) {
+        // ログインしている場合の処理
+        document.querySelector(".login-bar").innerHTML = "<a class=login_text>ログイン済み</a>";
+      }
+      else {
+        // ログインしていない場合の処理
+        document.querySelector(".login-bar").innerHTML = "<a href='login.html' class=login_text>ログイン</a>";
+      }
+    });
+
+    function logout() {
+      firebase.auth().signOut().then(function () {
+        // Sign-out successful.
+        window.location.reload(); // ページをリロードしてログアウト状態を反映
+      }).catch(function (error) {
+        // An error happened.
+        console.error("ログアウトエラー", error);
+      });
+    }
+  </script>
+
+
+  <link rel="stylesheet" href="style_index.css">
+</head>
+
+<body>
+  <div class="wrapper_all">
+    <div class="login-bar">
+      <div class="login_icon"></div>
+    </div>
+    <header>
+      <div class="header_item">
+        <h1><span>名古屋大学</span><span>非公式wiki</span></h1>
+        <h2>~NU wiki unofficial~</h2>
+      </div>
+    </header>
+
+    <div class="openbtn1"><span></span><span></span><span></span></div>
+    <nav id="g-nav">
+      <div id="g-nav-list">
+        <div class="accordion">
+          <a class="listitem" href="index.html">TOP</a>
+
+          <div class="option">
+            <input type="checkbox" id="toggle2" class="toggle">
+            <label class="title" for="toggle2">初めに</label>
+            <div class="content2">
+              <li><a class="nav-item underline" href="index.html">本サイトについて</a></li>
+              <li><a class="nav-item underline" href="login.html">ログイン/新規登録</a></li>
+              <li><a class="nav-item underline" href="index.html">管理人紹介(coming soon)</a></li>
+              <li><a class="nav-item underline" href="#"></a></li>
+            </div>
+          </div>
+
+          <div class="option">
+            <input type="checkbox" id="toggle3" class="toggle">
+            <label class="title" for="toggle3">お役立ち情報</label>
+            <div class="content2">
+              <li><a class="nav-item underline" href="#">マップ</a></li>
+              <li><a class="nav-item underline" href="#">周辺イベントまとめ(準備中)</a></li>
+              <li><a class="nav-item underline" href="password3.html">アルバイト情報登録</a></li>
+              <li><a class="nav-item underline" href="work_show.html">アルバイト情報一覧</a></li>
+              <li><a class="nav-item underline" href="#"></a></li>
+            </div>
+          </div>
+
+          <div class="option">
+            <input type="checkbox" id="toggle4" class="toggle">
+            <label class="title" for="toggle4">部活動/サークル情報</label>
+            <div class="content2">
+              <li><a class="nav-item underline" href="club_show.html">サークル一覧</a></li>
+              <li><a class="nav-item underline" href="club_calendar copy.html">新歓カレンダー</a></li>
+              <li><a class="nav-item underline" href="research.html">部活ID検索</a></li>
+              <li><a class="nav-item underline" href="research2.html">新歓ID検索</a></li>
+              <li><a class="nav-item underline" href="#"></a></li>
+            </div>
+          </div>
+
+          <div class="option">
+            <input type="checkbox" id="toggle5" class="toggle">
+            <label class="title" for="toggle5">コラム/各種まとめ</label>
+            <div class="content2">
+              <li><a class="nav-item underline" href="zyugyou.html">授業・教授まとめ</a></li>
+              <li><a class="nav-item underline" href="coram.html">コラム</a></li>
+              <li><a class="nav-item underline" href="#"></a></li>
+            </div>
+          </div>
+
+          <div class="option">
+            <input type="checkbox" id="toggle7" class="toggle">
+            <label class="title" for="toggle7">ホーム</label>
+            <div class="content2">
+              <li><a class="nav-item underline" href="user_home.html">ユーザーホーム</a></li>
+              
+              <li><a class="nav-item underline" href="#"></a></li>
+            </div>
+          </div>
+
+          <div class="option">
+            <input type="checkbox" id="toggle6" class="toggle">
+            <label class="title" for="toggle6">部活動/サークル関係者へ</label>
+            <div class="content2">
+              <li><a class="nav-item underline" href="password2.html">新歓情報追加</a></li>
+              <li><a class="nav-item underline" href="password1.html">部活/サークル情報追加</a></li>
+              <li><a class="nav-item underline" href="password4.html">部活動/サークルホーム</a></li>
+              <li><a class="nav-item underline" href="#"></a></li>
+
+            </div>
+          </div>
+
+          <a class="listitem2" href="#">LOGIN</a>
+
+        </div>
+    </nav>
+
+    <!-- <div class="tab-wrapper">
+      <div class="tab-container">
+        <div class="tab" onclick="openTab('genre1')">初めに</div>
+        <div class="tab" onclick="openTab('genre2')">お役立ち情報</div>
+        <div class="tab" onclick="openTab('genre3')">部活動/サークル情報</div>
+        <div class="tab" onclick="openTab('genre4')">コラム/各種まとめ</div>
+        <div class="tab" onclick="openTab('genre5')">ホーム</div>
+        <div class="tab" onclick="openTab('genre6')">部活動/サークル関係者へ</div>
+      </div> -->
+    </div>
+    
+    <div id="genre1" class="content">
+      <!-- Content for Genre 1 -->
+      <a href="index.html">本サイトについて</a>
+      <!-- <a href="register.html">新規登録</a> -->
+      <a href="login.html">ログイン/新規登録</a>
+
+      <a href="">管理人紹介(coming soon)</a>
+    </div>
+
+    <div id="genre2" class="content">
+      <!-- Content for Genre 2 -->
+      <a href="#site4">マップ(準備中)</a>
+      <a href="#site5">周辺イベントまとめ(準備中)</a>
+      <a href="password3.html">アルバイト情報登録</a>
+      <a href="work_show.html">アルバイト情報一覧</a>
+    </div>
+
+    <div id="genre3" class="content">
+      <!-- Content for Genre 3 -->
+      <a href="club_show.html">サークル一覧</a>
+      <a href="club_calendar copy.html">新歓カレンダー</a>
+      <a href="research.html">部活ID検索</a>
+      <a href="research2.html">新歓ID検索</a>
+    </div>
+
+    <div id="genre4" class="content">
+      <!-- Content for Genre 4 -->
+      <a href="zyugyou.html">授業・教授まとめ</a>
+      <a href="coram.html">コラム</a>
+    </div>
+    <div id="genre5" class="content">
+      <!-- Content for Genre 5 -->
+      <a href="user_home.html">ユーザーホーム</a>
+      
+    </div>
+    <div id="genre6" class="content">
+      <!-- Content for Genre 6 -->
+      <a href="password2.html">新歓情報追加</a>
+      <a href="password1.html">部活/サークル情報追加</a>
+      <a href="password4.html">部活動/サークルホーム</a>
+    </div>
+    <script>
+      function openTab(tabName) {
+        // Hide all content divs
+        var contentDivs = document.getElementsByClassName("content");
+        for (var i = 0; i < contentDivs.length; i++) {
+          contentDivs[i].classList.remove("active");
+        }
+
+        // Show the selected content div
+        var selectedContentDiv = document.getElementById(tabName);
+        selectedContentDiv.classList.add("active");
+
+        // Remove active class from all tabs
+        var tabs = document.getElementsByClassName("tab");
+        for (var i = 0; i < tabs.length; i++) {
+          tabs[i].classList.remove("active");
+          // tabs[i].style.backgroundColor = 'gray'; // Reset color of non-active tabs
+        }
+
+        // Add active class to the selected tab
+        var selectedTab = document.querySelector("[onclick=\"openTab('" + tabName + "')\"]");
+        selectedTab.classList.add("active");
+        // selectedTab.style.backgroundColor = 'gray'; // Change color of active tab
+      }
+
+
+      //以下追加
+      $(".openbtn1").click(function () {
+        $(this).toggleClass('active');//ボタンがクリックされたらactiveを付与
+        $("#g-nav").toggleClass('panelactive');//ナビゲーションにpanelactiveを付与
+      });
+
+      $("#g-nav a").click(function () {
+        $(".openbtn1").removeClass('active');//リンクがクリックされたらactiveを除去
+        $("#g-nav").removeClass('panelactive');//ナビゲーションのpanelactiveを除去
+      });
+
+      $(function () {
+        $(window).scroll(function () {
+          $('.js-fade').each(function () {//スクロールされたときにフェードイン
+            var pos = $(this).offset().top;
+            var scroll = $(window).scrollTop();
+            var windowHeight = $(window).height();
+            if (scroll > pos - windowHeight + 100) {
+              $(this).addClass('scroll');
+            }
+          });
+        });
+      });
+
+
+      // eachTextAnimeにappeartextというクラスを付ける
+      function textanimeControl() {
+        $('.textanime').each(function () {
+          var elemPos = $(this).offset().top - 50;
+          var scroll = $(window).scrollTop();
+          var windowHeight = $(window).height();
+          if (scroll >= elemPos - windowHeight) {
+            $(this).addClass("appeartext");
+
+          } else {
+            $(this).removeClass("appeartext");
+          }
+        });
+      }
+
+      // 画面をスクロール時
+      $(window).scroll(function () {
+        textanimeControl();
+      });
+
+      // 画面が読み込まれた時
+      $(window).on('load', function () {
+        var element = $(".textanime");
+        element.each(function () {
+          var text = $(this).text();
+          var textbox = "";
+          text.split('').forEach(function (t, i) {
+            if (t !== " ") {
+              if (i < 10) {
+                textbox += '<span style="animation-delay:.' + i + 's;">' + t + '</span>';
+              } else {
+                var n = i / 10;
+                textbox += '<span style="animation-delay:' + n + 's;">' + t + '</span>';
+              }
+
+            } else {
+              textbox += t;
+            }
+          });
+          $(this).html(textbox);
+        });
+
+        textanimeControl();
+      });
+    </script>
+    <div style="width: 95%; margin: auto;" class="wrapper_all">
+  
+    <h3>名大生のヒトリゴト</h3>
+    <p>名大生が徒然なるままに書き上げた力作コラムまとめ。ジャンル、内容も多種多様。お気に入りのライターを見つけよう。</p>
+  
+  <h5>名大非公式wiki完成までのログ</h5>
+  <p>初心者からこのサイトを作り上げるには、一筋縄ではいかぬようで。</p>
+  <p></p><a href="hinagata.html">名大非公式wiki完成までのログ</a>
+  <div style="float: right; margin-left: 10px;">
+  </div>
+  <br>
+  <br>
+
+  <h5>TOFELまとめ</h5>
+  <p>皆が怖気づく!TOFELの全てを洗いざらい解説。これでみんなサバイバー回避!</p>
+  <p></p><a href="tofle.html">TOFELまとめ</a>
+
+  <h5>理学部の新入生向け。理学部1年はこんな感じ</h5>
+  <p>理学部は想像以上に自由。現役名大理学部生が独断と偏見をぶっちゃけます。</p>
+  <a href="rigakubu.html">理学部の新入生向け。理学部1年はこんな感じ</a>
+  
+
+  <p> </p>
+ 
+
+  <footer>
+      
+    <iframe src="./footer.html" frameborder="0" id="footer" role="presentation"></iframe>
+    
+  </footer>
+
+
+
+</body>
+</html>
+

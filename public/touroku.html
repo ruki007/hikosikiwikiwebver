@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>新歓情報登</title>
+    <style>
+        /* CSSスタイルをここに追加 */
+    </style>
+</head>
+<body>
+    <form id="form">
+        <label>部活動/サークル名: <input type="text" id="clubName"></label><br>
+        <label>新歓日程: <input type="date" id="date"></label><br>
+        <label>新歓予定時間: <input type="time" id="time"></label><br>
+        <label>所要時間: <input type="number" id="duration" min="0" step="30"></label><br>
+        <label>新歓名称: <input type="text" id="eventName"></label><br>
+        <label>新歓種類選択: 
+            <select id="eventType">
+                <option value="参加型">参加型</option>
+                <option value="体験会">体験会</option>
+                <option value="ショー">ショー</option>
+                <option value="説明会">説明会</option>
+            </select>
+        </label><br>
+        <label>定員: <input type="number" id="capacity" min="0" max="999"></label><br>
+        <label>参加費: <input type="number" id="fee" min="0"></label><br>
+        <div id="items">
+            <label>持ち物: <input type="text" class="item"></label>
+        </div>
+        <button type="button" id="addItem">＋</button><br>
+        <label>内容: <textarea id="description" maxlength="4000"></textarea></label><br>
+        <label>写真1: <input type="file" id="photo1" accept=".jpg"></label><br>
+        <label>写真2: <input type="file" id="photo2" accept=".jpg"></label><br>
+
+        <button type="submit">送信</button>
+    </form>
+
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-storage.js"></script>
+
+    <script>
+    
+    const firebaseConfig = {
+        apiKey: "AIzaSyD3ogaiRPtv870uTBDjI3S42LKTC1hlLrM",
+        authDomain: "Pnuwiki2024.firebaseapp.com",
+        databaseURL: "https://nuwiki2024.firebaseio.com",
+        projectId: "nuwiki2024",
+        storageBucket: "nuwiki2024.appspot.com",
+        messagingSenderId: "117360974314",
+        appId: "1:117360974314:web:b42c367177476d0b627a93",
+        measurementId: "G-7M672MYCDY",
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    document.getElementById('addItem').addEventListener('click', function() {
+        const div = document.getElementById('items');
+        const label = document.createElement('label');
+        label.textContent = '持ち物: ';
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.className = 'item';
+        label.appendChild(input);
+        div.appendChild(label);
+        div.appendChild(document.createElement('br'));
+    });
+
+    // 予約フォームのリンクを作成する関数
+    const createReservationFormLink = async (partyId) => {
+        // ここで予約フォームのリンクを作成します
+        return 'https://nuwiki2024.web.app/partyreserve.html?partyId=' + partyId;
+    };
+
+    document.getElementById('form').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        // 写真のinput要素を取得
+        const photo1 = document.getElementById('photo1').files[0];
+        const photo2 = document.getElementById('photo2').files[0];
+
+        // 写真をFirebase Storageにアップロードする関数
+        const uploadPhoto = async (photo, name) => {
+            if (!photo) return null;
+            const storageRef = firebase.storage().ref();
+            const photoRef = storageRef.child('photos/' + name);
+            try {
+                await photoRef.put(photo);
+                return await photoRef.getDownloadURL();
+            } catch (error) {
+                throw new Error('写真のアップロードに失敗しました: ' + error.message);
+            }
+        };
+
+        // 定員分の文字列を保持できるドキュメントを作成する関数
+const createPartyMemberDocument = async (capacity) => {
+    const data = {};
+    for(let i = 0; i < capacity; i++) {
+        data[i] = '';
+    }
+    try {
+        const docRef = await db.collection('party_member').add(data);
+        return docRef.id;
+    } catch (error) {
+        throw new Error('ドキュメントの作成に失敗しました: ' + error.message);
+    }
+};
+
+
+        // 写真をアップロード
+        Promise.all([
+            uploadPhoto(photo1, 'photo1'),
+            uploadPhoto(photo2, 'photo2'),
+            createPartyMemberDocument(document.getElementById('capacity').value)
+        ]).then(([photo1Url, photo2Url, partyMemberDocId]) => {
+            // 写真のURLを含むデータを作成
+            const data = {
+                clubName: document.getElementById('clubName').value,
+                date: document.getElementById('date').value,
+                time: document.getElementById('time').value,
+                duration: document.getElementById('duration').value,
+                eventName: document.getElementById('eventName').value,
+                eventType: document.getElementById('eventType').value,
+                capacity: document.getElementById('capacity').value,
+                fee: document.getElementById('fee').value,
+                items: Array.from(document.getElementsByClassName('item')).map(input => input.value),
+                description: document.getElementById('description').value,
+                photo1: photo1Url,
+                photo2: photo2Url,
+                partyMemberDoc: partyMemberDocId
+            };
+
+            // データをFirestoreに保存
+            db.collection('clubs_party').add(data).then(function(docRef) {
+                // 予約フォームのリンクを作成
+                createReservationFormLink(docRef.id).then(function(link) {
+                    // リンクをデータに追加
+                    db.collection('clubs_party').doc(docRef.id).update({
+                        reservationFormLink: link
+                    }).then(function() {
+                        window.location.href = 'index.html';
+                        alert('送信に成功しました！');
+                    }).catch(function(error) {
+                        alert('Firestoreへの保存に失敗しました: ' + error.message);
+                    });
+                }).catch(function(error) {
+                    alert('予約フォームのリンクの作成に失敗しました: ' + error.message);
+                });
+            }).catch(function(error) {
+                alert('Firestoreへの保存に失敗しました: ' + error.message);
+            });
+        }).catch(function(error) {
+            alert(error.message);
+        });
+    });
+
+    </script>
+</body>
+</html>

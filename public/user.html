@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>リダイレクトの例</title>
+  <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-auth.js"></script>
+  <!-- Firebaseの初期化 -->
+  <script>
+    var firebaseConfig = {
+        apiKey: "AIzaSyD3ogaiRPtv870uTBDjI3S42LKTC1hlLrM",
+    authDomain: "Pnuwiki2024.firebaseapp.com",
+    databaseURL: "https://nuwiki2024.firebaseio.com",
+    projectId: "nuwiki2024",
+    storageBucket: "nuwiki2024.appspot.com",
+    messagingSenderId: "117360974314",
+    appId: "1:117360974314:web:b42c367177476d0b627a93",
+    measurementId: "G-7M672MYCDY",
+    };
+    firebase.initializeApp(firebaseConfig);
+  </script>
+</head>
+<body>
+  <h1></h1>
+  <script>
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        var uid = user.uid;
+        var userRef = firebase.firestore().collection('user').doc(uid);
+
+        userRef.get().then(function(doc) {
+          if (doc.exists) {
+            // ユーザーのUIDがuserコレクション内のドキュメントIDと一致する場合
+            window.location.href = 'index.html';
+          } else {
+            // ユーザーのUIDがuserコレクション内のドキュメントIDと一致しない場合
+            window.location.href = 'ques.html';
+          }
+        }).catch(function(error) {
+          console.error('Error getting user document:', error);
+        });
+      } else {
+        // ユーザーがログインしていない場合、ログインページにリダイレクト
+        window.location.href = 'login.html';
+      }
+    });
+  </script>
+</body>
+</html>

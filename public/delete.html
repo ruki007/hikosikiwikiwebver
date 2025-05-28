@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Delete User</title>
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-firestore.js"></script>
+</head>
+<body>
+    <h1 id="userName">Loading...</h1>
+    <p id="userStatus">Loading...</p>
+    <button id="deleteButton">Delete</button>
+
+    <script>
+        // Firebaseの設定と初期化
+        var firebaseConfig = {
+            apiKey: "AIzaSyD3ogaiRPtv870uTBDjI3S42LKTC1hlLrM",
+            authDomain: "Pnuwiki2024.firebaseapp.com",
+            databaseURL: "https://nuwiki2024.firebaseio.com",
+            projectId: "nuwiki2024",
+            storageBucket: "nuwiki2024.appspot.com",
+            messagingSenderId: "117360974314",
+            appId: "1:117360974314:web:b42c367177476d0b627a93",
+            measurementId: "G-7M672MYCDY"
+        };
+        firebase.initializeApp(firebaseConfig);
+
+        // Firestoreへの参照を作成
+        var db = firebase.firestore();
+
+        // URLからuserIdとpartyIdを取得
+        var urlParams = new URLSearchParams(window.location.search);
+        var userId = urlParams.get('userId');
+        var partyId = urlParams.get('partyId');
+
+        // userIdでuser内を検索
+        db.collection("user").doc(userId)
+            .get()
+            .then((doc) => {
+                if (doc.exists) {
+                    // ユーザー名と状態(1なら予約者/2なら予約埋め)を表示
+                    document.getElementById("userName").innerText = doc.data().name;
+                    document.getElementById("userStatus").innerText = "Status: Reserver";
+                } else {
+                    // ユーザー名と状態(1なら予約者/2なら予約埋め)を表示
+                    document.getElementById("userName").innerText = userId;
+                    document.getElementById("userStatus").innerText = "Status: Reservation Filler";
+                }
+            }).catch((error) => {
+                console.log("Error getting document:", error);
+            });
+
+        // 確認ボタンを押すと
+        document.getElementById("deleteButton").addEventListener("click", function() {
+            // 状態1なら該当userファイル内のinfo配列から該当partyIDを、該当party_member内から該当userIDを、そして該当party_MemberDetail内から該当userIdのファイルを削除
+            db.collection("user").doc(userId)
+                .get()
+                .then((doc) => {
+                    if (doc.exists) {
+                        var infoArray = doc.data().info;
+                        var index = infoArray.indexOf(partyId);
+                        if (index > -1) {
+                            infoArray.splice(index, 1);
+                        }
+                        db.collection("user").doc(userId).update({
+                            info: infoArray
+                        }).then(() => {
+                            console.log("User updated successfully!");
+                        }).catch((error) => {
+                            console.error("Error updating user: ", error);
+                        });
+
+                        db.collection("party_member").doc(partyId)
+                            .update({
+                                [userId]: firebase.firestore.FieldValue.delete()
+                            }).then(() => {
+                                console.log("Party member deleted successfully!");
+                            }).catch((error) => {
+                                console.error("Error deleting party member: ", error);
+                            });
+
+                        db.collection("party_memberDetail").doc(userId)
+                            .delete()
+                            .then(() => {
+                                console.log("Party member detail deleted successfully!");
+                            }).catch((error) => {
+                                console.error("Error deleting party member detail: ", error);
+                            });
+                    } else {
+                        // 状態2なら該当party_member内から該当userIDを消去
+                        db.collection("party_member").doc(partyId)
+                            .update({
+                                [userId]: firebase.firestore.FieldValue.delete()
+                            }).then(() => {
+                                console.log("Party member deleted successfully!");
+                            }).catch((error) => {
+                                console.error("Error deleting party member: ", error);
+                            });
+                    }
+                }).catch((error) => {
+                    console.log("Error getting document:", error);
+                });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-database.js"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    #firebaseui-auth-container {
+      width: 100%;
+      max-width: 600px; /* ログインフォームの最大幅を設定 */
+      margin: 0 auto; /* 中央揃え */
+      padding: 20px;
+      box-sizing: border-box;
+    }
+    /* スマートフォン用の調整 */
+    @media screen and (max-width: 600px) {
+      #firebaseui-auth-container {
+        padding: 10px;
+      }
+    }
+  </style>
+
+  <script>
+    var firebaseConfig = {
+      apiKey: "AIzaSyD3ogaiRPtv870uTBDjI3S42LKTC1hlLrM",
+      authDomain: "nuwiki2024.firebaseapp.com",
+      databaseURL: "https://nuwiki2024-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "nuwiki2024",
+      storageBucket: "nuwiki2024.appspot.com",
+      messagingSenderId: "117360974314",
+      appId: "1:117360974314:web:61f450a0ae18d958627a93",
+      measurementId: "G-PWX9FWE8T3"
+    };
+    firebase.initializeApp(firebaseConfig);
+  </script>
+  <script src="https://www.gstatic.com/firebasejs/ui/3.5.2/firebase-ui-auth__ja.js"></script>
+  <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+</head>
+<body>
+  <div id="firebaseui-auth-container"></div>
+  <script>
+    var ui = new firebaseui.auth.AuthUI(firebase.auth());
+    var uiConfig = {
+      callbacks: {
+        signInSuccessWithAuthResult: function(authResult, redirectUrl) {
+          // ログイン成功時の処理を書きます
+          document.getElementById('firebaseui-auth-container').innerHTML = 'ログイン完了です。画面が切り替わるまで少々お待ちください';
+          setTimeout(function() {
+            window.location.assign("user.html");
+          }, 3000); // 3秒待ってからリダイレクトする
+          return false;
+        },
+        uiShown: function() {
+          // UIが表示された時の処理を書きますa
+        }
+      },
+      signInSuccessUrl: 'user.html',
+      signInOptions: [
+        firebase.auth.GoogleAuthProvider.PROVIDER_ID
+      ],
+      tosUrl: 'tos.html',
+      privacyPolicyUrl: 'pry.html',
+      credentialHelper: firebaseui.auth.CredentialHelper.NONE, // 既存のアカウントでのログイン時に新規登録画面を表示しないようにする
+      signInFlow: 'popup' // ポップアップモードに変更する
+    };
+    ui.start('#firebaseui-auth-container', uiConfig);
+  </script>
+</body>
+</html>

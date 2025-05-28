@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>予約情報</title>
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-auth.js"></script>
+</head>
+<body>
+
+<h1>予約情報</h1>
+
+<p id="eventName"></p>
+<p id="reservationNumber"></p>
+<button onclick="confirmReservation()">確認</button>
+<p id="message"></p>
+
+<script>
+    var firebaseConfig = {
+        apiKey: "AIzaSyD3ogaiRPtv870uTBDjI3S42LKTC1hlLrM",
+        authDomain: "nuwiki2024.firebaseapp.com",
+        databaseURL: "https://nuwiki2024.firebaseio.com",
+        projectId: "nuwiki2024",
+        storageBucket: "nuwiki2024.appspot.com",
+        messagingSenderId: "117360974314",
+        appId: "1:117360974314:web:61f450a0ae18d958627a93",
+        measurementId: "G-PWX9FWE8T3"
+    };
+    firebase.initializeApp(firebaseConfig);
+    var db = firebase.firestore();
+
+    function getParameterByName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, '\\$&');
+        var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, ' '));
+    }
+
+    var userId = getParameterByName('userId');
+    var partyId = getParameterByName('partyId');
+
+    var userRef = db.collection('user').doc(userId);
+    var partyRef = db.collection('clubs_party').doc(partyId);
+
+    async function displayData() {
+        var partyDoc = await partyRef.get();
+        if (partyDoc.exists) {
+            var eventName = partyDoc.data().eventName;
+            document.getElementById('eventName').innerText = 'イベント名: ' + eventName;
+            var partyMemberDoc = partyDoc.data().partyMemberDoc;
+            var partyMemberRef = db.collection('party_member').doc(partyMemberDoc);
+            var partyMemberDoc = await partyMemberRef.get();
+            if (partyMemberDoc.exists) {
+                var partyMemberInfo = partyMemberDoc.data();
+                var filledFields = Object.values(partyMemberInfo).filter(function(value) { return value !== ""; }).length;
+                document.getElementById('reservationNumber').innerText = '受付番号: ' + filledFields;
+            } else {
+                alert('エラー: パーティーメンバーが見つかりません');
+            }
+        } else {
+            alert('エラー: 新歓が見つかりません');
+        }
+    }
+
+    async function confirmReservation() {
+        var userDoc = await userRef.get();
+        if (userDoc.exists) {
+            var userInfo = userDoc.data().info;
+            userInfo.push(partyId); // partyIdをuserID配列に追加する
+            await userRef.update({info: userInfo});
+            document.getElementById('message').innerText = '成功: 予約が確認されました';
+            window.location.href = "club_carender.html";
+        } else {
+            alert('エラー: ユーザーが見つかりません');
+        }
+    }
+
+    displayData();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>問い合わせフォーム</title>
+</head>
+<body>
+    <h1>問い合わせフォーム</h1>
+    <form id="inquiryForm">
+        <label for="name">名前:</label><br>
+        <input type="text" id="name" name="name"><br>
+        <label for="question">質問内容:</label><br>
+        <textarea id="question" name="question"></textarea><br>
+        <button type="submit">送信</button>
+    </form>
+
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-firestore.js"></script>
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyD3ogaiRPtv870uTBDjI3S42LKTC1hlLrM",
+      authDomain: "nuwiki2024.firebaseapp.com",
+      databaseURL: "https://nuwiki2024.firebaseio.com",
+      projectId: "nuwiki2024",
+      storageBucket: "nuwiki2024.appspot.com",
+      messagingSenderId: "117360974314",
+      appId: "1:117360974314:web:61f450a0ae18d958627a93",
+      measurementId: "G-PWX9FWE8T3"
+        };
+        firebase.initializeApp(firebaseConfig);
+        var db = firebase.firestore();
+
+        var form = document.getElementById('inquiryForm');
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            var name = form['name'].value;
+            var question = form['question'].value;
+
+            db.collection('question').add({
+                name: name,
+                question: question
+            })
+            .then(function(docRef) {
+                console.log('Document written with ID: ', docRef.id);
+                alert('問い合わせを受け付けました。');
+                form.reset();
+            })
+            .catch(function(error) {
+                console.error('Error adding document: ', error);
+            });
+        });
+    </script>
+</body>
+</html>

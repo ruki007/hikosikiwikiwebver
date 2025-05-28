@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>名大非公式wiki</title>
+  <link rel="icon" type="image/png" href="img/icon.jpg">
+  <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-auth.js"></script>
+  <script>
+    var firebaseConfig = {
+      apiKey: "AIzaSyD3ogaiRPtv870uTBDjI3S42LKTC1hlLrM",
+      authDomain: "nuwiki2024.firebaseapp.com",
+      databaseURL: "https://nuwiki2024-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "nuwiki2024",
+      storageBucket: "nuwiki2024.appspot.com",
+      messagingSenderId: "117360974314",
+      appId: "1:117360974314:web:61f450a0ae18d958627a93",
+      measurementId: "G-PWX9FWE8T3"
+    };
+    firebase.initializeApp(firebaseConfig);
+
+    // Firebase のユーザー状態を監視
+    firebase.auth().onAuthStateChanged(function (user) {
+      if (user) {
+        // ログインしている場合の処理
+        document.querySelector(".login-bar").innerHTML = "ログイン済み：" ;
+      }
+      else {
+        // ログインしていない場合の処理
+        document.querySelector(".login-bar").innerHTML = "<a href='login.html' class=login_text>ログイン</a>";
+      }
+    });
+
+    function logout() {
+      firebase.auth().signOut().then(function () {
+        // Sign-out successful.
+        window.location.reload(); // ページをリロードしてログアウト状態を反映
+      }).catch(function (error) {
+        // An error happened.
+        console.error("ログアウトエラー", error);
+      });
+    }
+  </script>
+
+
+  <link rel="stylesheet" href="style_index.css">
+  <style>
+    #postList {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    #postList th,
+    #postList td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+
+  </style>
+</head>
+<main>
+<body>
+  <div class="wrapper_all">
+    <div class="login-bar">
+      <div class="login_icon"></div>
+    </div>
+    <header>
+      <div class="header_item">
+        <h1><span>名古屋大学</span><span>非公式wiki</span></h1>
+        <h2>~NU wiki unofficial~</h2>
+      </div>
+    </header>
+
+    <div class="tab-wrapper">
+      <div class="tab-container">
+        <div class="tab" onclick="openTab('genre1')">初めに</div>
+        <div class="tab" onclick="openTab('genre2')">お役立ち情報</div>
+        <div class="tab" onclick="openTab('genre3')">部活動/サークル情報</div>
+        <div class="tab" onclick="openTab('genre4')">コラム/各種まとめ</div>
+        <div class="tab" onclick="openTab('genre5')">ホーム</div>
+        <div class="tab" onclick="openTab('genre6')">部活動/サークル関係者へ</div>
+      </div>
+    </div>
+    <!-- <div class="nav">
+    <div class="nav_container">
+      <div class="nav_item" onclick="openTab('genre1')">初めに</div>
+      <div class="nav_item" onclick="openTab('genre2')">お役立ち情報</div>
+      <div class="nav_item" onclick="openTab('genre3')">部活動/サークル情報</div>
+      <div class="nav_item" onclick="openTab('genre4')">各種まとめ</div>
+    </div>
+  　</div> -->
+    <div id="genre1" class="content">
+      <!-- Content for Genre 1 -->
+      <a href="index.html">本サイトについて</a>
+      <!-- <a href="register.html">新規登録</a> -->
+      <a href="login.html">ログイン/新規登録</a>
+
+      <a href="">管理人紹介(coming soon)</a>
+    </div>
+
+    <div id="genre2" class="content">
+      <!-- Content for Genre 2 -->
+      <a href="#site4">マップ(準備中)</a>
+      <a href="#site5">周辺イベントまとめ(準備中)</a>
+      <a href="work_regist.html">アルバイト情報登録</a>
+      <a href="work_show.html">アルバイト情報一覧</a>
+    </div>
+
+    <div id="genre3" class="content">
+      <!-- Content for Genre 3 -->
+      <a href="club_show.html">サークル一覧</a>
+      <a href="club_carender.html">新歓カレンダー</a>
+      <a href="research.html">部活ID検索</a>
+      <a href="research2.html">新歓ID検索</a>
+    </div>
+
+    <div id="genre4" class="content">
+      <!-- Content for Genre 4 -->
+      <a href="zyugyou.html">授業・教授まとめ</a>
+      <a href="coram.html">コラム</a>
+    </div>
+    <div id="genre5" class="content">
+      <!-- Content for Genre 5 -->
+      <a href="user_home.html">ユーザーホーム</a>
+      <a href="club_home.html">部活動/サークルホーム</a>
+    </div>
+    <div id="genre6" class="content">
+      <!-- Content for Genre 6 -->
+      <a href="password2.html">新歓情報追加</a>
+      <a href="password1.html">部活/サークル情報追加</a>
+    </div>
+  </div>
+  <!-- Removed extra <head> tag -->
+<br>
+  <!-- Content section for search form and post list -->
+  <h3>授業投稿一覧</h3>
+  <form id="searchForm">
+    <label for="professor">教授名:</label>
+    <input type="text" id="professor" name="professor"><br>
+    <label for="subject">教科名:</label>
+    <input type="text" id="subject" name="subject"><br>
+    <label for="faculty">学部:</label>
+    <select id="faculty" name="faculty">
+      <option value="">選択してください</option>
+      <option value="文学部">文学部</option>
+      <option value="法学部">法学部</option>
+      <option value="経済学部">経済学部</option>
+      <option value="理学部">理学部</option>
+      <option value="工学部">工学部</option>
+      <option value="情報学部">情報学部</option>
+      <option value="教育学部">教育学部</option>
+      <option value="医学部">医学部</option>
+      <option value="農学部">農学部</option>
+    </select><br>
+    <label for="department">学科/専攻:</label>
+    <select id="department" name="department">
+      <option value="">選択してください</option>
+      <option value="専攻未定">その他</option>
+      <option value="自然情報学科">自然情報学科</option>
+      <option value="コンピュータ科学科">コンピュータ科学科</option>
+      <option value="人間・社会情報学科">人間・社会情報学科</option>
+      <option value="医学科">医学科</option>
+      <option value="化学生命工学科">化学生命工学科</option>
+      <option value="物理工学科">物理工学科</option>
+      <option value="マテリアル工学科">マテリアル工学科</option>
+      <option value="電気電子情報工学科">電気電子情報工学科</option>
+      <option value="エネルギー理工科">エネルギー理工科</option>
+      <option value="機会航空宇宙工学科">機械航空宇宙工学科</option>
+      <option value="環境土木・建築工学科">環境土木・建築工学科</option>
+      <option value="生物環境科学科">生物環境科学科</option>
+      <option value="資源生物科学科">資源生物科学科</option>
+      <option value="応用生命科学科">応用生命科学科</option>
+      <option value="看護学専攻">看護学専攻</option>
+      <option value="放射線技能科学専攻">放射線技能科学専攻</option>
+      <option value="検査技術科学専攻">検査技術科学専攻</option>
+      <option value="理学療法学専攻">理学療法学専攻</option>
+      <option value="作業療法学専攻">作業療法学専攻</option>
+    </select><br>
+    <button type="button" onclick="searchPosts()">検索</button>
+  </form>
+</main>
+  <table id="postList">
+    <thead>
+      <tr>
+        <th>教授名</th>
+        <th>教科名</th>
+        <th>コメント</th>
+        <th>学部</th>
+        <th>学科/専攻</th>
+        <th>授業形式</th> <!-- Added missing th for the style of class -->
+        <th>総合評価</th> <!-- Added missing th for the evaluation -->
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+  <br>
+  <br>
+
+  <br>
+  <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-firestore.js"></script>
+  <script>
+     function openTab(tabName) {
+      // Hide all content divs
+      var contentDivs = document.getElementsByClassName("content");
+      for (var i = 0; i < contentDivs.length; i++) {
+        contentDivs[i].classList.remove("active");
+      }
+
+      // Show the selected content div
+      var selectedContentDiv = document.getElementById(tabName);
+      selectedContentDiv.classList.add("active");
+
+      // Remove active class from all tabs
+      var tabs = document.getElementsByClassName("tab");
+      for (var i = 0; i < tabs.length; i++) {
+        tabs[i].classList.remove("active");
+        // tabs[i].style.backgroundColor = 'gray'; // Reset color of non-active tabs
+      }
+
+      // Add active class to the selected tab
+      var selectedTab = document.querySelector("[onclick=\"openTab('" + tabName + "')\"]");
+      selectedTab.classList.add("active");
+      // selectedTab.style.backgroundColor = 'gray'; // Change color of active tab
+    }
+    var firebaseConfig = {
+      apiKey: "AIzaSyD3ogaiRPtv870uTBDjI3S42LKTC1hlLrM",
+      authDomain: "nuwiki2024.firebaseapp.com",
+      databaseURL: "https://nuwiki2024.firebaseio.com",
+      projectId: "nuwiki2024",
+      storageBucket: "nuwiki2024.appspot.com",
+      messagingSenderId: "117360974314",
+      appId: "1:117360974314:web:61f450a0ae18d958627a93",
+      measurementId: "G-PWX9FWE8T3"
+    };
+    firebase.initializeApp(firebaseConfig);
+
+    var db = firebase.firestore();
+
+    // 投稿データを取得して表示
+    function searchPosts() {
+      var professor = document.getElementById("professor").value;
+      var subject = document.getElementById("subject").value;
+      var faculty = document.getElementById("faculty").value;
+      var department = document.getElementById("department").value;
+      var style = document.getElementById("style");
+      var eva = document.getElementById("eva");
+      var query = db.collection("zyu"); // Start with the whole collection
+
+      // Add conditions based on the input values
+      if (professor) {
+        query = query.where("professor", "==", professor);
+      }
+      if (subject) {
+        query = query.where("subject", "==", subject);
+      }
+      if (faculty) {
+        query = query.where("faculty", "==", faculty);
+      }
+      if (department) {
+        query = query.where("department", "==", department);
+      }
+
+      query.get().then(function (querySnapshot) {
+  var table = "<table><tr><th>教授名</th><th>教科名</th><th>コメント</th><th>学部</th><th>学科専攻</th><th>授業形態</th><th>総合評価</th></tr>";
+  querySnapshot.forEach(function (doc) {
+    var data = doc.data();
+    var professor = data.professor;
+    var subject = data.subject;
+    var comment = data.comment;
+    var faculty = data.faculty;
+    var department = data.department;
+    var style = data.style;
+    var eva = data.eva;
+
+    var row = "<tr><td>" + professor + "</td><td>" + subject + "</td><td>" + comment + "</td><td>" + faculty + "</td><td>" + department + "</td><td>" + style + "</td><td>" + eva + "</td></tr>";
+    table += row;
+  });
+  table += "</table>";
+  document.getElementById("postList").innerHTML = table;
+});
+
+    function openTab(tabName) {
+      // Hide all content divs
+      var contentDivs = document.getElementsByClassName("content");
+      for (var i = 0; i < contentDivs.length; i++) {
+        contentDivs[i].classList.remove("active");
+      }
+
+      // Show the selected content div
+      var selectedContentDiv = document.getElementById(tabName);
+      selectedContentDiv.classList.add("active");
+
+      // Remove active class from all tabs
+      var tabs = document.getElementsByClassName("tab");
+      for (var i = 0; i < tabs.length; i++) {
+        tabs[i].classList.remove("active");
+        tabs[i].style.backgroundColor = '#04cc04'; // Reset color of non-active tabs
+      }
+
+      // Add active class to the selected tab
+      var selectedTab = document.querySelector("[onclick=\"openTab('" + tabName + "')\"]");
+      selectedTab.classList.add("active");
+      selectedTab.style.backgroundColor = '#008000'; // Change color of active tab
+    }
+  }
+  </script>
+  <footer>
+    <div style="display: flex; justify-content: space-between;">
+      <div>
+        連絡先
+        <p><img src="img/twitter.jpg" style="height: 1em;"> <a href="https://twitter.com/your_twitter_handle">Twitter</a></p>
+      </div>
+      <div>
+        <h4>タブ</h4>
+        <p><a href="#genre1">初めに</a><a href="#genre2">お知らせ</a><a href="#genre3">部活動/サークル情報</a><a href="#genre4">各種まとめ</a></p>
+        <p><a href="#link1-1">リンク1-1</a><a href="#link2-1">リンク2-1</a></p>
+        <p><a href="#link1-2">リンク1-2</a></p>
+      </div>
+    </div>
+    <p>&#169; meidaiwiki2024</p>
+  </footer>
+  
+</body>
+
+</html>
+    

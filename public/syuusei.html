@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>部活動情報登録</title>
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-storage.js"></script>
+</head>
+<body>
+    <h1>部活動情報登録</h1>
+    <form>
+        <label for="clubId">部活動ID:</label><br>
+        <input type="text" id="clubId" name="clubId"><br>
+        <label for="photo1">Photo 1:</label><br>
+        <input type="file" id="photo1" name="photo1"><br>
+        <label for="photo2">Photo 2:</label><br>
+        <input type="file" id="photo2" name="photo2"><br>
+        <input type="submit" value="Submit">
+    </form>
+
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyD3ogaiRPtv870uTBDjI3S42LKTC1hlLrM",
+            authDomain: "Pnuwiki2024.firebaseapp.com",
+            databaseURL: "https://nuwiki2024.firebaseio.com",
+            projectId: "nuwiki2024",
+            storageBucket: "nuwiki2024.appspot.com",
+            messagingSenderId: "117360974314",
+            appId: "1:117360974314:web:b42c367177476d0b627a93",
+            measurementId: "G-7M672MYCDY",
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // Function to upload photo
+        const uploadPhoto = async (photo, name) => {
+            if (!photo) return null;
+            const storageRef = firebase.storage().ref();
+
+            // Get current date and time
+            const now = new Date();
+            const timestamp = now.getFullYear() + '_' + (now.getMonth() + 1) + '_' + now.getDate() + '_' + now.getHours() + '_' + now.getMinutes() + '_' + now.getSeconds();
+
+            // Add timestamp to file name
+            const uniqueName = name + '_' + timestamp;
+
+            const photoRef = storageRef.child('photos/' + uniqueName);
+            try {
+                await photoRef.put(photo);
+                return await photoRef.getDownloadURL();
+            } catch (error) {
+                throw new Error('Failed to upload photo: ' + error.message);
+            }
+        };
+
+        // Event listener for form submission
+        document.querySelector('form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Get input elements
+            const clubId = document.getElementById('clubId').value;
+            const photo1 = document.getElementById('photo1').files[0];
+            const photo2 = document.getElementById('photo2').files[0];
+
+            // Upload photos
+            Promise.all([
+                uploadPhoto(photo1, 'photo1'),
+                uploadPhoto(photo2, 'photo2')
+            ]).then(([photo1Url, photo2Url]) => {
+                // Create data with photo URLs
+                const data = {
+                    clubId: clubId,
+                    photo1: photo1Url,
+                    photo2: photo2Url
+                };
+
+                // Update data in Firestore
+                db.collection('circles').doc(clubId).update(data)
+                    .then(() => {
+                        alert('Club information has been successfully updated!');
+                        location.reload(); // Reload page to clear form after saving
+                    })
+                    .catch(error => {
+                        alert('An error occurred while updating club information: ' + error.message);
+                    });
+            }).catch(error => {
+                alert('An error occurred while uploading photos: ' + error.message);
+            });
+        });
+    </script>
+</body>
+</html>

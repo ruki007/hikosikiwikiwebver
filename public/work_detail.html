@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Work Detail</title>
+    <link rel="stylesheet" href="club_detail.css">
+</head>
+<main>
+<body>
+    
+    <div id="workDetail"></div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-firestore.js"></script>
+
+    <script>
+        // Initialize Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyD3ogaiRPtv870uTBDjI3S42LKTC1hlLrM",
+            authDomain: "Pnuwiki2024.firebaseapp.com",
+            databaseURL: "https://nuwiki2024.firebaseio.com",
+            projectId: "nuwiki2024",
+            storageBucket: "nuwiki2024.appspot.com",
+            messagingSenderId: "117360974314",
+            appId: "1:117360974314:web:b42c367177476d0b627a93",
+            measurementId: "G-7M672MYCDY"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // Get the workid from the URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const workId = urlParams.get('workId');
+
+        // Get the document from Firestore
+        db.collection('work').doc(workId).get()
+            .then((doc) => {
+                if (doc.exists) {
+                    const workData = doc.data();
+                    const workDetailDiv = document.getElementById('workDetail');
+                    let output = '<h1>詳細情報</h1>';
+                    output += '<p><strong>店名</strong> ' + workData.name + '</p>';
+                    output += '<p><strong>最低賃金</strong> ' + workData.wage + '</p>';
+                    output += '<p><strong>位置情報</strong> ' + workData.station + '</p>';
+                   
+                    output += '<p><strong>Contact:</strong><br>';
+                    output += '電話番号: <a href="' + workData.contact.phone + '">' + workData.contact.phone + '</a><br>';
+                    output += 'メール: <a href="' + workData.contact.mail + '">' + workData.contact.mail + '</a><br>';
+                    output += '公式サイト: <a href="' + workData.contact.site + '">' + workData.contact.site + '</a><br>';
+                    output += '紹介人の連絡先: <a href="' + workData.contact.address + '">' + workData.contact.address + '</a></p>';
+                    output += 'タウンワークリンク: <a href="' + workData.contact.work + '">' + workData.contact.work+ '</a><br>';
+        
+                    output += '</p>';
+                   
+                    output += '<p><strong>現場の名大生の声:</strong> ' + workData.membersVoice.join(', ') + '</p>';
+                    output += '<p><strong>写真</strong><br>';
+                    output += '<img src="' + workData.photo1 + '"><br>';
+                    output += '<img src="' + workData.photo2 + '"></p>';
+
+                   
+
+                    output += '</p>';
+                    output += '<p><strong>特徴:</strong> ';
+ 
+        for (let i = 1; i <= 5; i++) {
+    const tagFieldName = 's' + i;
+    if (workData[tagFieldName] === true) {
+        switch (tagFieldName) {
+            case 's1':
+                output += '土日祝のみOK, ';
+                break;
+            case 's2':
+                output += '平日のみOK, ';
+                break;
+            case 's3':
+                output += '週1日からOK, ';
+                break;
+            case 's4':
+                output += '週2,3日からOK, ';
+                break;
+            case 's5':
+                output += '週4日以上OK, ';
+                break;
+        }
+    }
+}
+
+for (let i = 1; i <= 7; i++) {
+    const tagFieldName = 't' + i;
+    if (workData[tagFieldName] === true) {
+        switch (tagFieldName) {
+            case 't1':
+                output += '朝(5~12時), ';
+                break;
+            case 't2':
+                output += '昼(12時~), ';
+                break;
+            case 't3':
+                output += '夕方(16時~), ';
+                break;
+            case 't4':
+                output += '夜(19時)~, ';
+                break;
+            case 't5':
+                output += '夜勤(22~5時), ';
+                break;
+            case 't6':
+                output += '短時間勤務, ';
+                break;
+            case 't7':
+                output += 'フルタイム歓迎, ';
+                break;
+        }
+    }
+}
+
+for (let i = 1; i <= 4; i++) {
+    const tagFieldName = 'span' + i;
+    if (workData[tagFieldName] === true) {
+        switch (tagFieldName) {
+            case 'span1':
+                output += '短期, ';
+                break;
+            case 'span2':
+                output += '単発/一日OK, ';
+                break;
+            case 'span3':
+                output += '長期歓迎, ';
+                break;
+            case 'span4':
+                output += '休み期間限定, ';
+                break;
+        }
+    }
+}
+
+for (let i = 1; i <= 7; i++) {
+    const tagFieldName = 'g' + i;
+    if (workData[tagFieldName] === true) {
+        switch (tagFieldName) {
+            case 'g1':
+                output += '交通費支給, ';
+                break;
+            case 'g2':
+                output += '賄い、食事補助あり, ';
+                break;
+            case 'g3':
+                output += '髪色髪型自由, ';
+                break;
+            case 'g4':
+                output += '服装自由, ';
+                break;
+            case 'g5':
+                output += '髭、ネイル、ピアスOK, ';
+                break;
+            case 'g6':
+                output += '制服あり, ';
+                break;
+            case 'g7':
+                output += '友達と応募OK, ';
+                break;
+        }
+    }
+}
+
+output += '</p>';
+
+                   
+                  
+                    workDetailDiv.innerHTML = output;
+                } else {
+                    console.log("No such document!");
+                }
+            })
+            .catch((error) => {
+                console.error("Error getting document:", error);
+            });
+
+    </script>
+    </body></main>
+</body>
+</html>

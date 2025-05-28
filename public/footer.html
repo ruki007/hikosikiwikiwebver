@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Footer</title>
+    <style>
+        body {
+            margin: 0;
+        }
+
+        footer {
+            background-color: whitesmoke;
+            text-align: center;
+            padding: 10px 20px;
+
+            /* margin: auto; */
+            .footer_tab {
+                display: flex;
+                background-color: red;
+                max-width: 960px;
+
+            }
+
+            img {
+                vertical-align: middle;
+                margin-right: 10px;
+            }
+
+            h4 {
+                margin: 0;
+                padding: 0;
+            }
+
+            p {
+                margin: 15px;
+                /* display: flex; */
+            }
+
+            a {
+                display: inline-block;
+                min-width: 200px;
+                color: var(--text-color);
+                text-decoration: none;
+                padding: 5px 0;
+                border: 1px solid;
+                margin: 5px;
+                border-radius: 30px;
+
+                &:hover {
+                    color: white;
+                    background-color: gray;
+                    border: 1px solid --text-color;
+                    border-radius: 30px;
+                    transition-duration: 0.5s;
+                }
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <footer>
+        <div class="fotter_tab">
+            <div>
+                <h4>連絡先</h4>
+                <p><a href="https://twitter.com/your_twitter_handle" target="_blank"><img src="img/X.png"
+                            style="height: 1em;">Twitter</a></p>
+            </div>
+            <div>
+                <h4>タブ</h4>
+                <p>
+                    <a href="#genre1" target="_blank">初めに</a>
+                    <a href="#genre2" target="_blank">お知らせ</a>
+                    <a href="#genre3" target="_blank">部活動/サークル情報</a>
+                    <a href="#genre4" target="_blank">各種まとめ</a>
+                </p>
+                <p>
+                    <a href="#link1-1" target="_blank">リンク1-1</a>
+                    <a href="#link2-1" target="_blank">リンク2-1</a>
+                </p>
+                <p>
+                    <a href="#link1-2" target="_blank">リンク1-2</a>
+                </p>
+            </div>
+        </div>
+        <p>&#169; meidaiwiki2024</p>
+    </footer>
+</body>
+
+</html>

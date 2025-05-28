@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>新歓カレンダ</title>
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-auth.js"></script>
+    <link rel="stylesheet" href="./club_calendar_style[say] copy.css">
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyD3ogaiRPtv870uTBDjI3S42LKTC1hlLrM",
+            authDomain: "nuwiki2024.firebaseapp.com",
+            databaseURL: "https://nuwiki2024.firebaseio.com",
+            projectId: "nuwiki2024",
+            storageBucket: "nuwiki2024.appspot.com",
+            messagingSenderId: "117360974314",
+            appId: "1:117360974314:web:61f450a0ae18d958627a93",
+            measurementId: "G-PWX9FWE8T3"
+        };
+        firebase.initializeApp(firebaseConfig);
+
+        var db = firebase.firestore(); // Firestoreを初期化
+
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+                // ログインしている場合の処理
+                document.querySelector(".login-bar").innerHTML = "ログイン済み：" + user.email ;
+            } else {
+                // ログインしていない場合の処理
+                document.querySelector(".login-bar").innerHTML = "<a href='login.html'>ログイン</a>";
+            }
+        });
+
+        function logout() {
+            firebase.auth().signOut().then(function() {
+                // Sign-out successful.
+                window.location.reload(); // ページをリロードしてログアウト状態を反映
+            }).catch(function(error) {
+                // An error happened.
+                console.error("ログアウトエラー", error);
+            });
+        }
+    </script>
+    
+
+</head>
+
+<body>
+    <!-- ログイン状態を表示するバー -->
+    <div class="login-bar"></div>
+
+    <!-- 月を表示する帯を用意 -->
+    <div id="monthLabel"></div>
+    <label>年: <input type="number" id="year" value="2024" readonly></label><br>
+    <label>月: <input type="number" id="month" min="1" max="12"></label><br>
+    <label>名前: <input type="text" id="name"></label><br>
+    <label>タグ:
+        <select id="type">
+            <option value="">すべて</option>
+            <option value="参加型">参加</option>
+            <option value="観察型">観察</option>
+        </select>
+    </label><br>
+    <label>参加費: <input type="number" id="fee" min="0" step="100"></label><br>
+    <button id="load">読み込み</button>
+    <div id="calendar"></div>
+    <div id="events"></div>
+
+    <script>
+
+        document.getElementById('load').addEventListener('click', function() {
+            const year = document.getElementById('year').value;
+            const month = document.getElementById('month').value;
+            const name = document.getElementById('name').value;
+            const type = document.getElementById('type').value;
+            const fee = document.getElementById('fee').value;
+
+            // 月を表示する帯を更新
+            document.getElementById('monthLabel').textContent = year + '年' + month + '月';
+
+            // カレンダーを生成
+            const date = new Date(year, month - 1);
+            const daysInMonth = new Date(year, month, 0).getDate();
+            const firstDay = new Date(year, month - 1, 1).getDay();
+            const calendar = document.getElementById('calendar');
+            calendar.innerHTML = '';
+            for (let i = 0; i < firstDay; i++) {
+                const day = document.createElement('div');
+                day.className = 'day';
+                calendar.appendChild(day);
+            }
+            for (let i = 1; i <= daysInMonth; i++) {
+                const day = document.createElement('div');
+                day.textContent = i;
+                day.id = 'day' + i;
+                day.className = 'day';
+                calendar.appendChild(day);
+            }
+
+            // Firestoreからデータを取得
+            db.collection('clubs_party').get().then(function(querySnapshot) {
+                const events = [];
+                querySnapshot.forEach(function(doc) {
+                    const data = doc.data();
+                    const date = new Date(data.date);
+                    if (date.getFullYear() == year && date.getMonth() + 1 == month) {
+                        // 検索条件を満たすか確認
+                        if ((name === '' || data.clubName.includes(name)) &&
+                            (type === '' || data.type === type) &&
+                            (fee === '' || data.fee <= fee)) {
+                            events.push({
+                                date: date,
+                                data: data,
+                            });
+                        }
+                    }
+                });
+
+                // 同日に複数のデータがある場合は開始時間順に並べかえる
+                events.sort(function(a, b) {
+                    return a.date - b.date;
+                });
+
+                events.forEach(function(event) {
+                    const day = document.getElementById('day' + event.date.getDate());
+                    const div = document.createElement('div');
+                    div.textContent = event.data.clubName;
+                    div.className = 'event';
+                    day.appendChild(div);
+                    div.addEventListener('click', function() {
+                        const events = document.getElementById('events');
+                        events.innerHTML = '';
+                        const link = document.createElement('a');
+                        link.href = event.data.reservationFormLink;
+                        link.textContent = event.data.clubName;
+                        link.target = "_blank";
+                        link.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            const page = document.createElement('div');
+                            db.collection('party_member').doc(event.data.partyMemberDoc).get().then(function(doc) {
+                                const data = doc.data();
+                                let remainingCapacity = 0;
+                                for (let key in data) {
+                                    if (data[key] === '') {
+                                        remainingCapacity++;
+                                    }
+                                }
+                                page.innerHTML = '<h1>' + event.data.clubName + '</h1>' +
+                                    '<ul>' +
+                                    '<li>日付: ' + event.data.date + '</li>' +
+                                    '<li>時間: ' + event.data.time + '</li>' +
+                                    '<li>期間: ' + event.data.duration + '分</li>' +
+                                    '<li>イベント名: ' + event.data.eventName + '</li>' +
+                                    '<li>イベントタイプ: ' + event.data.eventType + '</li>' +
+                                    '<li>定員: ' + event.data.capacity + '人</li>' +
+                                    '<li>参加費: ' + event.data.fee + '円</li>' +
+                                    '<li>持ち物: ' + event.data.items.join(', ') + '</li>' +
+                                    '<li>説明: ' + event.data.description + '</li>' +
+                                    '<li>予約フォームリンク: <a href="' + event.data.reservationFormLink + '" target="_blank">今すぐ予約</a></li>' +
+                                    '<li>残り参加可能人数: ' + remainingCapacity + '人</li>' +
+                                    '<li>場所: ' + event.data.location + '</li>' +
+                                    '</ul>' +
+                                    '<div class="image-container">' +
+                                    '<img src="' + event.data.photo1 + '" alt="Event Photo 1">' +
+                                    '<img src="' + event.data.photo2 + '" alt="Event Photo 2">' +
+                                    '</div>' +
+                                    '<style>' +
+                                    '/* ここにCSSを追加 */' +
+                                    '</style>';
+
+                                events.appendChild(page);
+                            });
+                        });
+                        events.appendChild(link);
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

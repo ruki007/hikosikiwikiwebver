@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>アルバイト募集一覧</title>
+    
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style_work_show.css">
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
+  <link rel="icon" type="image/png" href="img/icon.jpg">
+
+</head>
+
+
+<body>
+    <div class="login-bar">
+      <div class="login_icon"></div>
+    </div>
+  <div class="openbtn1"><span></span><span></span><span></span></div>
+  <nav id="g-nav">
+    <div id="g-nav-list">
+      <div class="accordion">
+        <a class="listitem" href="#">TOP</a>
+
+        <div class="option">
+          <input type="checkbox" id="toggle2" class="toggle">
+          <label class="title" for="toggle2">初めに</label>
+          <div class="content2">
+            <li><a class="nav-item underline" href="index.html">本サイトについて</a></li>
+            <li><a class="nav-item underline" href="login.html">ログイン/新規登録</a></li>
+            <li><a class="nav-item underline" href="index.html">管理人紹介(coming soon)</a></li>
+            <li><a class="nav-item underline" href="#"></a></li>
+          </div>
+        </div>
+
+        <div class="option">
+          <input type="checkbox" id="toggle3" class="toggle">
+          <label class="title" for="toggle3">お役立ち情報</label>
+          <div class="content2">
+            <li><a class="nav-item underline" href="#">マップ</a></li>
+            <li><a class="nav-item underline" href="#">周辺イベントまとめ(準備中)</a></li>
+            <li><a class="nav-item underline" href="password3.html">アルバイト情報登録</a></li>
+            <li><a class="nav-item underline" href="work_show.html">アルバイト情報一覧</a></li>
+            <li><a class="nav-item underline" href="#"></a></li>
+          </div>
+        </div>
+
+        <div class="option">
+          <input type="checkbox" id="toggle4" class="toggle">
+          <label class="title" for="toggle4">部活動/サークル情報</label>
+          <div class="content2">
+            <li><a class="nav-item underline" href="club_show.html">サークル一覧</a></li>
+            <li><a class="nav-item underline" href="club_calendar copy.html">新歓カレンダー</a></li>
+            <li><a class="nav-item underline" href="research.html">部活ID検索</a></li>
+            <li><a class="nav-item underline" href="research2.html">新歓ID検索</a></li>
+            <li><a class="nav-item underline" href="#"></a></li>
+          </div>
+        </div>
+
+        <div class="option">
+          <input type="checkbox" id="toggle5" class="toggle">
+          <label class="title" for="toggle5">コラム/各種まとめ</label>
+          <div class="content2">
+            <li><a class="nav-item underline" href="zyugyou.html">授業・教授まとめ</a></li>
+            <li><a class="nav-item underline" href="coram.html">コラム</a></li>
+            <li><a class="nav-item underline" href="#"></a></li>
+          </div>
+        </div>
+
+        <div class="option">
+          <input type="checkbox" id="toggle7" class="toggle">
+          <label class="title" for="toggle7">ホーム</label>
+          <div class="content2">
+            <li><a class="nav-item underline" href="user_home.html">ユーザーホーム</a></li>
+            <li><a class="nav-item underline" href="club_home.html">部活動/サークルホーム</a></li>
+            <li><a class="nav-item underline" href="#"></a></li>
+          </div>
+        </div>
+
+        <div class="option">
+          <input type="checkbox" id="toggle6" class="toggle">
+          <label class="title" for="toggle6">部活動/サークル関係者へ</label>
+          <div class="content2">
+            <li><a class="nav-item underline" href="party_regist.html">新歓情報追加</a></li>
+            <li><a class="nav-item underline" href="club_regist.html">部活/サークル情報追加</a></li>
+            <li><a class="nav-item underline" href="#"></a></li>
+
+          </div>
+        </div>
+
+        <a class="listitem2" href="#">LOGIN</a>
+
+      </div>
+  </nav>
+  <div class="wrapper_all">
+    <header>
+      <h1>アルバイト一覧</h1>
+    </header>
+    
+  <br>
+  
+    <input type="text" id="nameSearch" placeholder="店名から探す">
+    <input type="text" id="stationSearch" placeholder="最寄り駅から探す">
+    <input type="number" id="wageSearch" placeholder="賃金から探す">
+    
+    <div id="tagSearch">
+        <div class="tag_check"><input type="checkbox" id="s1"><span>土日祝のみOK</span></div>
+        <div class="tag_check"> <input type="checkbox" id="s2"><span>平日のみOK</span></div>
+        <div class="tag_check"><input type="checkbox" id="s3"><span>週1日からOK</span></div>
+        <div class="tag_check"><input type="checkbox" id="s4"><span>週2,3日からOK</span></div>
+        <div class="tag_check"><input type="checkbox" id="s5"><span>週4日以上OK</span></div>
+    
+
+   
+        <div class="tag_check"><input type="checkbox" id="t1"><span>朝(5~12時)</span></div>
+        <div class="tag_check"><input type="checkbox" id="t2"><span>昼(12時~)</span></div>
+        <div class="tag_check"><input type="checkbox" id="t3"><span>夕方(16時~)</span></div>
+        <div class="tag_check"><input type="checkbox" id="t4"><span>夜(19時)~</span></div>
+        <div class="tag_check"><input type="checkbox" id="t5"><span>夜勤(22~5時)</span></div>
+        <div class="tag_check"><input type="checkbox" id="t6"><span>短時間勤務</span></div>
+        <div class="tag_check"><input type="checkbox" id="t7"><span>フルタイム歓迎</span></div>
+    
+    
+        <div class="tag_check"><input type="checkbox" id="span1"><span>短期</span></div>
+        <div class="tag_check"><input type="checkbox" id="span2"><span>単発/一日OK</span></div>
+        <div class="tag_check"><input type="checkbox" id="span3"><span>長期歓迎</span></div>
+        <div class="tag_check"><input type="checkbox" id="span4"><span>休み期間限定</span></div>
+   
+        <div class="tag_check"><input type="checkbox" id="g1"><span>交通費支給</span></div>
+        <div class="tag_check"><input type="checkbox" id="g2"><span>賄い、食事補助あり</span></div>
+        <div class="tag_check"><input type="checkbox" id="g3"><span>髪色髪型自由</span></div>
+        <div class="tag_check"><input type="checkbox" id="g4"><span>服装自由</span></div>
+        <div class="tag_check"><input type="checkbox" id="g5"><span>髭、ネイル、ピアスOK</span></div>
+        <div class="tag_check"><input type="checkbox" id="g6"><span>制服あり</span></div>
+        <div class="tag_check"><input type="checkbox" id="g7"><span>友達と応募OK</span></div>
+    
+</div>
+    <button onclick="search()">Search</button>
+    <button onclick="resetSearch()">Reset</button>
+    <div id="work-list"></div>
+
+
+    <footer>
+
+        <iframe src="./footer.html" frameborder="0" id="footer" role="presentation"></iframe>
+    
+      </footer>
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-auth.js"></script>
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyD3ogaiRPtv870uTBDjI3S42LKTC1hlLrM",
+            authDomain: "Pnuwiki2024.firebaseapp.com",
+            databaseURL: "https://nuwiki2024.firebaseio.com",
+            projectId: "nuwiki2024",
+            storageBucket: "nuwiki2024.appspot.com",
+            messagingSenderId: "117360974314",
+            appId: "1:117360974314:web:b42c367177476d0b627a93",
+            measurementId: "G-7M672MYCDY"
+        };
+        firebase.initializeApp(firebaseConfig);
+        var db = firebase.firestore();
+        firebase.auth().onAuthStateChanged(function(user) {
+    if (!user) {
+      // ログインしていない場合はlogin.htmlにリダイレクト
+      window.location.replace("login.html");
+    }
+  });
+        function search() {
+            var nameSearch = document.getElementById('nameSearch').value.toLowerCase();
+            var stationSearch = document.getElementById('stationSearch').value.toLowerCase();
+            var wageSearch = document.getElementById('wageSearch').value;
+
+            var s1s = document.getElementById('s1').checked;
+            var s2s = document.getElementById('s2').checked;
+            var s3s = document.getElementById('s3').checked;
+            var s4s = document.getElementById('s4').checked;
+            var s5s = document.getElementById('s5').checked;
+
+            var t1s = document.getElementById('t1').checked;
+            var t2s = document.getElementById('t2').checked;
+            var t3s = document.getElementById('t3').checked;
+            var t4s = document.getElementById('t4').checked;
+            var t5s = document.getElementById('t5').checked;
+            var t6s = document.getElementById('t6').checked;
+            var t7s = document.getElementById('t7').checked;
+
+            var span1s = document.getElementById('span1').checked;
+            var span2s = document.getElementById('span2').checked;
+            var span3s = document.getElementById('span3').checked;
+            var span4s = document.getElementById('span4').checked;
+
+            var g1s = document.getElementById('g1').checked;
+            var g2s = document.getElementById('g2').checked;
+            var g3s = document.getElementById('g3').checked;
+            var g4s = document.getElementById('g4').checked;
+            var g5s = document.getElementById('g5').checked;
+            var g6s = document.getElementById('g6').checked;
+            var g7s = document.getElementById('g7').checked;
+
+            db.collection('work').get().then((querySnapshot) => {
+                var workListDiv = document.getElementById('work-list');
+                workListDiv.innerHTML = '';
+
+                querySnapshot.forEach((doc) => {
+                    var data = doc.data();
+                    var name = data.name.toLowerCase();
+                    var station = data.station;  
+                    var wage = data.wage;
+                    var s1 = data.s1;
+                    var s2 = data.s2;
+                    var s3 = data.s3;
+                    var s4 = data.s4;
+                    var s5 = data.s5;
+
+                    var t1 = data.t1;
+                    var t2 = data.t2;
+                    var t3 = data.t3;
+                    var t4 = data.t4;
+                    var t5 = data.t5;
+                    var t6 = data.t6;
+                    var t7 = data.t7;
+
+                    var span1 = data.span1;
+                    var span2 = data.span2;
+                    var span3 = data.span3;
+                    var span4 = data.span4;
+
+                    var g1 = data.g1;
+                    var g2 = data.g2;
+                    var g3 = data.g3;
+                    var g4 = data.g4;
+                    var g5 = data.g5;
+                    var g6 = data.g6;
+                    var g7 = data.g7;
+          
+                    if (
+    (nameSearch && !name.includes(nameSearch)) ||
+    (stationSearch && !station.includes(stationSearch)) ||
+    (wageSearch && wage < wageSearch) ||
+    (s1s && !s1) ||
+    (s2s && !s2) ||
+    (s3s && !s3) ||
+    (s4s && !s4) ||
+    (s5s && !s5) ||
+    (t1s && !t1) ||
+    (t2s && !t2) ||
+    (t3s && !t3) ||
+    (t4s && !t4) ||
+    (t5s && !t5) ||
+    (t6s && !t6) ||
+    (t7s && !t7) ||
+    (span1s && !span1) ||
+    (span2s && !span2) ||
+    (span3s && !span3) ||
+    (span4s && !span4) ||
+    (g1s && !g1) ||
+    (g2s && !g2) ||
+    (g3s && !g3) ||
+    (g4s && !g4) ||
+    (g5s && !g5) ||
+    (g6s && !g6) ||
+    (g7s && !g7)
+) {
+    return;
+}
+
+
+
+                    
+            var workDiv = document.createElement('div');
+            workDiv.className = 'work-box';
+            var workLink = document.createElement('a');
+            workLink.textContent = name;
+            workLink.href = 'work_detail.html?workId=' + doc.id;
+            workDiv.appendChild(workLink);
+            workListDiv.appendChild(workDiv);
+                });
+            });
+        }
+
+        function resetSearch() {
+            document.getElementById('nameSearch').value = '';
+            document.getElementById('stationSearch').value = '';
+            document.getElementById('wageSearch').value = '';
+
+            document.getElementById('s1').checked = false;
+            document.getElementById('s2').checked = false;
+            document.getElementById('s3').checked = false;
+            document.getElementById('s4').checked = false;
+            document.getElementById('s5').checked = false;
+
+            document.getElementById('t1').checked = false;
+            document.getElementById('t2').checked = false;
+            document.getElementById('t3').checked = false;
+            document.getElementById('t4').checked = false;
+            document.getElementById('t5').checked = false;
+            document.getElementById('t6').checked = false;
+            document.getElementById('t7').checked = false;
+
+            document.getElementById('span1').checked = false;
+            document.getElementById('span2').checked = false;
+            document.getElementById('span3').checked = false;
+            document.getElementById('span4').checked = false;
+
+            document.getElementById('g1').checked = false;
+            document.getElementById('g2').checked = false;
+            document.getElementById('g3').checked = false;
+            document.getElementById('g4').checked = false;
+            document.getElementById('g5').checked = false;
+            document.getElementById('g6').checked = false;
+            document.getElementById('g7').checked = false;
+
+            search();
+        }
+        window.onload = search;
+        $(".openbtn1").click(function () {
+      $(this).toggleClass('active');//ボタンがクリックされたらactiveを付与
+      $("#g-nav").toggleClass('panelactive');//ナビゲーションにpanelactiveを付与
+    });
+
+    $("#g-nav a").click(function () {
+      $(".openbtn1").removeClass('active');//リンクがクリックされたらactiveを除去
+      $("#g-nav").removeClass('panelactive');//ナビゲーションのpanelactiveを除去
+    });
+
+    $(function () {
+      $(window).scroll(function () {
+        $('.js-fade').each(function () {//スクロールされたときにフェードイン
+          var pos = $(this).offset().top;
+          var scroll = $(window).scrollTop();
+          var windowHeight = $(window).height();
+          if (scroll > pos - windowHeight + 100) {
+            $(this).addClass('scroll');
+          }
+        });
+      });
+    });
+
+
+    // eachTextAnimeにappeartextというクラスを付ける
+    function textanimeControl() {
+      $('.textanime').each(function () {
+        var elemPos = $(this).offset().top - 50;
+        var scroll = $(window).scrollTop();
+        var windowHeight = $(window).height();
+        if (scroll >= elemPos - windowHeight) {
+          $(this).addClass("appeartext");
+
+        } else {
+          $(this).removeClass("appeartext");
+        }
+      });
+    }
+
+    // 画面をスクロール時
+    $(window).scroll(function () {
+      textanimeControl();
+    });
+
+    // 画面が読み込まれた時
+    $(window).on('load', function () {
+      var element = $(".textanime");
+      element.each(function () {
+        var text = $(this).text();
+        var textbox = "";
+        text.split('').forEach(function (t, i) {
+          if (t !== " ") {
+            if (i < 10) {
+              textbox += '<span style="animation-delay:.' + i + 's;">' + t + '</span>';
+            } else {
+              var n = i / 10;
+              textbox += '<span style="animation-delay:' + n + 's;">' + t + '</span>';
+            }
+
+          } else {
+            textbox += t;
+          }
+        });
+        $(this).html(textbox);
+      });
+
+      textanimeControl();
+    });        
+    </script>
+
+</body>
+</html>

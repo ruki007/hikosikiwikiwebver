@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>新歓予約</title>
+</head>
+<style>
+   
+  
+    img {
+        max-width: 50%;
+        height: auto;
+    }
+    .image-container {
+        display: flex;
+    }
+
+    /* ログインバーのスタイル */
+    .login-bar {
+        text-align: right;
+        padding: 5px;
+        background-color: #f0f0f0;
+    }
+
+    /* ログインリンクのスタイル */
+    .login-bar a {
+        text-decoration: none;
+        color: blue;
+    }
+
+</style>
+<body>
+    <input type="text" id="userNameInput" placeholder="ユーザー名を入力">
+    <select id="requestInfoInput">
+        <option value="">なし</option>
+    </select>
+    <div class="login-bar"></div>
+    <input type="file" id="qrCodeInput" style="display: none;">
+    <input type="text" id="emailInput" style="display: none;" placeholder="メールアドレスを入力">
+    <button id="submitButton">送信</button>
+
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-auth.js"></script>
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyD3ogaiRPtv870uTBDjI3S42LKTC1hlLrM",
+            authDomain: "nuwiki2024.firebaseapp.com",
+            databaseURL: "https://nuwiki2024.firebaseio.com",
+            projectId: "nuwiki2024",
+            storageBucket: "nuwiki2024.appspot.com",
+            messagingSenderId: "117360974314",
+            appId: "1:117360974314:web:61f450a0ae18d958627a93",
+            measurementId: "G-PWX9FWE8T3"
+        };
+        firebase.initializeApp(firebaseConfig);
+
+        firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+                // ログインしている場合の処理
+                document.querySelector(".login-bar").innerHTML = "ログイン済み：" + user.email ;
+            } else {
+                // ログインしていない場合の処理
+                document.querySelector(".login-bar").innerHTML = "<a href='login.html'>ログイン</a>";
+            }
+        });
+
+        function logout() {
+            firebase.auth().signOut().then(function() {
+                // Sign-out successful.
+                window.location.reload(); // ページをリロードしてログアウト状態を反映
+            }).catch(function(error) {
+                // An error happened.
+                console.error("ログアウトエラー", error);
+            });
+        }
+
+    auth.onAuthStateChanged(function(user) {
+        if (user) {
+            const userId = user.uid;
+            const userName = document.getElementById('userNameInput').value;
+            const requestInfo = document.getElementById('requestInfoInput').value;
+
+            db.collection('clubs_party').doc(userId).get().then(function(doc) {
+                if (doc.exists) {
+                    const partyId = doc.id;
+                    const data = doc.data();
+                    const clubName = data.clubName; // サークルの名前を取得
+                    alert('あなたが参照しているサークルの名前は ' + clubName + ' です。'); // サークルの名前を表示
+                    const partyMemberId = data.partyMemberDoc;
+                    db.collection('party_member').doc(partyMemberId).get().then(function(doc) {
+                        if (doc.exists) {
+                            const newData = {};
+                            newData['userName'] = userName;
+                            if (requestInfo === 'LINE') {
+                                const qrCode = document.getElementById('qrCodeInput').files[0];
+                                newData['qrCode'] = qrCode;
+                            } else if (requestInfo === 'メール') {
+                                const email = document.getElementById('emailInput').value;
+                                newData['email'] = email;
+                            }
+                            db.collection('reservation').doc(partyId).set(newData).then(function() {
+                                db.collection('users').doc(userId).collection('info').add({partyId}).then(function() {
+                                    alert('送信が成功しました。');
+                                    window.location.href = 'index.html';
+                                }).catch(function(error) {
+                                    alert('ユーザー情報の更新に失敗しました: ' + error.message);
+                                });
+                            }).catch(function(error) {
+                                alert('送信の登録に失敗しました: ' + error.message);
+                            });
+                        } else {
+                            alert('指定されたIDの新歓情報が見つかりませんでした。');
+                        }
+                    }).catch(function(error) {
+                        alert('新歓情報の取得に失敗しました: ' + error.message);
+                    });
+                } else {
+                    alert('ログインしていません。');
+                }
+            }).catch(function(error) {
+                alert('新歓情報の取得に失敗しました: ' + error.message);
+            });
+        } else {
+            alert('ログインしていません。');
+        }
+    });
+
+    document.getElementById('userNameInput').addEventListener('input', updateSubmitButton);
+    document.getElementById('requestInfoInput').addEventListener('change', updateSubmitButton);
+    document.getElementById('qrCodeInput').addEventListener('change', updateSubmitButton);
+    document.getElementById('emailInput').addEventListener('input', updateSubmitButton);
+
+    document.getElementById('submitButton').addEventListener('click', function() {
+        const userName = document.getElementById('userNameInput').value;
+        const requestInfo = document.getElementById('requestInfoInput').value;
+        if (!userName || !requestInfo) {
+            alert('ユーザー名と要求情報を入力してください。');
+            return;
+        }
+        if (requestInfo === 'LINE' && !document.getElementById('qrCodeInput').files.length) {
+            alert('QRコードの写真をアップロードしてください。');
+            return;
+        }
+        if (requestInfo === 'メール' && !document.getElementById('emailInput').value) {
+            alert('メールアドレスを入力してください。');
+            return;
+        }
+        auth.signInAnonymously();
+    });
+
+    function updateSubmitButton() {
+        const requestInfo = document.getElementById('requestInfoInput').value;
+        document.getElementById('qrCodeInput').style.display = requestInfo === 'LINE' ? 'block' : 'none';
+        document.getElementById('emailInput').style.display = requestInfo === 'メール' ? 'block' : 'none';
+    }
+    </script>
+</body>
+</html>

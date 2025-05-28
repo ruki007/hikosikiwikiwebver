@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html langu="ja">
+<head>
+    <title>サークル情報入力</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style_party_regist.css">
+    
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+            <h1>サークル情報入力</h1>
+        </header>
+        <div class="container">
+            <form id="form">
+                <div class="box">
+                    <label><span>部活動名</span>
+                        <input type="text" id="name" placeholder="入力してください" required>
+                    </label>
+                </div>
+                <div class="box">
+                    <label><span>活動頻度</span> 
+                        
+                        <select id="frequency" required>
+                            <option value="0">1回/2月</option>
+                            <option value="1">1回/月</option>
+                            <option value="2">2回/月</option>
+                            <option value="3">1回/週</option>
+                            <option value="4">2回/週</option>
+                            <option value="5">3回/週</option>
+                            <option value="6">4回/週</option>
+                            <option value="7">5回/週</option>
+                            <option value="8">6回/週</option>
+                            <option value="9">7回/週</option>
+                        </select>
+                    </label>
+                </div>
+                <div class="box">
+                    <label><span>年会費</span>
+                        <input type="number" id="annualFee" required pattern="\d*">
+                    </label>
+                </div>
+                <div class="box">
+                    <label><span>イベント会費</span>
+                        <input type="number" id="eventFee" required pattern="\d*">
+                    </label><br>
+                </div>
+                <div class="box">
+                    <label><span>所属人数</span>
+                        <input type="number" id="members" required pattern="\d*">
+                    </label>
+                </div>
+                <div class="box">
+                    <label><span>アピールポイント</span>
+                        <textarea id="appeal" maxlength="4000"></textarea>
+                    </label>
+                </div>
+                <div class="box">
+                    <label><span>注意点</span>
+                        <textarea id="caution" maxlength="4000"></textarea>
+                    </label>
+                </div>
+                <div class="box">
+                    <label><span>タグ</span>
+                        <ul>
+                            <li><input type="checkbox" id="tag1" value="初心者歓迎"><label for="tag1">初心者歓迎</label></li>
+                            <li><input type="checkbox" id="tag2" value="経験者募集"><label for="tag2">経験者募集</label></li>
+                            <li><input type="checkbox" id="tag3" value="インカレあり"><label for="tag3">インカレあり</label></li>
+                            <li><input type="checkbox" id="tag4" value="合宿あり"><label for="tag4">合宿あり</label></li>
+                            <li><input type="checkbox" id="tag5" value="飲み会多め"><label for="tag5">飲み会多め</label></li>
+                            <li><input type="checkbox" id="tag6" value="ゆる～く楽しみたい方へ"><label for="tag6">ゆる～く<br>楽しみたい方</label></li>
+                            <li><input type="checkbox" id="tag7" value="部活/サークルも勉強も楽しみたい方へ"><label for="tag7">サークルも<br>勉強も楽しみたい方へ</label></li>
+                            <li><input type="checkbox" id="tag8" value="部活/サークルに青春をささげたい方へ"><label for="tag8">部活/サークル<br>に青春をささげたい方へ</label></li>
+                            <li><input type="checkbox" id="tag9" value="新しいことを始めたいあなたへ"><label for="tag9">新しいことを<br>始めたいあなたへ</label></li>
+                        </ul>
+                    </label>
+                </div>
+            </form>
+            <h3>年間スケジュール</h3>
+
+            <form>
+                    <div id="schedules">
+                        <div class="schedule">
+                            <div class="box">
+                                <label><span>月</span>
+                                    <input type="number" class="month" min="1" max="12" required pattern="\d*">
+                                </label>
+                            </div>
+                            <div class="box">
+                                <label><span>イベント名</span>
+                                    <input type="text" class="eventName">
+                                </label>
+                            </div>
+                            <div class="box">
+                                <label><span>期間</span>
+                                    <input type="text" class="period">
+                                </label>
+                            </div>
+                            <div class="box">
+                                <label><span>内容</span>
+                                    <textarea class="content"></textarea>
+                                </label>
+                            </div>
+                            <div class="box">
+                                <label><span>費用</span>
+                                    <input type="number" class="cost" pattern="\d*">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" id="addSchedule">
+                        <!-- <img src="./add.svg" alt="add"> -->
+                        add
+                    </button>
+            </form>
+            <h3>必要物品</h3>
+            <form>
+                <div>
+                    <div id="items">
+                        <div class="item">
+                            <div class="box">
+                                <label>物品: 
+                                    <input type="text" class="itemName">
+                                </label>
+                            </div>
+                            <div class="box">
+                                <label>値段:
+                                    <input type="number" class="price" pattern="\d*">
+                                </label>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div><button type="button" id="addItem">
+                        <!-- <img src="./add.svg" alt="+"> -->
+                        add
+                    </button></div>
+    
+                </div>
+            </form>    
+                <h3>週間スケジュール</h3>
+            <form>
+                <div id="weeklySchedule">
+                    <div class="box">
+                        <div id="monday">
+                            <h4>月曜日</h4>
+                            <label><span>活動の有無</span>
+                                <input type="checkbox" id="mondayActive">
+                            </label>
+                            <label><span>活動内容</span>
+                                <input type="text" id="mondayContent">
+                            </label>
+                            <label><span>活動時間</span>
+                                <input type="time" id="mondayStart">
+                                <p>から</p>
+                                <input type="time" id="mondayEnd">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div id="tuesday">
+                            <h4>火曜日</h4>
+                            <label><span>活動の有無</span>
+                                <input type="checkbox" id="tuesdayActive">
+                            </label>
+                            <label><span>活動内容</span>
+                                <input type="text" id="tuesdayContent">
+                            </label>
+                            <label><span>活動時間</span>
+                                <input type="time" id="tuesdayStart">
+                                <p>から</p>
+                                <input type="time" id="tuesdayEnd">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div id="wednesday">
+                            <h4>水曜日</h4>
+                            <label><span>活動の有無</span>
+                                <input type="checkbox" id="wednesdayActive">
+                            </label>
+                            <label><span>活動内容</span>
+                                <input type="text" id="wednesdayContent">
+                            </label>
+                            <label><span>活動時間</span>
+                                <input type="time" id="wednesdayStart">
+                                <p>から</p>
+                                <input type="time" id="wednesdayEnd">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div id="thursday">
+                            <h4>木曜日</h4>
+                            <label><span>活動の有無</span>
+                                <input type="checkbox" id="thursdayActive">
+                            </label>
+                            <label><span>活動内容</span>
+                                <input type="text" id="thursdayContent">
+                            </label>
+                            <label><span>活動時間</span>
+                                <input type="time" id="thursdayStart">
+                                <p>から</p>
+                                <input type="time" id="thursdayEnd">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div id="friday">
+                            <h4>金曜日</h4>
+                            <label><span>活動の有無</span>
+                                <input type="checkbox" id="fridayActive">
+                            </label>
+                            <label><span>活動内容</span>
+                                <input type="text" id="fridayContent">
+                            </label>
+                            <label><span>活動時間</span>
+                                <input type="time" id="fridayStart">
+                                <p>から</p>
+                                <input type="time" id="fridayEnd">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div id="saturday">
+                            <h4>土曜日</h4>
+                            <label><span>活動の有無</span>
+                                <input type="checkbox" id="saturdayActive">
+                            </label>
+                            <label><span>活動内容</span>
+                                <input type="text" id="saturdayContent">
+                            </label>
+                            <label><span>活動時間</span>
+                                <input type="time" id="saturdayStart">
+                                <p>から</p>
+                                <input type="time" id="saturdayEnd">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="box">
+                        <div id="sunday">
+                            <h4>日曜日</h4>
+                            <label><span>活動の有無</span>
+                                <input type="checkbox" id="sundayActive">
+                            </label>
+                            <label><span>活動内容</span>
+                                <input type="text" id="sundayContent">
+                            </label>
+                            <label><span>活動時間</span>
+                                <input type="time" id="sundayStart">
+                                <p>から</p>
+                                <input type="time" id="sundayEnd">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <h3>部員たちの声</h3>
+
+            <form>
+                    <div class="box">
+                        <div id="membersVoice">
+                            <label><span>声1</span><textarea id="voice1" maxlength="4000"></textarea></label><br>
+                            <label><span>声2</span><textarea id="voice2" maxlength="4000"></textarea></label><br>
+                        </div>
+                    </div>
+                    
+                    <div class="box">
+                        <label><span>活動強制度:</span> 
+                            <select id="participation" required>
+                                <option value="絶対参加">絶対参加</option>
+                                <option value="正当な理由があれば欠席可能">正当な理由があれば欠席可能</option>
+                                <option value="特定割合の出席は絶対">特定割合の出席は絶対</option>
+                                <option value="連絡すれば欠席可能">連絡すれば欠席可能</option>
+                                <option value="基本自由参加">基本自由参加</option>
+                            </select>
+                        </label>
+                    </div>
+            </form>
+            <h3>連絡先</h3>
+            <form>
+                    <div class="box">
+                        <label><span>Twitter</span>
+                            <input type="text" id="contactTwitter">
+                        </label>
+                    </div>
+                    <div class="box">
+                        <label><span>Instagram</span>
+                            <input type="text" id="contactInstagram">
+                        </label>
+                    </div>
+                    <div class="box">
+                        <label><span>Discord</span>
+                            <input type="text" id="contactDiscord">
+                        </label>
+                    </div>
+                    <div class="box">
+                        <label><span>web</span>
+                            <input type="text" id="contactweb">
+                        </label>
+                    </div>
+                    <div class="box">
+                        <label><span>写真1</span>
+                            <input type="file" id="photo1" accept=".jpg">
+                        </label>
+                    </div>
+                    <div class="box">
+                        <label><span>写真2</span>
+                            <input type="file" id="photo2" accept=".jpg">
+                        </label>
+                    </div>
+                <button type="submit" class="send">送信</button>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>
+
+<script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-storage.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-auth.js"></script>
+<script>
+const firebaseConfig = {
+    apiKey: "AIzaSyD3ogaiRPtv870uTBDjI3S42LKTC1hlLrM",
+    authDomain: "Pnuwiki2024.firebaseapp.com",
+    databaseURL: "https://nuwiki2024.firebaseio.com",
+    projectId: "nuwiki2024",
+    storageBucket: "nuwiki2024.appspot.com",
+    messagingSenderId: "117360974314",
+    appId: "1:117360974314:web:b42c367177476d0b627a93",
+    measurementId: "G-7M672MYCDY",
+};
+
+firebase.initializeApp(firebaseConfig);
+
+    
+ 
+    
+const db = firebase.firestore();
+// 写真のURLとpartyを含むデータを作成
+const storage = firebase.storage();
+
+function logout() {
+      firebase.auth().signOut().then(function () {
+        // Sign-out successful.
+        window.location.reload(); // ページをリロードしてログアウト状態を反映
+      }).catch(function (error) {
+        // An error happened.
+        console.error("ログアウトエラー", error);
+      });
+    }
+document.getElementById('addSchedule').addEventListener('click', function() {
+const div = document.createElement('div');
+div.className = 'schedule';
+div.innerHTML = `
+    <div class="schedule">
+        <div class="box">
+            <label><span>月</span>
+                <input type="number" class="month" min="1" max="12" required pattern="\d*">
+            </label>
+        </div>
+        <div class="box">
+            <label><span>イベント名</span>
+                <input type="text" class="eventName">
+            </label>
+        </div>
+        <div class="box">
+            <label><span>期間</span>
+                <input type="text" class="period">
+            </label>
+        </div>
+        <div class="box">
+            <label><span>内容</span>
+                <textarea class="content"></textarea>
+            </label>
+        </div>
+        <div class="box">
+            <label><span>費用</span>
+                <input type="number" class="cost" pattern="\d*">
+            </label>
+        </div>
+    </div>
+`;
+document.getElementById('schedules').appendChild(div);
+});
+
+document.getElementById('addItem').addEventListener('click', function() {
+const div = document.createElement('div');
+div.className = 'item';
+div.innerHTML = `
+    <div class="item">
+        <div class="box">
+            <label>物品: 
+                <input type="text" class="itemName">
+            </label>
+        </div>
+        <div class="box">
+            <label>値段:
+                <input type="number" class="price" pattern="\d*">
+            </label>
+        </div>
+    </div>
+`;
+document.getElementById('items').appendChild(div);
+});
+
+
+document.querySelector('.send').addEventListener('click', function(event) {
+event.preventDefault();
+
+
+
+// 写真のinput要素を取得
+const photo1 = document.getElementById('photo1').files[0];
+const photo2 = document.getElementById('photo2').files[0];
+
+const voice1 = document.getElementById('voice1').value;
+const voice2 = document.getElementById('voice2').value;
+
+// 週間スケジュールを取得
+const mondayActive = document.getElementById('mondayActive').checked;
+const mondayContent = document.getElementById('mondayContent').value;
+const mondayStart = document.getElementById('mondayStart').value;
+const mondayEnd = document.getElementById('mondayEnd').value;
+const tuesdayActive = document.getElementById('tuesdayActive').checked;
+const tuesdayContent = document.getElementById('tuesdayContent').value;
+const tuesdayStart = document.getElementById('tuesdayStart').value; // 追加
+const tuesdayEnd = document.getElementById('tuesdayEnd').value; // 追加
+const wednesdayActive = document.getElementById('wednesdayActive').checked;
+const wednesdayContent = document.getElementById('wednesdayContent').value;
+const wednesdayStart = document.getElementById('wednesdayStart').value; // 追加
+const wednesdayEnd = document.getElementById('wednesdayEnd').value; // 追加
+const thursdayActive = document.getElementById('thursdayActive').checked;
+const thursdayContent = document.getElementById('thursdayContent').value;
+const thursdayStart = document.getElementById('thursdayStart').value; // 追加
+const thursdayEnd = document.getElementById('thursdayEnd').value; // 追加
+const fridayActive = document.getElementById('fridayActive').checked;
+const fridayContent = document.getElementById('fridayContent').value;
+const fridayStart = document.getElementById('fridayStart').value; // 追加
+const fridayEnd = document.getElementById('fridayEnd').value; // 追加
+const saturdayActive = document.getElementById('saturdayActive').checked;
+const saturdayContent = document.getElementById('saturdayContent').value;
+const saturdayStart = document.getElementById('saturdayStart').value; // 追加
+const saturdayEnd = document.getElementById('saturdayEnd').value; // 追加
+const sundayActive = document.getElementById('sundayActive').checked;
+const sundayContent = document.getElementById('sundayContent').value;
+const sundayStart = document.getElementById('sundayStart').value;
+const sundayEnd = document.getElementById('sundayEnd').value;
+const schedules = Array.from(document.querySelectorAll('.schedule')).map(schedule => ({
+    month: schedule.querySelector('.month').value,
+    eventName: schedule.querySelector('.eventName').value,
+    period: schedule.querySelector('.period').value,
+    content: schedule.querySelector('.content').value,
+    cost: schedule.querySelector('.cost').value
+}));
+
+// 新たに追加されたアイテムのデータを取得
+const items = Array.from(document.querySelectorAll('.item')).map(item => ({
+    itemName: item.querySelector('.itemName').value,
+    price: item.querySelector('.price').value
+}));
+
+// 写真をFirebase Storageにアップロードする関数
+// 写真をFirebase Storageにアップロードする関数
+const uploadPhoto = async (photo, name) => {
+    if (!photo) return null;
+    const storageRef = storage.ref();
+
+    const now = new Date();
+    const timestamp = now.getFullYear() + '_' + (now.getMonth() + 1) + '_' + now.getDate() + '_' + now.getHours() + '_' + now.getMinutes() + '_' + now.getSeconds();
+
+    const uniqueName = name + '_' + timestamp;
+
+    const photoRef = storageRef.child('photos/' + uniqueName);
+    try {
+        await photoRef.put(photo);
+        return await photoRef.getDownloadURL();
+    } catch (error) {
+        throw new Error('写真のアップロードに失敗しました: ' + error.message);
+    }
+};
+
+// 30個の空の要素を持つarray型のpartyを作成する関数
+const createPartyArray = () => {
+    return new Array(30).fill('');
+};
+
+// 写真をアップロード
+Promise.all([
+    uploadPhoto(photo1, 'photo1'),
+    uploadPhoto(photo2, 'photo2')
+]).then(([photo1Url, photo2Url]) => {
+    // 写真のURLとpartyを含むデータを作成
+    const contactTwitter = document.getElementById('contactTwitter').value;
+    const contactInstagram = document.getElementById('contactInstagram').value;
+    const contactDiscord = document.getElementById('contactDiscord').value;
+    const contactweb = document.getElementById('contactweb').value;
+    const data = {
+        name: document.getElementById('name').value,
+    frequency: document.getElementById('frequency').value,
+    annualFee: document.getElementById('annualFee').value,
+    eventFee: document.getElementById('eventFee').value,
+    members: document.getElementById('members').value,
+    appeal: document.getElementById('appeal').value,
+    caution: document.getElementById('caution').value,
+    tag1: document.getElementById('tag1').checked,
+    tag2: document.getElementById('tag2').checked,
+    tag3: document.getElementById('tag3').checked,
+    tag4: document.getElementById('tag4').checked,
+    tag5: document.getElementById('tag5').checked,
+    tag6: document.getElementById('tag6').checked,
+    tag7: document.getElementById('tag7').checked,
+    tag8: document.getElementById('tag8').checked,
+    tag9: document.getElementById('tag9').checked,
+    schedules: schedules,
+    items: items,
+    weeklySchedule: {
+        monday: { active: mondayActive, content: mondayContent, start: mondayStart, end: mondayEnd },
+        tuesday: { active: tuesdayActive, content: tuesdayContent, start: tuesdayStart, end: tuesdayEnd },
+        wednesday: { active: wednesdayActive, content: wednesdayContent, start: wednesdayStart, end: wednesdayEnd },
+        thursday: { active: thursdayActive, content: thursdayContent, start: thursdayStart, end: thursdayEnd },
+        friday: { active: fridayActive, content: fridayContent, start: fridayStart, end: fridayEnd },
+        saturday: { active: saturdayActive, content: saturdayContent, start: saturdayStart, end: saturdayEnd },
+        sunday: { active: sundayActive, content: sundayContent, start: sundayStart, end: sundayEnd }
+    },
+    membersVoice: [voice1, voice2],
+    participation: document.getElementById('participation').value,
+    contact: { twitter: contactTwitter, instagram: contactInstagram, discord: contactDiscord, web: contactweb },
+    photo1: photo1Url,
+    photo2: photo2Url
+    };
+   
+    // Firestoreにデータを保存
+    db.collection('circles').add(data)
+        .then(() => {
+            alert('サークル情報が正常に保存されました！写真は別途ホームページの「重要」の欄から登録して下さい');
+            location.reload(); //保存後にページをリロードしてフォームをクリアする
+        })
+        .catch(error => {
+            alert('サークル情報の保存中にエラーが発生しました：' + error.message);
+        });
+}).catch(error => {
+    alert('写真は空の状態で送ってください。：' + error.message);
+});
+});
+
+</script>

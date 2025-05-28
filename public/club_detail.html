@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Club Detail</title>
+    <link rel="icon" type="image/png" href="img/icon.jpg">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
+  
+    <link rel="stylesheet" href="club_detail.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sawarabi+Gothic&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous">
+    </script>
+    
+</head>
+
+<body>
+    <header>
+        <h1>
+            <span>サークル</span>
+            <span>詳細情報</span>
+        </h1>
+    </header>
+    <div class="openbtn1"><span></span><span></span><span></span></div>
+    <nav id="g-nav">
+        <div id="g-nav-list">
+            <div class="accordion">
+                <a class="listitem" href="index.html">TOP</a>
+
+                <div class="option">
+                    <input type="checkbox" id="toggle2" class="toggle">
+                    <label class="title" for="toggle2">初めに</label>
+                    <div class="content2">
+                        <li><a class="nav-item underline" href="index.html">本サイトについて</a></li>
+                        <li><a class="nav-item underline" href="login.html">ログイン/新規登録</a></li>
+                        <li><a class="nav-item underline" href="index.html">管理人紹介(coming soon)</a></li>
+                        <li><a class="nav-item underline" href="#"></a></li>
+                    </div>
+                </div>
+
+                <div class="option">
+                    <input type="checkbox" id="toggle3" class="toggle">
+                    <label class="title" for="toggle3">お役立ち情報</label>
+                    <div class="content2">
+                        <li><a class="nav-item underline" href="#">マップ</a></li>
+                        <li><a class="nav-item underline" href="#">周辺イベントまとめ(準備中)</a></li>
+                        <li><a class="nav-item underline" href="#">アルバイト情報登録</a></li>
+                        <li><a class="nav-item underline" href="#">アルバイト情報一覧</a></li>
+                        <li><a class="nav-item underline" href="#"></a></li>
+                    </div>
+                </div>
+
+                <div class="option">
+                    <input type="checkbox" id="toggle4" class="toggle">
+                    <label class="title" for="toggle4">部活動/サークル情報</label>
+                    <div class="content2">
+                        <li><a class="nav-item underline" href="club_show.html">サークル一覧</a></li>
+                        <li><a class="nav-item underline" href="club_calendar copy.html">新歓カレンダー</a></li>
+                        <li><a class="nav-item underline" href="research.html">部活ID検索</a></li>
+                        <li><a class="nav-item underline" href="research2.html">新歓ID検索</a></li>
+                        <li><a class="nav-item underline" href="#"></a></li>
+                    </div>
+                </div>
+
+                <div class="option">
+                    <input type="checkbox" id="toggle5" class="toggle">
+                    <label class="title" for="toggle5">コラム/各種まとめ</label>
+                    <div class="content2">
+                        <li><a class="nav-item underline" href="zyugyou.html">授業・教授まとめ</a></li>
+                        <li><a class="nav-item underline" href="coram.html">コラム</a></li>
+                        <li><a class="nav-item underline" href="#"></a></li>
+                    </div>
+                </div>
+
+                <div class="option">
+                    <input type="checkbox" id="toggle7" class="toggle">
+                    <label class="title" for="toggle7">ホーム</label>
+                    <div class="content2">
+                        <li><a class="nav-item underline" href="user_home.html">ユーザーホーム</a></li>
+                        <li><a class="nav-item underline" href="club_home.html">部活動/サークルホーム</a></li>
+                        <li><a class="nav-item underline" href="#"></a></li>
+                    </div>
+                </div>
+
+                <div class="option">
+                    <input type="checkbox" id="toggle6" class="toggle">
+                    <label class="title" for="toggle6">部活動/サークル関係者へ</label>
+                    <div class="content2">
+                        <li><a class="nav-item underline" href="party_regist.html">新歓情報追加</a></li>
+                        <li><a class="nav-item underline" href="club_regist.html">部活/サークル情報追加</a></li>
+                        <li><a class="nav-item underline" href="#"></a></li>
+
+                    </div>
+                </div>
+
+                <a class="listitem2" href="#">LOGIN</a>
+
+            </div>
+    </nav>
+    <script>
+        //以下追加
+        $(".openbtn1").click(function () {
+            $(this).toggleClass('active');//ボタンがクリックされたらactiveを付与
+            $("#g-nav").toggleClass('panelactive');//ナビゲーションにpanelactiveを付与
+        });
+
+        $("#g-nav a").click(function () {
+            $(".openbtn1").removeClass('active');//リンクがクリックされたらactiveを除去
+            $("#g-nav").removeClass('panelactive');//ナビゲーションのpanelactiveを除去
+        });
+
+        $(function () {
+            $(window).scroll(function () {
+                $('.js-fade').each(function () {//スクロールされたときにフェードイン
+                    var pos = $(this).offset().top;
+                    var scroll = $(window).scrollTop();
+                    var windowHeight = $(window).height();
+                    if (scroll > pos - windowHeight + 100) {
+                        $(this).addClass('scroll');
+                    }
+                });
+            });
+        });
+
+
+        // eachTextAnimeにappeartextというクラスを付ける
+        function textanimeControl() {
+            $('.textanime').each(function () {
+                var elemPos = $(this).offset().top - 50;
+                var scroll = $(window).scrollTop();
+                var windowHeight = $(window).height();
+                if (scroll >= elemPos - windowHeight) {
+                    $(this).addClass("appeartext");
+
+                } else {
+                    $(this).removeClass("appeartext");
+                }
+            });
+        }
+
+        // 画面をスクロール時
+        $(window).scroll(function () {
+            textanimeControl();
+        });
+
+        // 画面が読み込まれた時
+        $(window).on('load', function () {
+            var element = $(".textanime");
+            element.each(function () {
+                var text = $(this).text();
+                var textbox = "";
+                text.split('').forEach(function (t, i) {
+                    if (t !== " ") {
+                        if (i < 10) {
+                            textbox += '<span style="animation-delay:.' + i + 's;">' + t + '</span>';
+                        } else {
+                            var n = i / 10;
+                            textbox += '<span style="animation-delay:' + n + 's;">' + t + '</span>';
+                        }
+
+                    } else {
+                        textbox += t;
+                    }
+                });
+                $(this).html(textbox);
+            });
+
+            textanimeControl();
+        });
+    </script>
+    <div id="clubDetail"></div>
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <footer>
+
+        <iframe src="./footer.html" frameborder="0" id="footer" role="presentation"></iframe>
+
+    </footer>
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-firestore.js"></script>
+
+    <script>
+        // Initialize Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyD3ogaiRPtv870uTBDjI3S42LKTC1hlLrM",
+            authDomain: "Pnuwiki2024.firebaseapp.com",
+            databaseURL: "https://nuwiki2024.firebaseio.com",
+            projectId: "nuwiki2024",
+            storageBucket: "nuwiki2024.appspot.com",
+            messagingSenderId: "117360974314",
+            appId: "1:117360974314:web:b42c367177476d0b627a93",
+            measurementId: "G-7M672MYCDY"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // Get the clubid from the URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const clubId = urlParams.get('clubId');
+
+        function checkForStringInObject(obj) {
+            for (let key in obj) {
+                if (typeof obj[key] === 'string' && obj[key].trim() !== '') {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        // Get the document from Firestore
+        db.collection('circles').doc(clubId).get()
+            .then((doc) => {
+                if (doc.exists) {
+                    const clubData = doc.data();
+                    const clubDetailDiv = document.getElementById('clubDetail');
+                    // let output = '<header><h1><span>サークル</span><span>詳細情報</span></h1></header>';
+                    let output = '<div id="subtitle">' + clubData.name + '</div>';
+                    output += '<div id="tag">';
+                    let a = true;
+                    for (let i = 1; i <= 9; i++) {
+                        const tagFieldName = 'tag' + i;
+                        if (clubData[tagFieldName]) {
+                            if (a) {
+                                a = false;
+                            }
+                            else {
+                                output += ','
+                            }
+                            output += '<span>';
+                            switch (tagFieldName) {
+                                case 'tag1':
+                                    output += '初心者歓迎';
+                                    break;
+                                case 'tag2':
+                                    output += '経験者募集';
+                                    break;
+                                case 'tag3':
+                                    output += 'インカレあり';
+                                    break;
+                                case 'tag4':
+                                    output += '合宿あり';
+                                    break;
+                                case 'tag5':
+                                    output += '飲み会多め';
+                                    break;
+                                case 'tag6':
+                                    output += 'ゆる～く楽しみたい方へ';
+                                    break;
+                                case 'tag7':
+                                    output += '部活/サークルも勉強も楽しみたい方へ';
+                                    break;
+                                case 'tag8':
+                                    output += '部活/サークルに青春をささげたい方へ';
+                                    break;
+                                case 'tag9':
+                                    output += '新しいことを始めたいあなたへ';
+                                    break;
+                            }
+                            output += '</span>';
+                        }
+                    }
+                    output += '</div>';
+                    output += '<div id="apeal">' + clubData.appeal + '</div>';
+                    if (clubData.caution != '')
+                        output += '<div id="caution">※' + clubData.caution + '</div>';
+                    if (clubData.photo1 != '' || clubData.photo2 != '') {
+                        output += '<div id="photo">';
+                        if (clubData.photo1 != null) output += '<img src="' + clubData.photo1 + '"><br>';
+                        if (clubData.photo2 != null) output += '<img src="' + clubData.photo2 + '">';
+                        output += '</div>';
+                    }
+                    output += 'SNSリンク（新歓予約は下のいずれかの連絡先に直接お申込みください: <br>';
+output += '<a href="' + (clubData.contact.twitter || '') + '">Twitter</a><br>';
+output += '<a href="' + (clubData.contact.instagram || '') + '">Instagram</a><br>';
+output += '<a href="' + (clubData.contact.discord || '') + '">Discord</a><br>';
+output += '<a href="' + (clubData.contact.web || '') + '">web</a><br>';
+
+
+                    output += '<div id="subtitle">詳細情報</div><main>';
+                    output += '<div id="box"><div id="topic">年会費</div><p>￥' + clubData.annualFee + '</p></div>';
+                    if (clubData.frequency != '') {
+                        output += '<div id="box"><div id="topic">活動頻度</div><p>';
+                        if (clubData.frequency == '0') output += '1回/2月</p></div>';
+                        if (clubData.frequency == '1') output += '1回/月</p></div>';
+                        if (clubData.frequency == '2') output += '2回/月</p></div>';
+                        if (clubData.frequency == '3') output += '1回/週</p></div>';
+                        if (clubData.frequency == '4') output += '2回/週</p></div>';
+                        if (clubData.frequency == '5') output += '3回/週</p></div>';
+                        if (clubData.frequency == '6') output += '4回/週</p></div>';
+                        if (clubData.frequency == '7') output += '5回/週</p></div>';
+                        if (clubData.frequency == '8') output += '6回/週</p></div>';
+                        if (clubData.frequency == '9') output += '7回/週</p></div>';
+                    }
+                    if (clubData.participation != '') output += '<div id="box"><div id="topic">活動強制度</div><p>' + clubData.participation + '</p></div>';
+                    if (clubData.members != '') output += '<div id="box"><div id="topic">所属人数</div><p>' + clubData.members + '人</p></div>';
+                    if (checkForStringInObject(clubData.items)) {
+                        output += '<div id="box"><div id="topic">必要物品</div><p>';
+                        clubData.items.forEach((item) => {
+                            output += '・' + item.itemName + '   ￥' + item.price + '<br>';
+                        });
+                    }
+                    output += '</p></div>';
+                    if (checkForStringInObject(clubData.membersVoice)) {
+                        output += '<div id="box"><div id="topic">部員たちの声</div><div id="voice">'
+                        clubData.membersVoice.forEach((voice) => {
+                            output += '・' + voice + '<br>';
+                        });
+                        output += '</div></div>';
+                    }
+                    output += '</main>';
+
+                    const uniqueSchedules = [...new Set(clubData.schedules.map(schedule => JSON.stringify(schedule)))].map(str => JSON.parse(str));
+
+                    if (checkForStringInObject(clubData.schedules)) output += '<div id="subtitle">イベント</div><main><ul id="containe_box">';
+                    uniqueSchedules.forEach((schedule) => {
+                        output += '<section> <h3 class="topic">' + schedule.eventName + '</h3><div class="box">';
+                        if (schedule.content != '') output += '<p>' + schedule.content + '</p>'
+                        output += '<p>';
+                        if (schedule.cost != '') output += '費用: ￥' + schedule.cost + '<br>'
+                        if (schedule.month != '') output += '時期: ' + schedule.month + '月<br>'
+                        if (schedule.period != '') output += '期間: ' + schedule.period + '<br>';
+                        output += '</p></div></section>'
+                    });
+                    output += '</ur></main>';
+                    $('.topic').on('click', function () {//タイトル要素をクリックしたら
+                        var findElm = $(this).next(".box");//直後のアコーディオンを行うエリアを取得し
+                        $(findElm).slideToggle();//アコーディオンの上下動作
+
+                        if ($(this).hasClass('close')) {//タイトル要素にクラス名closeがあれば
+                            $(this).removeClass('close');//クラス名を除去し
+                        }
+                        else {//それ以外は
+                            $(this).addClass('close');//クラス名closeを付与
+                        }
+                    });
+                    $(window).on('load', function () {
+                        $('.accordion-area li:first-of-type section').addClass("open"); //accordion-areaのはじめのliにあるsectionにopenクラスを追加
+                        $(".open").each(function (index, element) {	//openクラスを取得
+                            var Title = $(element).children('.title');	//openクラスの子要素のtitleクラスを取得
+                            $(Title).addClass('close');				//タイトルにクラス名closeを付与し
+                            var Box = $(element).children('.box');	//openクラスの子要素boxクラスを取得
+                            $(Box).slideDown(500);					//アコーディオンを開く
+                        });
+                    })
+
+                    output += '<div id="subtitle">週間スケジュール</div><main>';
+                    output += '<div id="dayday"><div id="day">日曜日</div><div id="daykwsk">';
+                    if (clubData.weeklySchedule.sunday.content != '') {
+                        output += '内容: ' + clubData.weeklySchedule.sunday.content + '<br>';
+                        output += '開始時刻: ' + clubData.weeklySchedule.sunday.start + '<br>';
+                        output += '終了時刻: ' + clubData.weeklySchedule.sunday.end + '<br>';
+                    }
+                    else output += '活動なし';
+                    output += '</div></div>';
+                    output += '<div id="dayday"><div id="day">月曜日</div><div id="daykwsk">';
+                    if (clubData.weeklySchedule.monday.content != '') {
+                        output += '内容: ' + clubData.weeklySchedule.monday.content + '<br>';
+                        output += '開始時刻: ' + clubData.weeklySchedule.monday.start + '<br>';
+                        output += '終了時刻: ' + clubData.weeklySchedule.monday.end + '<br>';
+                    }
+                    else output += '活動なし';
+                    output += '</div></div>';
+                    output += '<div id="dayday"><div id="day">火曜日</div><div id="daykwsk">';
+                    if (clubData.weeklySchedule.tuesday.content != '') {
+                        output += '内容: ' + clubData.weeklySchedule.tuesday.content + '<br>';
+                        output += '開始時刻: ' + clubData.weeklySchedule.tuesday.start + '<br>';
+                        output += '終了時刻: ' + clubData.weeklySchedule.tuesday.end + '<br>';
+                    }
+                    else output += '活動なし';
+                    output += '</div></div>';
+                    output += '<div id="dayday"><div id="day">水曜日</div><div id="daykwsk">';
+                    if (clubData.weeklySchedule.wednesday.content != '') {
+                        output += '内容: ' + clubData.weeklySchedule.wednesday.content + '<br>';
+                        output += '開始時刻: ' + clubData.weeklySchedule.wednesday.start + '<br>';
+                        output += '終了時刻: ' + clubData.weeklySchedule.wednesday.end + '<br>';
+                    }
+                    else output += '活動なし';
+                    output += '</div></div>';
+                    output += '<div id="dayday"><div id="day">木曜日</div><div id="daykwsk">';
+                    if (clubData.weeklySchedule.thursday.content != '') {
+                        output += '内容: ' + clubData.weeklySchedule.thursday.content + '<br>';
+                        output += '開始時刻: ' + clubData.weeklySchedule.thursday.start + '<br>';
+                        output += '終了時刻: ' + clubData.weeklySchedule.thursday.end + '<br>';
+                    }
+                    else output += '活動なし';
+                    output += '</div></div>';
+                    output += '<div id="dayday"><div id="day">金曜日</div><div id="daykwsk">';
+                    if (clubData.weeklySchedule.friday.content != '') {
+                        output += '内容: ' + clubData.weeklySchedule.friday.content + '<br>';
+                        output += '開始時刻: ' + clubData.weeklySchedule.friday.start + '<br>';
+                        output += '終了時刻: ' + clubData.weeklySchedule.friday.end + '<br>';
+                    }
+                    else output += '活動なし';
+                    output += '</div></div>';
+                    output += '<div id="dayday"><div id="day">土曜日</div><div id="daykwsk">';
+                    if (clubData.weeklySchedule.saturday.content != '') {
+                        output += '内容: ' + clubData.weeklySchedule.saturday.content + '<br>';
+                        output += '開始時刻: ' + clubData.weeklySchedule.saturday.start + '<br>';
+                        output += '終了時刻: ' + clubData.weeklySchedule.saturday.end + '<br>';
+                    }
+                    else output += '活動なし';
+                    output += '</div></div>';
+
+                    // if(checkForStringInObject(clubData.contact)){
+                    //     output += '<div id=contact><div id=topic>連絡先</div>';
+                    //     if(clubData.contact.discord!='') output += '<a href="' + clubData.contact.discord + '"><img src="img/Discord.svg"style="height: 1em;"></a>';
+                    //     if(clubData.contact.instagram!='')output += '<a href="' + clubData.contact.instagram + '"><img src="img/Instagram.png"style="height: 1em;"></a>';
+                    //     if(clubData.contact.twitter!='')output += '<a href="' + clubData.contact.twitter + '"><img src="img/X.png"style="height: 1em;"></a>';
+                    //     if(clubData.contact.web!='')output += '<a href="' + clubData.contact.web + '">Web</a>';
+                    // }
+                    output += '</div></main>';
+
+                    clubDetailDiv.innerHTML = output;
+                } else {
+                    console.log("No such document!");
+                }
+            })
+            .catch((error) => {
+                console.error("Error getting document:", error);
+            });
+
+    </script>
+</body>
+
+</html>

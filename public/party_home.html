@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title id="title">管理ページ</title>
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-firestore.js"></script>
+</head>
+<body>
+    <h1 id="event-name"></h1>
+    <a id="reservation-link" href="">予約埋め</a>
+    <ul id="party-members"></ul>
+
+    <script>
+        // Firebaseの設定と初期化
+        var firebaseConfig = {
+            apiKey: "AIzaSyD3ogaiRPtv870uTBDjI3S42LKTC1hlLrM",
+            authDomain: "Pnuwiki2024.firebaseapp.com",
+            databaseURL: "https://nuwiki2024.firebaseio.com",
+            projectId: "nuwiki2024",
+            storageBucket: "nuwiki2024.appspot.com",
+            messagingSenderId: "117360974314",
+            appId: "1:117360974314:web:b42c367177476d0b627a93",
+            measurementId: "G-7M672MYCDY"
+        };
+        firebase.initializeApp(firebaseConfig);
+
+        // Firestoreの参照を取得
+        var db = firebase.firestore();
+
+        // URLパラメータからpartyIdを取得
+        var urlParams = new URLSearchParams(window.location.search);
+        var partyId = urlParams.get('partyId');
+
+        // partyIdを使用してclubs_partyデータベースを検索
+        db.collection("clubs_party").doc(partyId).get().then((doc) => {
+            if (doc.exists) {
+                // ドキュメントのデータを取得し、画面に出力
+                document.getElementById('event-name').textContent = doc.data().eventName + "管理";
+                document.getElementById('reservation-link').href = "yoyakuume.html?partyId=" + partyId;
+
+                // partyMemberDocを使用してparty_memberデータベースを検索
+                db.collection("party_member").doc(doc.data().partyMemberDoc).get().then((doc) => {
+                    if (doc.exists) {
+                        // ドキュメントのデータを取得し、画面に出力
+                        var partyMembers = doc.data();
+                        // partyMemberDetailコレクションから該当するドキュメントを取得
+                        db.collection("partyMemberDetail").doc(partyId).get().then((detailDoc) => {
+                            if (detailDoc.exists) {
+                                var partyMemberdetail = detailDoc.data();
+                                
+                                var count = 1; // 番号用のカウンター
+
+for (var key in partyMemberdetail) {
+    var li = document.createElement('li');
+
+    // チェックボックスを作成
+    var checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.id = partyId + "-" + key; // partyIdとkeyを組み合わせて一意なIDを作成
+    li.appendChild(checkbox); // チェックボックスをli要素に追加
+
+    // 番号を出力
+    var number = document.createElement('span');
+    number.textContent = count + ". ";
+    li.appendChild(number); // 番号をli要素に追加
+
+    // ユーザーIDとLINE IDの表示
+    var text = document.createElement('span');
+    text.textContent = "userID " + key + " : LineID ";
+    li.appendChild(text); // テキストをli要素に追加
+
+    // LINE IDをリンクとして追加
+    var link = document.createElement('a');
+    var lineId = partyMemberdetail[key];
+    link.href = lineId.replace('https://nuwiki2024.web.app/', ''); // 'https;/nu2024wiki' を空白に置き換える
+    link.textContent = lineId;
+    link.target = "_blank"; // リンクを新しいウィンドウで開く
+    li.appendChild(link); // リンクをli要素に追加
+
+    // 削除ボタンを作成
+    var deleteButton = document.createElement('a');
+    deleteButton.textContent = "削除";
+    deleteButton.href = "reserve_delete2.html?partyId=" + partyId + "&userId=" + key;
+    li.appendChild(deleteButton); // 削除ボタンをli要素に追加
+
+    document.getElementById('party-members').appendChild(li);
+
+    count++; // カウンターをインクリメント
+}
+
+
+                            } else {
+                                console.log("No such document!");
+                            }
+                        });
+                    } else {
+                        console.log("No such document!");
+                    }
+                });
+            } else {
+                console.log("No such document!");
+            }
+        }).catch((error) => {
+            console.log("Error getting document:", error);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>新歓カレンダ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="img/icon.jpg">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-auth.js"></script>
+    <link rel="stylesheet" href="./club_calendar_style[say] copy.css">
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyD3ogaiRPtv870uTBDjI3S42LKTC1hlLrM",
+            authDomain: "nuwiki2024.firebaseapp.com",
+            databaseURL: "https://nuwiki2024.firebaseio.com",
+            projectId: "nuwiki2024",
+            storageBucket: "nuwiki2024.appspot.com",
+            messagingSenderId: "117360974314",
+            appId: "1:117360974314:web:61f450a0ae18d958627a93",
+            measurementId: "G-PWX9FWE8T3"
+        };
+        firebase.initializeApp(firebaseConfig);
+
+        var db = firebase.firestore(); // Firestoreを初期化
+        firebase.auth().onAuthStateChanged(function(user) {
+    if (!user) {
+      // ログインしていない場合はlogin.htmlにリダイレクト
+      window.location.replace("login.html");
+    }
+  });
+
+        firebase.auth().onAuthStateChanged(function (user) {
+            if (user) {
+                // ログインしている場合の処理
+                document.querySelector(".login-bar").innerHTML = "ログイン済み：" + user.email;
+            } else {
+                // ログインしていない場合の処理
+                document.querySelector(".login-bar").innerHTML = "<a href='login.html'>ログイン</a>";
+            }
+        });
+
+        function logout() {
+            firebase.auth().signOut().then(function () {
+                // Sign-out successful.
+                window.location.reload(); // ページをリロードしてログアウト状態を反映
+            }).catch(function (error) {
+                // An error happened.
+                console.error("ログアウトエラー", error);
+            });
+        }
+
+        
+    </script>
+
+
+
+</head>
+
+<body>
+
+    <!-- ログイン状態を表示するバー -->
+    <div class="login-bar"></div>
+    <header>
+        <h1>新歓カレンダー</h1>
+    </header>
+    <div class="openbtn1"><span></span><span></span><span></span></div>
+    <nav id="g-nav">
+      <div id="g-nav-list">
+        <div class="accordion">
+          <a class="listitem" href="index.html">TOP</a>
+
+          <div class="option">
+            <input type="checkbox" id="toggle2" class="toggle">
+            <label class="title" for="toggle2">初めに</label>
+            <div class="content2">
+              <li><a class="nav-item underline" href="index.html">本サイトについて</a></li>
+              <li><a class="nav-item underline" href="login.html">ログイン/新規登録</a></li>
+              <li><a class="nav-item underline" href="index.html">管理人紹介(coming soon)</a></li>
+              <li><a class="nav-item underline" href="#"></a></li>
+            </div>
+          </div>
+
+          <div class="option">
+            <input type="checkbox" id="toggle3" class="toggle">
+            <label class="title" for="toggle3">お役立ち情報</label>
+            <div class="content2">
+              <li><a class="nav-item underline" href="#">マップ</a></li>
+              <li><a class="nav-item underline" href="#">周辺イベントまとめ(準備中)</a></li>
+              <li><a class="nav-item underline" href="password3.html">アルバイト情報登録</a></li>
+              <li><a class="nav-item underline" href="work_show.html">アルバイト情報一覧</a></li>
+              <li><a class="nav-item underline" href="#"></a></li>
+            </div>
+          </div>
+
+          <div class="option">
+            <input type="checkbox" id="toggle4" class="toggle">
+            <label class="title" for="toggle4">部活動/サークル情報</label>
+            <div class="content2">
+              <li><a class="nav-item underline" href="club_show.html">サークル一覧</a></li>
+              <li><a class="nav-item underline" href="club_calendar copy.html">新歓カレンダー</a></li>
+              <li><a class="nav-item underline" href="research.html">部活ID検索</a></li>
+              <li><a class="nav-item underline" href="research2.html">新歓ID検索</a></li>
+              <li><a class="nav-item underline" href="#"></a></li>
+            </div>
+          </div>
+
+          <div class="option">
+            <input type="checkbox" id="toggle5" class="toggle">
+            <label class="title" for="toggle5">コラム/各種まとめ</label>
+            <div class="content2">
+              <li><a class="nav-item underline" href="zyugyou.html">授業・教授まとめ</a></li>
+              <li><a class="nav-item underline" href="coram.html">コラム</a></li>
+              <li><a class="nav-item underline" href="#"></a></li>
+            </div>
+          </div>
+
+          <div class="option">
+            <input type="checkbox" id="toggle7" class="toggle">
+            <label class="title" for="toggle7">ホーム</label>
+            <div class="content2">
+              <li><a class="nav-item underline" href="user_home.html">ユーザーホーム</a></li>
+           
+              <li><a class="nav-item underline" href="#"></a></li>
+            </div>
+          </div>
+
+          <div class="option">
+            <input type="checkbox" id="toggle6" class="toggle">
+            <label class="title" for="toggle6">部活動/サークル関係者へ</label>
+            <div class="content2">
+              <li><a class="nav-item underline" href="password2.html">新歓情報追加</a></li>
+              <li><a class="nav-item underline" href="password1.html">部活/サークル情報追加</a></li>
+              <li><a class="nav-item underline" href="password4.html">部活動/サークルホーム</a></li>
+              <li><a class="nav-item underline" href="#"></a></li>
+
+            </div>
+          </div>
+
+          <a class="listitem2" href="#">LOGIN</a>
+
+        </div>
+        </div>
+    </nav>
+    <script>
+              //以下追加
+      $(".openbtn1").click(function () {
+        $(this).toggleClass('active');//ボタンがクリックされたらactiveを付与
+        $("#g-nav").toggleClass('panelactive');//ナビゲーションにpanelactiveを付与
+      });
+
+      $("#g-nav a").click(function () {
+        $(".openbtn1").removeClass('active');//リンクがクリックされたらactiveを除去
+        $("#g-nav").removeClass('panelactive');//ナビゲーションのpanelactiveを除去
+      });
+
+      $(function () {
+        $(window).scroll(function () {
+          $('.js-fade').each(function () {//スクロールされたときにフェードイン
+            var pos = $(this).offset().top;
+            var scroll = $(window).scrollTop();
+            var windowHeight = $(window).height();
+            if (scroll > pos - windowHeight + 100) {
+              $(this).addClass('scroll');
+            }
+          });
+        });
+      });
+
+
+      // eachTextAnimeにappeartextというクラスを付ける
+      function textanimeControl() {
+        $('.textanime').each(function () {
+          var elemPos = $(this).offset().top - 50;
+          var scroll = $(window).scrollTop();
+          var windowHeight = $(window).height();
+          if (scroll >= elemPos - windowHeight) {
+            $(this).addClass("appeartext");
+
+          } else {
+            $(this).removeClass("appeartext");
+          }
+        });
+      }
+
+      // 画面をスクロール時
+      $(window).scroll(function () {
+        textanimeControl();
+      });
+
+      // 画面が読み込まれた時
+      $(window).on('load', function () {
+        var element = $(".textanime");
+        element.each(function () {
+          var text = $(this).text();
+          var textbox = "";
+          text.split('').forEach(function (t, i) {
+            if (t !== " ") {
+              if (i < 10) {
+                textbox += '<span style="animation-delay:.' + i + 's;">' + t + '</span>';
+              } else {
+                var n = i / 10;
+                textbox += '<span style="animation-delay:' + n + 's;">' + t + '</span>';
+              }
+
+            } else {
+              textbox += t;
+            }
+          });
+          $(this).html(textbox);
+        });
+
+        textanimeControl();
+      });
+    </script>
+    <div class="wrapper_body">
+        <div class="container-calendar">
+    
+            <div class="button-container-calendar">
+                <button id="previous" onclick="previous()">&lt;</button>
+                <h4 id="monthAndYear"></h4>
+                <button id="next" onclick="next()">&gt;</button>
+            </div>
+    
+            <table class="table-calendar" id="calendar" data-lang="ja">
+                <thead id="thead-month"></thead>
+                <tbody id="calendar-body"></tbody>
+            </table>
+        </div>
+        <div class="footer-container-calendar">
+            <label for="month">日付：</label>
+            <select id="month" onchange="jump()">
+                <option value=0>1月</option>
+                <option value=1>2月</option>
+                <option value=2>3月</option>
+                <option value=3>4月</option>
+                <option value=4>5月</option>
+                <option value=5>6月</option>
+                <option value=6>7月</option>
+                <option value=7>8月</option>
+                <option value=8>9月</option>
+                <option value=9>10月</option>
+                <option value=10>11月</option>
+                <option value=11>12月</option>
+            </select>
+            <select id="year" onchange="jump()"></select>
+            <label>名前：</label><br> <input type="text" id="name" onchange="event()" placeholder="ここにサークルの名前を入力してください">
+            <label>タグ：</label><br>
+            <select id="type" onchange="event()">
+                <option value="">すべて</option>
+                <option value="参加型">参加</option>
+                <option value="観察型">体験</option>
+                <option value="ショー型">ショー</option>
+                <option value="説明型">説明</option>
+            </select>
+    
+            <label>参加費：</label><br> <input type="number" id="fee" min="0" step="100" onchange="event()"
+                placeholder="ここに何円以下のサークルまでよいか入力してください">
+    
+    
+        </div>
+        <div id="events-list"></div>
+    </div>
+
+    <br>
+    <br>
+    <br>
+    <br>
+<footer>
+    
+    <iframe src="./footer.html" frameborder="0" id="footer" role="presentation"></iframe>
+    
+    
+</footer>
+
+
+    <script>
+        function generate_year_range(start, end) {
+            var years = "";
+            for (var year = start; year <= end; year++) {
+                years += "<option value='" + year + "'>" + year + "</option>";
+            }
+            return years;
+        }
+
+        var name = '';
+        var type = '';
+        var fee = '';
+        var today = new Date();
+        var currentMonth = today.getMonth();
+        var currentYear = today.getFullYear();
+        var selectYear = document.getElementById("year");
+        var selectMonth = document.getElementById("month");
+
+        var createYear = generate_year_range(2024, 2100);
+
+        document.getElementById("year").innerHTML = createYear;
+
+        var calendar = document.getElementById("calendar");
+        var lang = calendar.getAttribute('data-lang');
+
+        var months = ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"];
+        var days = ["日", "月", "火", "水", "木", "金", "土"];
+
+        var dayHeader = "<tr>";
+        for (day in days) {
+            dayHeader += "<th data-days='" + days[day] + "'>" + days[day] + "</th>";
+        }
+        dayHeader += "</tr>";
+
+        document.getElementById("thead-month").innerHTML = dayHeader;
+
+        monthAndYear = document.getElementById("monthAndYear");
+        showCalendar(currentMonth, currentYear);
+
+        function next() {
+            currentYear = (currentMonth === 11) ? currentYear + 1 : currentYear;
+            currentMonth = (currentMonth + 1) % 12;
+            showCalendar(currentMonth, currentYear);
+        }
+
+        function previous() {
+            currentYear = (currentMonth === 0) ? currentYear - 1 : currentYear;
+            currentMonth = (currentMonth === 0) ? 11 : currentMonth - 1;
+            showCalendar(currentMonth, currentYear);
+        }
+
+        function event() {
+            name = document.getElementById('name').value;
+            type = document.getElementById('type').value;
+            fee = document.getElementById('fee').value;
+            fetchAndDisplayEvents();
+
+        }
+
+        function jump() {
+            currentYear = parseInt(selectYear.value);
+            currentMonth = parseInt(selectMonth.value);
+            showCalendar(currentMonth, currentYear);
+        }
+
+        function showCalendar(month, year) {
+
+            var firstDay = (new Date(year, month)).getDay();
+
+            tbl = document.getElementById("calendar-body");
+
+            tbl.innerHTML = "";
+
+            monthAndYear.innerHTML = months[month] + " " + year;
+            selectYear.value = year;
+            selectMonth.value = month;
+
+            // すべてのセルを生成
+            var date = 1;
+            for (var i = 0; i < 6; i++) {
+                var row = document.createElement("tr");
+
+                for (var j = 0; j < 7; j++) {
+                    if (i === 0 && j < firstDay) {
+                        cell = document.createElement("td");
+                        cellText = document.createTextNode("");
+                        cell.appendChild(cellText);
+                        row.appendChild(cell);
+                    } else if (date > daysInMonth(month, year)) {
+                        break;
+                    } else {
+                        cell = document.createElement("td");
+                        cell.setAttribute("data-date", date);
+                        cell.setAttribute("data-month", month + 1);
+                        cell.setAttribute("data-year", year);
+                        cell.setAttribute("data-month_name", months[month]);
+                        cell.className = "date-picker";
+                        cell.id = "day" + date;
+                        cell.innerHTML = "<span>" + date + "</span>";
+
+                        if (date === today.getDate() && year === today.getFullYear() && month === today.getMonth()) {
+                            cell.className = "date-picker selected";
+                        }
+                        row.appendChild(cell);
+                        date++;
+                    }
+                }
+
+                tbl.appendChild(row);
+            }
+            fetchAndDisplayEvents(year, month);
+            // クリックした日付セルに対するイベントを追加
+            for (var date = 1; date <= daysInMonth(month, year); date++) {
+                var dayCell = document.getElementById('day' + date);
+                dayCell.addEventListener('click', function (event) {
+                    var clickedDate = event.currentTarget.getAttribute('data-date');
+                    showEventsForDate(clickedDate, month, year);
+                });
+            }
+        }
+
+        function daysInMonth(iMonth, iYear) {
+            return 32 - new Date(iYear, iMonth, 32).getDate();
+        }
+
+
+        //以下イベントしょとく
+
+        function fetchAndDisplayEvents(year, month) {
+            db.collection('clubs_party').get().then(function (querySnapshot) {
+                const events = [];
+                querySnapshot.forEach(function (doc) {
+                    const data = doc.data();
+                    const date = new Date(data.date);
+                    if (date.getFullYear() == year && date.getMonth() == month) {
+                        // 検索条件を満たすか確認
+                        if ((name === '' || data.clubName.includes(name)) &&
+                            (type === '' || data.type === type) &&
+                            (fee === '' || data.fee <= fee)) {
+                            events.push({
+                                date: date,
+                                data: data,
+                            });
+                        }
+                    }
+                });
+
+                // 同日に複数のデータがある場合は開始時間順に並べかえる
+                events.sort(function (a, b) {
+                    return a.date - b.date;
+                });
+                events.forEach(function (event) {
+                    const day = document.getElementById('day' + event.date.getDate());
+                    day.classList.add('event-day'); // イベントがある日のセルにクラスを追加
+
+
+                });
+
+
+            });
+        }
+        function scrollToEventsList() {
+    const eventsList = document.getElementById('events-list');
+    eventsList.scrollIntoView({ behavior: 'smooth' });
+}
+        function showEventsForDate(clickedDate, month, year) {
+            const eventsList = document.getElementById('events-list');
+            eventsList.innerHTML = ''; // イベントリストをクリア
+
+            // イベント一覧のタイトルを作成
+            const eventListTitle = document.createElement('h2');
+            eventListTitle.textContent = year + '年' + (month + 1) + '月' + clickedDate + '日のイベント一覧';
+            eventsList.appendChild(eventListTitle);
+            scrollToEventsList();
+
+            // クリックした日のイベントを取得し、リストに追加
+            db.collection('clubs_party').get().then(function (querySnapshot) {
+                querySnapshot.forEach(function (doc) {
+                    const data = doc.data();
+                    const date = new Date(data.date);
+                    if (date.getFullYear() == year && date.getMonth() == month && date.getDate() == clickedDate) {
+                        const listItem = document.createElement('li');
+                        const eventLink = document.createElement('a');
+                        eventLink.href = data.reservationFormLink;
+                        eventLink.textContent = data.clubName;
+                        eventLink.target = "_blank";
+                        eventLink.addEventListener('click', function (e) {
+                            e.preventDefault();
+                            const page = document.createElement('div');
+                            db.collection('party_member').doc(data.partyMemberDoc).get().then(function (doc) {
+                                const edata = doc.data();
+                                let remainingCapacity = 0;
+                                for (let key in edata) {
+                                    if (edata[key] === '') {
+                                        remainingCapacity++;
+                                    }
+                                }
+                                page.innerHTML = '<h1>' + data.clubName + '</h1>' +
+                                    '<ul>' +
+                                    '<li>日付: ' + data.date + '</li>' +
+                                    '<li>時間: ' + data.time + '</li>' +
+                                    '<li>期間: ' + data.duration + '分</li>' +
+                                    '<li>イベント名: ' + data.eventName + '</li>' +
+                                    '<li>イベントタイプ: ' + data.eventType + '</li>' +
+                                    '<li>定員: ' + data.capacity + '人</li>' +
+                                    '<li>参加費: ' + data.fee + '円</li>' +
+                                    '<li>説明: ' + data.description + '</li>' +
+                                    '<li>予約フォームリンク: <a href="' + data.reservationFormLink + '" target="_blank">今すぐ予約</a></li>' +
+                                    '<li>残り参加可能人数: ' + remainingCapacity + '人</li>' +
+                                    '<li>場所: ' + data.location + '</li>' +
+                                    '</ul>' +
+                                    '<div class="image-container">' +
+                                    '<img src="' + data.photo1 + '" alt="Event Photo 1">' +
+                                    '<img src="' + data.photo2 + '" alt="Event Photo 2">' +
+                                    '</div>' +
+                                    '<style>' +
+                                    '/* ここにCSSを追加 */' +
+                                    '</style>';
+
+                                eventsList.appendChild(page);
+                            });
+                        });
+                        listItem.appendChild(eventLink);
+                        eventsList.appendChild(listItem);
+                    }
+                });
+
+            });
+        }
+    </script>
+
+</html>

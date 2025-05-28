@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>部活サークル一覧</title>
+    
+    <style>
+      .login-bar {
+        background: linear-gradient(to right, #00ff00, #008000);
+        color: white; /* テキストの色 */
+        padding: 10px;
+        display: flex;
+        justify-content: flex-end; /* 右寄せ */
+      }
+  
+      .tab {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #04cc04;
+        color: black;
+        
+        cursor: pointer;
+      }
+    .tab.active a {
+      color: #008000; /* Change to the desired color */
+    }
+      .tab-container {
+        background: linear-gradient(to right, #00ff00, #008000);
+        width: 100%;
+      }
+  
+      .tab.active {
+        background-color: wheat;
+      }
+  
+      /* Style for the content */
+      .content {
+      display: none;
+      padding: 20px;
+      background-color:#04cc04; /* ここに希望の色を指定します */
+    }
+  
+      .content.active {
+        display: block;
+  background-color: #04cc04; 
+      }
+  
+      /* Style for the scrollable content */
+      .scrollable-content {
+        height: 200px;
+        /* Adjust as needed */
+        overflow-y: scroll;
+      }
+  
+      header {
+        text-align:center;
+        background: linear-gradient(to right, #008000, #00ff00);
+        padding: 20px;
+        margin: 0;
+        width: 100%;
+        font-family: 'Zen Antique', serif;
+      }
+  
+      body {
+        font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'メイリオ', Meiryo, sans-serif;
+        background-color: black;
+        color: white;
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+        /*
+        background-image: url("img/nu");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        */
+      }
+  
+      footer {
+        background-color: #333;
+        color: #fff;
+        text-align: center;
+        padding: 10px 20px;
+        width: 100%;
+      }
+  
+      /* Add this to center the title and change the background color */
+      h1, h2 {
+        color: white;
+        margin: 0;
+      }
+  
+      h2 {
+        font-size: 0.8em;
+      }
+  
+      h3 {
+        text-align: center;
+        background-color: yellowgreen;
+        color: rgb(255, 255, 255);
+        padding: 10px;
+      }
+      h4{
+        text-align: center;
+        background-color: yellowgreen;
+        color: rgb(255, 255, 255);
+        padding: 10px;
+      }
+  
+      a {
+        color: blue;
+      }
+  
+      @media screen and (max-width: 760px) {
+        .tab {
+          display: inline-block;
+          padding: 10px px;
+          background-color: white;
+          color: black;
+          cursor: pointer;
+        }
+      }
+    </style>
+
+ 
+  </head>
+  
+  <body>
+    <div class="login-bar">
+     
+    </div>
+    <header>
+      <h1>名古屋大学非公式wiki</h1>
+      <h2>~NU wiki unofficial~</h2>
+    </header>
+    <div style="text-align: center; margin-top: 0px;">
+      
+    </div>
+    <div class="tab-container" style="margin-top: 0;">
+      <div class="tab" onclick="openTab('genre1')">初めに</div>
+      <div class="tab" onclick="openTab('genre2')">お知らせ</div>
+      <div class="tab" onclick="openTab('genre3')">部活動/サークル情報</div>
+      <div class="tab" onclick="openTab('genre4')">各種まとめ</div>
+    </div>
+  
+    <div id="genre1" class="content">
+      <!-- Content for Genre 1 -->
+      <a href="index.html">本サイトについて</a>
+      <a href="register.html">新規登録</a>
+    </div>
+  
+    <div id="genre2" class="content">
+      <!-- Content for Genre 2 -->
+      <a href="#site4">Site 4</a>
+      <a href="#site5">Site 5</a>
+      <a href="#site6">Site 6</a>
+    </div>
+  
+    <div id="genre3" class="content">
+      <!-- Content for Genre 3 -->
+      <a href="club.html">部活/サークル一覧</a>
+      <a href="password.html">部活/サークル情報の追加</a>
+      <a href="show_clubs.html">サークル一覧</a>
+    </div>
+  
+    <div id="genre4" class="content">
+      <!-- Content for Genre 4 -->
+      <a href="zyugyou.html">授業・教授まとめ</a>
+      <a href="coram.html">コラム</a>
+      <a href="#site12">Site 12</a>
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-auth.js"></script>
+    <script>
+        // Firebaseの設定
+        var firebaseConfig = {
+          apiKey: "AIzaSyD3ogaiRPtv870uTBDjI3S42LKTC1hlLrM",
+  authDomain: "nuwiki2024.firebaseapp.com",
+  databaseURL: "https://nuwiki2024-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "nuwiki2024",
+  storageBucket: "nuwiki2024.appspot.com",
+  messagingSenderId: "117360974314",
+  appId: "1:117360974314:web:61f450a0ae18d958627a93",
+  measurementId: "G-PWX9FWE8T3"
+        };
+        firebase.initializeApp(firebaseConfig);
+        firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        // ログインしている場合の処理
+        document.querySelector(".login-bar").innerHTML = "ログイン済み：" + user.email + " <a href='#' onclick='logout()'>ログアウト</a>";
+      } else {
+        // ログインしていない場合の処理
+        document.querySelector(".login-bar").innerHTML = "<a href='login.html'>ログイン</a>";
+        window.location.href = "login.html";
+      }
+    });
+
+    function logout() {
+      firebase.auth().signOut().then(function() {
+        // Sign-out successful.
+        window.location.reload(); // ページをリロードしてログアウト状態を反映
+      }).catch(function(error) {
+        // An error happened.
+        console.error("ログアウトエラー", error);
+      });
+    }
+
+    </script>
+    <script>
+    function openTab(tabName) {
+      // Hide all content divs
+      var contentDivs = document.getElementsByClassName("content");
+      for (var i = 0; i < contentDivs.length; i++) {
+        contentDivs[i].classList.remove("active");
+      }
+  
+      // Show the selected content div
+      var selectedContentDiv = document.getElementById(tabName);
+      selectedContentDiv.classList.add("active");
+  
+      // Remove active class from all tabs
+      var tabs = document.getElementsByClassName("tab");
+      for (var i = 0; i < tabs.length; i++) {
+        tabs[i].classList.remove("active");
+        tabs[i].style.backgroundColor = '#04cc04'; // Reset color of non-active tabs
+      }
+  
+      // Add active class to the selected tab
+      var selectedTab = document.querySelector("[onclick=\"openTab('" + tabName + "')\"]");
+      selectedTab.classList.add("active");
+      selectedTab.style.backgroundColor = '#008000'; // Change color of active tab
+    }
+  </script>
+
+    <section>
+        <h3>新入生必見！部活・サークル一覧！</h3>
+        <p>このページは、多種多様な、100以上の部活動、サークルを一覧にし、<br>
+        活動頻度、部費といった大まかな内容を記述しています。部活やサークルは大学生活をより一層豊かにするものです。<br>
+        皆さんがこのサイトを活用し、バラ色のキャンパスライフを送るよう一同心から願っている。</p>
+    </section>
+
+    <h4>~ 検索機能は以下から~</h4>
+    <label for="club-type-filter">部活動タイプを選択:</label>
+    <select id="club-type-filter" onchange="filterClubs()">
+        <option value="all">すべての部活動</option>
+        <option value="culture">文化部</option>
+        <option value="sports">運動部</option>
+        <option value="circle">サークル</option>
+    </select>
+    
+    <label for="club-official-filter">公式/非公式を選択:</label>
+    <select id="club-official-filter" onchange="filterClubs()">
+        <option value="all">すべて</option>
+        <option value="official">公式</option>
+        <option value="unofficial">非公式</option>
+    </select>
+    
+    <label for="tag-filter">ハッシュタグを選択:</label>
+    <select id="tag-filter" onchange="filterClubs()">
+        <option value="all">すべてのタグ</option>
+        <option value="beginner-friendly">初心者歓迎</option>
+        <option value="experiencer-come">経験者大募集</option>
+        <option value="friendly-seniors">先輩がやさしい</option>
+        <option value="waiwai">みんなでワイワイ</option>
+        <option value="drink">未成年飲酒黙認</option>
+        <option value="cheap">入会費、部費、今ならなんと0円</option>
+        <!-- 他のハッシュタグを追加 -->
+    </select>
+    
+    <label for="frequency-filter">活動頻度を選択:</label>
+    <select id="frequency-filter" onchange="filterClubs()">
+        <option value="all">すべての活動頻度</option>
+        <option value="rarely">2か月に1回以下</option>
+        <option value="weekly">週1回以上</option>
+        <option value="bimonthly">月２回以上</option>
+        <option value="triweekly">週3回以上</option>
+    </select>
+    
+    <!-- 部活動ごとの紹介ページへのリンク -->
+    <ul id="club-list">
+        <li><a href="#club1" data-type="culture" data-official="official" data-tags="experiencer-come" data-frequency="rarely">トリ横界隈</a></li>
+        <li><a href="#club2" data-type="sports" data-official="unofficial" data-tags="friendly-seniors" data-frequency="weekly">芸音学部</a></li>
+        <li><a href="#club3" data-type="culture" data-official="official" data-tags="experiencer-come" data-frequency="rarely">ボカロ同好会</a></li>
+        <li><a href="#club4" data-type="sports" data-official="unofficial" data-tags="drink" data-frequency="weekly">アコギ同好会</a></li>
+        <li><a href="#club5" data-type="culture" data-official="official" data-tags="waiwai" data-frequency="rarely">アンプ</a></li>
+        <li><a href="#club6" data-type="sports" data-official="unofficial" data-tags="friendly-seniors" data-frequency="weekly">エフェクター</a></li>
+        <!-- 必要に応じて他の部活動を追加 -->
+    </ul>
+    
+    <!-- 部活動の紹介ページ -->
+    <div id="club1" class="club-info" data-type="culture" data-official="official" data-tags="experiencer-come" data-frequency="rarely">
+        <h2>トリ横界隈</h2>
+        <p>授業の空き時間や、ぶっちしたときに集う場所、服部ホール。<br>いつしかその輪はあまねく広がっていき、世界征服をもたくらむ者たちの集いともなっている。</p>
+        <img src="img/kakeru.jpg" width="300">
+        <br>
+        この男Y.K.は、エナジードリンクという自身に宿りし魔物を呼び覚ますが、体への代償がすさまじい飲み物を<br>
+        キャパを超えた挙句昼夜逆転してしまった哀れな者である。
+        <br>
+        <br>
+
+    </div>
+    
+    <div id="club2" class="club-info" data-type="sports" data-official="unofficial" data-tags="friendly-seniors" data-frequency="weekly">
+        <h2>芸音楽部</h2>
+
+        <img src="img/guiter.jpg" width="300">
+        <br>
+
+        <p>お前もギターを始めないか？おすすめの楽器屋紹介するよ。愛〇楽器っていうんだけどさ。</p>
+    </div>
+
+    <div id="club3" class="club-info" data-type="culture" data-official="official" data-tags="experiencer-come" data-frequency="rarely">
+      <h2>ボカロ同好会</h2>
+      <p>j-popと並ぶジャンルへと変わりつつあるボーカロイド。お気に入りの曲を共有したり、適宜開催されるカラオケ交流会などでもりあがったり。</p>
+      <img src="img/kaisei.jpg" width="300">
+      <br>
+        管理人の一番お気に入りの曲は、orangestarさんの"快晴"。良かったら <a href="https://youtu.be/BwGpXK3W6tE?si=kLmHyzFbumAEAFnI">こちら</a>から聴いてみてください。
+      <br>
+      <br>
+
+  </div>
+  
+  <div id="club4" class="club-info" data-type="sports" data-official="unofficial" data-tags="friendly-seniors" data-frequency="weekly">
+      <h2></h2>
+
+      <img src="img/guiter.jpg" width="300">
+      <br>
+
+      <p>お前もギターを始めないか？おすすめの楽器屋紹介するよ。愛〇楽器っていうんだけどさ。</p>
+  </div>
+
+  <div id="club5" class="club-info" data-type="culture" data-official="official" data-tags="experiencer-come" data-frequency="rarely">
+    <h2>トリ横界隈</h2>
+    <p>授業の空き時間や、ぶっちしたときに集う場所、服部ホール。<br>いつしかその輪はあまねく広がっていき、世界征服をもたくらむ者たちの集いともなっている。</p>
+    <img src="img/kakeru.jpg" width="300">
+    <br>
+    この男Y.K.は、エナジードリンクという自身に宿りし魔物を呼び覚ますが、体への代償がすさまじい飲み物を<br>
+    キャパを超えた挙句昼夜逆転してしまった哀れな者である。
+    <br>
+    <br>
+
+</div>
+
+<div id="club6" class="club-info" data-type="sports" data-official="unofficial" data-tags="friendly-seniors" data-frequency="weekly">
+    <h2>芸音楽部</h2>
+
+    <img src="img/guiter.jpg" width="300">
+    <br>
+
+    <p>お前もギターを始めないか？おすすめの楽器屋紹介するよ。愛〇楽器っていうんだけどさ。</p>
+</div>
+    <!-- 必要に応じて他の部活動の紹介ページを追加 -->
+    
+
+    <br>
+
+    <br>
+    <br>
+    <br>
+
+
+    <script>
+function openTab(tabName) {
+      // Hide all content divs
+      var contentDivs = document.getElementsByClassName("content");
+      for (var i = 0; i < contentDivs.length; i++) {
+        contentDivs[i].classList.remove("active");
+      }
+      
+      // Show the selected content div
+      var selectedContentDiv = document.getElementById(tabName);
+      selectedContentDiv.classList.add("active");
+      
+      // Remove active class from all tabs
+      var tabs = document.getElementsByClassName("tab");
+      for (var i = 0; i < tabs.length; i++) {
+        tabs[i].classList.remove("active");
+      }
+      
+      // Add active class to the selected tab
+      var selectedTab = document.querySelector("[onclick=\"openTab('" + tabName + "')\"]");
+      selectedTab.classList.add("active");
+    }
+
+const clubs = [
+    { id: 'club1', type: 'culture', official: 'official', tags: ['experiencer-come'], frequency: 'rarely' },
+    { id: 'club2', type: 'sports', official: 'unofficial', tags: ['friendly-seniors'], frequency: 'weekly' },
+    { id: 'club3', type: 'culture', official: 'official', tags: ['experiencer-come'], frequency: 'rarely' },
+    { id: 'club4', type: 'sports', official: 'unofficial', tags: ['drink'], frequency: 'weekly' },
+    { id: 'club5', type: 'culture', official: 'official', tags: ['waiwai'], frequency: 'rarely' },
+    { id: 'club6', type: 'sports', official: 'unofficial', tags: ['friendly-seniors'], frequency: 'weekly' },
+];
+
+const typeFilter = document.getElementById('club-type-filter');
+const officialFilter = document.getElementById('club-official-filter');
+const tagFilter = document.getElementById('tag-filter');
+const frequencyFilter = document.getElementById('frequency-filter');
+const clubList = document.getElementById('club-list').children;
+
+function filterClubs() {
+    const selectedType = typeFilter.value;
+    const selectedOfficial = officialFilter.value;
+    const selectedTag = tagFilter.value;
+    const selectedFrequency = frequencyFilter.value;
+
+    for (let i = 0; i < clubList.length; i++) {
+        const club = clubList[i];
+        const clubData = clubs.find(c => c.id === club.children[0].getAttribute('href').substring(1));
+
+        if ((selectedType === 'all' || clubData.type === selectedType) &&
+            (selectedOfficial === 'all' || clubData.official === selectedOfficial) &&
+            (selectedTag === 'all' || clubData.tags.includes(selectedTag)) &&
+            (selectedFrequency === 'all' || clubData.frequency === selectedFrequency)) {
+            club.style.display = 'block';
+        } else {
+            club.style.display = 'none';
+        }
+    }
+}
+
+typeFilter.addEventListener('change', filterClubs);
+officialFilter.addEventListener('change', filterClubs);
+tagFilter.addEventListener('change', filterClubs);
+frequencyFilter.addEventListener('change', filterClubs);
+
+filterClubs();
+</script>
+    
+  <footer>
+    <div style="display: flex; justify-content: space-between;">
+      <div>
+        連絡先
+        <p><img src="img/twitter.jpg" style="height: 1em;"> <a href="https://twitter.com/your_twitter_handle">Twitter</a></p>
+      </div>
+      <div>
+        <h4>タブ</h4>
+        <p><a href="#genre1">初めに</a><a href="#genre2">お知らせ</a><a href="#genre3">部活動/サークル情報</a><a href="#genre4">各種まとめ</a></p>
+        <p><a href="#link1-1">リンク1-1</a><a href="#link2-1">リンク2-1</a></p>
+        <p><a href="#link1-2">リンク1-2</a></p>
+      </div>
+    </div>
+    <p>&#169; meidaiwiki2024</p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>新歓調整</title>
+</head>
+<body>
+    <input type="text" id="nameInput" placeholder="名前を入力">
+    <input type="text" id="lineIdInput" placeholder="LineIDを入力">
+    <button id="reserveButton">予約</button>
+
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-firestore.js"></script>
+
+    <script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyD3ogaiRPtv870uTBDjI3S42LKTC1hlLrM",
+        authDomain: "Pnuwiki2024.firebaseapp.com",
+        databaseURL: "https://nuwiki2024.firebaseio.com",
+        projectId: "nuwiki2024",
+        storageBucket: "nuwiki2024.appspot.com",
+        messagingSenderId: "117360974314",
+        appId: "1:117360974314:web:b42c367177476d0b627a93",
+        measurementId: "G-7M672MYCDY",
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    // URLから新歓IDを取得
+    const urlParams = new URLSearchParams(window.location.search);
+    const partyId = urlParams.get('partyId');
+
+    document.getElementById('reserveButton').addEventListener('click', function() {
+        const name = document.getElementById('nameInput').value;
+        const lineId = document.getElementById('lineIdInput').value;
+
+        if (!partyId || !name || !lineId) {
+            alert('新歓IDと名前とLineIDを入力してください。');
+            return;
+        }
+
+        db.collection('clubs_party').doc(partyId).get().then(function(doc) {
+            if (doc.exists) {
+                const data = doc.data();
+                const partyMemberId = data.partyMemberDoc;
+                // party_memberに名前をセット
+                db.collection('party_member').doc(partyMemberId).set({ [name]: '' }, { merge: true }).then(function() {
+                    // partyMemberDetailに名前とLineIDをセット
+                    db.collection('partyMemberDetail').doc(partyId).set({ [name]: lineId }, { merge: true }).then(function() {
+                        alert('予約が成功しました。');
+                    }).catch(function(error) {
+                        alert('partyMemberDetailへの登録に失敗しました: ' + error.message);
+                    });
+                }).catch(function(error) {
+                    alert('party_memberへの登録に失敗しました: ' + error.message);
+                });
+            } else {
+                alert('指定されたIDの新歓情報が見つかりませんでした。');
+            }
+        }).catch(function(error) {
+            alert('新歓情報の取得に失敗しました: ' + error.message);
+        });
+    });
+    </script>
+</body>
+</html>

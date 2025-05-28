@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <title>User Information</title>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style_user_home.css">
+</head>
+<body>
+  <div class="wrapper_all">
+    <h1 class="pc_user">ユーザー情報</h1>
+    <h1 class="mobile_user">ユーザー情報</h1>
+    <div id="user-info">
+      
+    </div>
+    <div class="wrap">
+      <p><span>詳細情報</span></p>
+      <div class="wrap_inner">
+        <input type="text" id="circle-id" placeholder="部活動IDを入力">
+        <button onclick="addCircle()">追加</button>
+      </div>
+    </div>  
+    <div id="user-detail-info">
+      
+    </div> <!-- 詳細情報用の新しいdivを追加 -->
+    <div id="user-circle-info">
+      
+    </div> <!-- 部活動情報用の新しいdivを追加 -->
+    
+  </div>
+  <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-auth.js"></script>
+  <script>
+    // Firebase の設定
+    var firebaseConfig = {
+      apiKey: "AIzaSyD3ogaiRPtv870uTBDjI3S42LKTC1hlLrM",
+      authDomain: "Pnuwiki2024.firebaseapp.com",
+      databaseURL: "https://nuwiki2024.firebaseio.com",
+      projectId: "nuwiki2024",
+      storageBucket: "nuwiki2024.appspot.com",
+      messagingSenderId: "117360974314",
+      appId: "1:117360974314:web:b42c367177476d0b627a93",
+      measurementId: "G-7M672MYCDY"
+    };
+    // Firebase アプリの初期化
+    firebase.initializeApp(firebaseConfig);
+
+    // Firebase Authentication の参照
+    var auth = firebase.auth();
+
+    // ユーザーのログイン状態の監視
+    auth.onAuthStateChanged(function(user) {
+      if (user) {
+        // ユーザーがログインしている場合、ユーザー情報を取得
+        var uid = user.uid; // ユーザーのUIDを取得
+        var userInfoDiv = document.getElementById('user-info');
+        var userDetailInfoDiv = document.getElementById('user-detail-info'); // 詳細情報用の新しいdivを参照
+        var userCircleInfoDiv = document.getElementById('user-circle-info'); // 部活動情報用の新しいdivを参照
+
+        // Firestore の参照
+        var db = firebase.firestore();
+        var userRef = db.collection('user').doc(uid); // ユーザーのUIDに対応するドキュメントIDを指定して参照
+
+        // ユーザー情報の取得と表示
+        userRef.get().then(function(doc) {
+          if (doc.exists) {
+            var userData = doc.data();
+            if (userData.name) {
+              userInfoDiv.innerHTML += "<p><span>ユーザー名:</span> " + userData.name + "</p>";
+            } else {
+              console.error("Error: User name not found in user document with ID: " + uid);
+            }
+            if (userData.grade) {
+              userInfoDiv.innerHTML += "<p><span>学年:</span> " + userData.grade + "</p>";
+            } else {
+              console.error("Error: User grade not found in user document with ID: " + uid);
+            }
+            if (userData.department) {
+              userInfoDiv.innerHTML += "<p><span>学部学科:</span> " + userData.department + "</p>";
+            } else {
+              console.error("Error: User department not found in user document with ID: " + uid);
+            }
+            if (userData.info) {
+              // 必要ならコメントアウトを消してください
+              // userDetailInfoDiv.innerHTML += "<p><span>詳細情報</span></p>"; // 詳細情報を新しいdivに表示
+              userDetailInfoDiv.innerHTML += "<ul>";
+                userData.info.forEach(function(infoItem) {
+                  if(infoItem.trim() !== "") { // infoItemが空白でない場合のみ表示
+                    var partyRef = db.collection('clubs_party').doc(infoItem);
+                    partyRef.get().then(function(partyDoc) {
+                      if (partyDoc.exists) {
+                        var eventName = partyDoc.data().eventName;
+                        var eventDate = partyDoc.data().date; // 日付を取得
+                        var eventTime = partyDoc.data().time; // 時間を取得
+                        var eventDuration = partyDoc.data().duration; // 所要時間を取得
+                        if (eventName && eventDate && eventTime && eventDuration) {
+                          var partyId = infoItem.includes('=') ? infoItem.split('=')[1] : '';
+                          userDetailInfoDiv.innerHTML += "<li>" + eventName + " (" + eventDate + ", " + eventTime + ", " + eventDuration + ") <a href='reserve_delete.html?partyId=" + infoItem + "&userId=" + uid + "'><button>削除</button></a></li>";
+
+                        } else {
+                          console.error("Error: Event details not found in party document with ID: " + infoItem.split('=')[1]);
+                        }
+                      } else {
+                        console.error("No such party document with ID: " + infoItem.split('=')[1]);
+                      }
+                    }).catch(function(error) {
+                      console.error("Error getting party document with ID: " + infoItem.split('=')[1] + ", Error: ", error);
+                    });
+                  }
+                });
+                userDetailInfoDiv.innerHTML += "</ul>"; // 詳細情報を新しいdivに表示
+              } else {
+                console.error("Error: User info not found in user document with ID: " + uid);
+              }
+
+              // ユーザーが追加した部活動名を表示
+              if (userData.circle_db) {
+                userCircleInfoDiv.innerHTML += "<p><span>所属部活動:</span></p>"; // 部活動情報を新しいdivに表示
+                userCircleInfoDiv.innerHTML += "<ul>";
+                userData.circle_db.forEach(function(circleId) {
+                  var circleRef = db.collection('circles').doc(circleId);
+                  circleRef.get().then(function(circleDoc) {
+                    if (circleDoc.exists) {
+                      var circleName = circleDoc.data().name; // nameを表示するように変更
+                      if (circleName) {
+                        userCircleInfoDiv.innerHTML += "<li>" + circleName + "</li>"; // 部活動情報を新しいdivに表示
+                      } else {
+                        console.error("Error: Circle name not found in circle document with ID: " + circleId);
+                      }
+                    } else {
+                      console.error("No such circle document with ID: " + circleId);
+                    }
+                  }).catch(function(error) {
+                    console.error("Error getting circle document with ID: " + circleId + ", Error: ", error);
+                  });
+                });
+                userCircleInfoDiv.innerHTML += "</ul>"; // 部活動情報を新しいdivに表示
+              } else {
+                console.error("Error: User circle_db not found in user document with ID: " + uid);
+              }
+
+            } else {
+              console.error("No such user document with ID: " + uid);
+            }
+          }).catch(function(error) {
+            console.error("Error getting user document with ID: " + uid + ", Error: ", error);
+          });
+        } else {
+          // ユーザーがログインしていない場合、ログインページにリダイレクト
+          // 後でコメントアウトを消す
+          // window.location.replace("login.html");
+        }
+      });
+
+      function addCircle() {
+        var circleId = document.getElementById('circle-id').value;
+        if (!circleId) {
+          alert('部活動IDを入力してください。');
+          return;
+        }
+
+        var db = firebase.firestore();
+        var circleRef = db.collection('circles').doc(circleId);
+
+        circleRef.get().then(function(doc) {
+          if (doc.exists) {
+            var circleName = doc.data().name; // nameを表示するように変更
+            if (circleName) {
+              alert('部活動名: ' + circleName); // 部活動名を表示する
+            } else {
+              console.error("Error: Circle name not found in circle document with ID: " + circleId);
+            }
+            var userRef = db.collection('user').doc(auth.currentUser.uid);
+            userRef.get().then(function(userDoc) {
+              if (userDoc.exists) {
+                var userData = userDoc.data();
+                if (!userData.circle_db) {
+                  userData.circle_db = [];
+                }
+                userData.circle_db.push(circleId);
+                userRef.set(userData).then(function() {
+                  alert('部活動IDが追加されました。');
+                }).catch(function(error) {
+                  console.error("Error updating user document with ID: " + auth.currentUser.uid + ", Error: ", error);
+                });
+              } else {
+                console.error("No such user document with ID: " + auth.currentUser.uid);
+              }
+            }).catch(function(error) {
+              console.error("Error getting user document with ID: " + auth.currentUser.uid + ", Error: ", error);
+            });
+          } else {
+            alert('該当する部活動IDが見つかりませんでした。');
+          }
+        }).catch(function(error) {
+          console.error("Error getting circle document with ID: " + circleId + ", Error: ", error);
+        });
+      }
+    </script>
+  </body>
+  </html>

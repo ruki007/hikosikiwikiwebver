@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>名大非公式wiki</title>
+  <link rel="icon" type="image/png" href="img/icon.jpg">
+  <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-auth.js"></script>
+  <script>
+    var firebaseConfig = {
+      apiKey: "AIzaSyD3ogaiRPtv870uTBDjI3S42LKTC1hlLrM",
+      authDomain: "nuwiki2024.firebaseapp.com",
+      databaseURL: "https://nuwiki2024-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "nuwiki2024",
+      storageBucket: "nuwiki2024.appspot.com",
+      messagingSenderId: "117360974314",
+      appId: "1:117360974314:web:61f450a0ae18d958627a93",
+      measurementId: "G-PWX9FWE8T3"
+    };
+    firebase.initializeApp(firebaseConfig);
+
+    // Firebase のユーザー状態を監視
+    firebase.auth().onAuthStateChanged(function (user) {
+      if (user) {
+        // ログインしている場合の処理
+        document.querySelector(".login-bar").innerHTML = "ログイン済み：" ;
+      }
+      else {
+        // ログインしていない場合の処理
+        document.querySelector(".login-bar").innerHTML = "<a href='login.html' class=login_text>ログイン</a>";
+      }
+    });
+
+    function logout() {
+      firebase.auth().signOut().then(function () {
+        // Sign-out successful.
+        window.location.reload(); // ページをリロードしてログアウト状態を反映
+      }).catch(function (error) {
+        // An error happened.
+        console.error("ログアウトエラー", error);
+      });
+    }
+  </script>
+
+
+
+  <link rel="stylesheet" href="style_index.css">
+  <style>
+    h4{
+      text-align: center;
+            color:whitesmoke;
+            background-color: plum;
+            font-size: larger;
+    }
+    h5{
+            text-align: center;
+            color:red;
+            font-size: large;
+          }
+          h6{
+            text-align: center;
+            background-color: pink;
+            color: rgb(255, 255, 255);
+            padding: 10px;
+            font-size:large;
+          }
+          #special {
+  color: red;
+}
+.container {
+      width: 100%;
+      height: 50vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+   
+          </style>
+</head>
+
+<body>
+  <div class="wrapper_all">
+    <div class="login-bar">
+      <div class="login_icon"></div>
+    </div>
+    <header>
+      <div class="header_item">
+        <h1><span>名古屋大学</span><span>非公式wiki</span></h1>
+        <h2>~NU wiki unofficial~</h2>
+      </div>
+    </header>
+
+    <div class="tab-wrapper">
+      <div class="tab-container">
+        <div class="tab" onclick="openTab('genre1')">初めに</div>
+        <div class="tab" onclick="openTab('genre2')">お役立ち情報</div>
+        <div class="tab" onclick="openTab('genre3')">部活動/サークル情報</div>
+        <div class="tab" onclick="openTab('genre4')">コラム/各種まとめ</div>
+        <div class="tab" onclick="openTab('genre5')">ホーム</div>
+        <div class="tab" onclick="openTab('genre6')">部活動/サークル関係者へ</div>
+      </div>
+    </div>
+    <!-- <div class="nav">
+    <div class="nav_container">
+      <div class="nav_item" onclick="openTab('genre1')">初めに</div>
+      <div class="nav_item" onclick="openTab('genre2')">お役立ち情報</div>
+      <div class="nav_item" onclick="openTab('genre3')">部活動/サークル情報</div>
+      <div class="nav_item" onclick="openTab('genre4')">各種まとめ</div>
+    </div>
+  　</div> -->
+    <div id="genre1" class="content">
+      <!-- Content for Genre 1 -->
+      <a href="index.html">本サイトについて</a>
+      <!-- <a href="register.html">新規登録</a> -->
+      <a href="login.html">ログイン/新規登録</a>
+      
+      <a href="">管理人紹介(coming soon)</a>
+    </div>
+
+    <div id="genre2" class="content">
+      <!-- Content for Genre 2 -->
+      <a href="#site4">マップ(準備中)</a>
+      <a href="#site5">周辺イベントまとめ(準備中)</a>
+      <a href="work_regist.html">アルバイト情報登録</a>
+      <a href="work_show.html">アルバイト情報一覧</a>
+    </div>
+
+    <div id="genre3" class="content">
+      <!-- Content for Genre 3 -->
+      <a href="club_show.html">サークル一覧</a>
+      <a href="club_carender.html">新歓カレンダー</a>
+      <a href="research.html">部活ID検索</a>
+      <a href="research2.html">新歓ID検索</a>
+    </div>
+
+    <div id="genre4" class="content">
+      <!-- Content for Genre 4 -->
+      <a href="zyugyou.html">授業・教授まとめ</a>
+      <a href="coram.html">コラム</a>
+    </div>
+    <div id="genre5" class="content">
+      <!-- Content for Genre 5 -->
+      <a href="user_home.html">ユーザーホーム</a>
+      <a href="club_home.html">部活動/サークルホーム</a>
+    </div>
+    <div id="genre6" class="content">
+      <!-- Content for Genre 6 -->
+      <a href="password2.html">新歓情報追加</a>
+      <a href="password1.html">部活/サークル情報追加</a>
+  </div>
+  <script>
+    function openTab(tabName) {
+      // Hide all content divs
+      var contentDivs = document.getElementsByClassName("content");
+      for (var i = 0; i < contentDivs.length; i++) {
+        contentDivs[i].classList.remove("active");
+      }
+
+      // Show the selected content div
+      var selectedContentDiv = document.getElementById(tabName);
+      selectedContentDiv.classList.add("active");
+
+      // Remove active class from all tabs
+      var tabs = document.getElementsByClassName("tab");
+      for (var i = 0; i < tabs.length; i++) {
+        tabs[i].classList.remove("active");
+        // tabs[i].style.backgroundColor = 'gray'; // Reset color of non-active tabs
+      }
+
+      // Add active class to the selected tab
+      var selectedTab = document.querySelector("[onclick=\"openTab('" + tabName + "')\"]");
+      selectedTab.classList.add("active");
+      // selectedTab.style.backgroundColor = 'gray'; // Change color of active tab
+    }
+  </script>
+  <main>
+    <h3>名大生のヒトリゴト</h3>
+  </main>
+    <p>名大生が徒然なるままに書き上げた力作コラムまとめ。ジャンル、内容も多種多様。お気に入りのライターを見つけよう。</p>
+  <br>
+  <h5>Vo.2 TOEFLE/criterionおよびサバイバルまとめ</h5>
+  <h4>このコラムを書いた人</h4>
+  <br>
+
+  <div style="float: left; margin-right: 20px;">
+    <img src="img/RIO.png" style="max-width: 250px; max-height: 180px;">
+  </div>
+  初めまして。ライター兼非公式wikiサークル長のろずです。<br>
+名大生が不安を抱きがちなTOEFLEについて、ミスってpre-Aになった私から詳しく説明していきます。
+
+<br>
+  <br>
+  <br>
+  <br>
+  <br>
+
+  <h6>TOEFLE/criterionの受験について</h6>
+  <p>名古屋大学では入学時/一年生秋学期/三年生秋学期の三回TOEFLE/criterionを受験する必要がある。入学時の試験は英語のクラス分けに使用される重要なものであるので以下に詳細な解説を掲載する。
+  </p>
+  <br>
+  1,TOEFLEの詳細<br>
+  名古屋大学で受験することとなるTOEFLEは、団体向けテストプログラムであるTOEFLE ITPテストのLevel 1(高難易度)であり、リスニング/文法/リーディングの3セクションに分かれている。
+  各セクションの回答時間は35分/25分/55分である。
+  個人向けテストプログラムTOEFLE iBTとは違い留学審査には通常は用いられないことに注意。<br>
+  2,スコアについて<br>
+満点677点で、リスニング/文法/リーディングそれぞれ68点/68点/67点の配点で、各セクションのスコアの合計を10倍し3で割ったのち四捨五入したものがスコアとなる。
+各セクションのスコアは以下のように決定される。
+
+
+  <img src="img/score.jpg" >
+</div>
+
+<br>
+  <h6>criterionの詳細</h6>
+  ①criterionとは？<br>
+パソコンを用いて英語のエッセイを提出し採点を受ける試験。<br>
+②スコアについて<br>
+最高点6点で採点される。<br>
+文字数が一定以上に達しているか、趣旨に沿った内容が書けているか、文法的に正しいかが判断基準。<br>
+
+ <h6> クラスについて</h6>
+ ①クラスの詳細<br>
+ ・Aクラス:最高位クラス。外国人教師が担当し、非常に高いレベルの授業が行われる。<p id="special">一限授業。</p><br>
+ ・Pre-Aクラス:2番目のクラス。レベル高めの授業。<p id="special">一限授業。</p><br>
+ ・Bクラス:一般クラス。基本一限以外に授業がある。<br>
+ ・Cクラス(サバイバル):Bクラス授業+サバイバル授業(一限授業)。<p id="special">課題二倍。</p>所定年度までに単位を取得しないと卒業することができない。<nr></nr>
+ ②クラス分けについて<br>
+ ほとんどcriterionは関係せずほとんどTOEFLEのスコアで決定される。<br>
+ スコア550~:A<br>
+ スコア520~549:Pre-A<br>
+ スコア450~519:B<br>
+ スコア~449:C<br>
+ つまり全セクションの合計点が135点あればよいので
+ 全て同点を取るならば各セクションで45点程度、つまり四割程度取ればCは回避可能。
+ 
+ 
+
+ <h6>e-learningについて</h6>
+ 全クラスそれぞれに出題されるオンライン課題であり成績評価の2割を占める。
+全12ユニットで3回に分けて実施される。
+まじめにやると1ユニットあたり1~2時間かかるので早めにやっておいたほうがいい。
+余談だが同クラスの問題は統一でありかつBとサバイバルは全問題、BとPre-Aはリーディング以外が統一である。
+
+
+
+<h6>よくある疑問 </h6>
+Q:どの程度の割合の人がサバイバルクラスになりますか？<br>
+A:以下の図をご覧ください。<br>
+Bの人数は算出方法の関係で不正確な場合があります。左図は2023年集計の資料です年度により変動します。<br>
+全体でみるとサバイバル:199人(9.3%)/B:1437人(67.8%)/Pre-A:278人(13.1%)/A:206人(9.7%)<br>
+と分布している。<br>
+Q: どの程度勉強すべき？<br>
+A:TOEFL ITPにおけるスコア450は英検だと大体2級程度に当たります。
+ですので、<p id="special">名大に合格した皆様は基本的に心配しなくて大丈夫です。</p>
+Q: 当日試験を受けないとどうなる？<br>
+A: 強制的にサバイバルです<br>
+Q:どんな勉強をすればいい？<br>
+A:単語帳を買って見ておくのがオススメです。教材セットを活用したという人は筆者の周辺にはいませんので買わなくてもよいでしょう。
+<h5>重要!!!!!!!!!!!!!!</h5>
+Q:やっぱりサバイバルは避けるべきでしょうか…<br>
+A:当然回避するに越したことはありませんが、<p id="special">pre-Aの方もできれば避けるべきだと思います。</p>
+サバイバルは一限授業が一個増えるだけですが、<p id="special">pre-Aは春/秋と２つも増えます。</p>
+Aは自信もつきますし力もつきますが、<p id="special">pre-Aは中途半端で辛さが勝ちました。</p>
+<div style="display: flex; justify-content: center;">
+  <img src="img/tofle.jpg">
+</div>
+ <br>
+ <br>
+ <br>
+ <br>
+ 
+<h4>他の投稿は↓から</h4>
+<a href="hinagata.html">名大非公式wiki完成までのログ</a>
+<p></p>
+
+<br>
+<br>
+
+
+
+
+  
+  <footer>
+    <div style="display: flex; justify-content: space-between;">
+      <div>
+        連絡先
+        <p><img src="img/twitter.jpg" style="height: 1em;"> <a href="https://twitter.com/your_twitter_handle">Twitter</a></p>
+      </div>
+      <div>
+        <h4>タブ</h4>
+        <p><a href="#genre1">初めに</a><a href="#genre2">お知らせ</a><a href="#genre3">部活動/サークル情報</a><a href="#genre4">各種まとめ</a></p>
+        <p><a href="#link1-1">リンク1-1</a><a href="#link2-1">リンク2-1</a></p>
+        <p><a href="#link1-2">リンク1-2</a></p>
+      </div>
+    </div>
+    <p>&#169; meidaiwiki2024</p>
+  </footer>
+
+
+</body>
+</html>

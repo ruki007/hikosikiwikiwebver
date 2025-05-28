@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-auth.js"></script>
+  <script>
+    // Firebaseの設定情報を入力します
+    var firebaseConfig = {
+        apiKey: "AIzaSyD3ogaiRPtv870uTBDjI3S42LKTC1hlLrM",
+  authDomain: "nuwiki2024.firebaseapp.com",
+  databaseURL: "https://nuwiki2024-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "nuwiki2024",
+  storageBucket: "nuwiki2024.appspot.com",
+  messagingSenderId: "117360974314",
+  appId: "1:117360974314:web:61f450a0ae18d958627a93",
+  measurementId: "G-PWX9FWE8T3"
+    };
+    firebase.initializeApp(firebaseConfig);
+  </script>
+  <script src="https://www.gstatic.com/firebasejs/ui/3.5.2/firebase-ui-auth__ja.js"></script>
+  <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+</head>
+<body>
+  <div id="firebaseui-auth-container"></div>
+  <script>
+    // FirebaseUIのインスタンスを作成します
+    var ui = new firebaseui.auth.AuthUI(firebase.auth());
+
+    // FirebaseUIの設定をします
+    var uiConfig = {
+      callbacks: {
+        signInSuccessWithAuthResult: function(authResult, redirectUrl) {
+          // ログイン成功時の処理を書きます
+          return true;
+        },
+        uiShown: function() {
+          // UIが表示された時の処理を書きます
+        }
+      },
+      // ログイン完了後のリダイレクト先を指定します
+      signInSuccessUrl: 'index.html',
+      // ログイン方法を指定します
+      signInOptions: [
+        // メール/パスワードのみを有効にします
+        firebase.auth.EmailAuthProvider.PROVIDER_ID
+      ],
+      // 利用規約のURLを指定します
+      tosUrl: '<your-tos-url>',
+      // プライバシーポリシーのURLを指定します
+      privacyPolicyUrl: '<your-privacy-policy-url>'
+    };
+
+    // FirebaseUIを開始します
+    ui.start('#firebaseui-auth-container', uiConfig);
+  </script>
+</body>
+</html>

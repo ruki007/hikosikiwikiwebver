@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>部活動/サークル登録フォーム</title>
+    <style>
+        /* CSSスタイルをここに追加 */
+    </style>
+</head>
+<body>
+    <form id="form">
+        <label>部活動/サークル名:</label><br>
+        <input type="text" id="clubName" required><br>
+        <label>活動頻度:</label><br>
+        <select id="frequency" required>
+            <option value="0">1回/2月</option>
+            <option value="1">1回/月</option>
+            <option value="2">2回/月</option>
+            <option value="3">1回/週</option>
+            <option value="4">2回/週</option>
+            <option value="5">3回/週</option>
+            <option value="6">4回/週</option>
+            <option value="7">5回/週</option>
+            <option value="8">6回/週</option>
+            <option value="9">7回/週</option>
+        </select><br>
+        <label>年会費:</label><br>
+        <input type="number" id="annualFee" required pattern="\d*"><br>
+        <label>イベント会費:</label><br>
+        <input type="number" id="eventFee" required pattern="\d*"><br>
+        <label>所属人数:</label><br>
+        <input type="number" id="members" required pattern="\d*"><br>
+        <label>アピールポイント:</label><br>
+        <textarea id="appeal" maxlength="4000"></textarea><br>
+        <label>注意点:</label><br>
+        <textarea id="caution" maxlength="4000"></textarea><br>
+        <label>タグ:</label><br>
+        <input type="checkbox" id="tags" value="初心者歓迎">初心者歓迎<br>
+        <input type="checkbox" id="tags" value="経験者募集">経験者募集<br>
+        <input type="checkbox" id="tags" value="先輩が優しい">先輩が優しい<br>
+        <label>年間スケジュール:</label><br>
+        <div id="schedule">
+            <div>
+                <label>月:</label>
+                <input type="number" id="schedule[0][month]" min="1" max="12" required pattern="\d*"><br>
+                <label>イベント名:</label>
+                <input type="text" name="schedule[0][name]"><br>
+                <label>期間:</label>
+                <input type="text" name="schedule[0][period]"><br>
+                <label>内容:</label>
+                <textarea name="schedule[0][content]"></textarea><br>
+                <label>費用:</label><br>
+                <input type="number" name="schedule[0][cost]" pattern="\d*"><br>
+            </div>
+        </div>
+        <button type="button" id="addSchedule">+ 追加</button><br>
+        <label>必要物品:</label><br>
+        <div id="items">
+            <div>
+                <label>物品:</label>
+                <input type="text" name="items[0][name]"><br>
+                <label>値段:</label>
+                <input type="number" name="items[0][price]" pattern="\d*"><br>
+            </div>
+        </div>
+        <button type="button" id="addItem">+ 追加</button><br>
+        <label>活動強制度:</label><br>
+        <select id="participation" required>
+            <option value="絶対参加">絶対参加</option>
+            <option value="正当な理由があれば欠席可能">正当な理由があれば欠席可能</option>
+            <option value="特定割合の出席は絶対">特定割合の出席は絶対</option>
+            <option value="連絡すれば欠席可能">連絡すれば欠席可能</option>
+            <option value="基本自由参加">基本自由参加</option>
+        </select><br>
+        <label>写真1: <input type="file" id="photo1" accept=".jpg"></label><br>
+        <label>写真2: <input type="file" id="photo2" accept=".jpg"></label><br>
+        <label>連絡先:</label><br>
+        <input type="text" id="contactTwitter" placeholder="Twitter"><br>
+        <input type="text" id="contactInstagram" placeholder="Instagram"><br>
+        <input type="text" id="contactWeb" placeholder="Web"><br>
+        <input type="text" id="contactDiscord" placeholder="Discord"><br>
+
+        <button type="submit">送信</button>
+    </form>
+
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-storage.js"></script>
+
+    <script>
+    
+    const firebaseConfig = {
+        apiKey: "AIzaSyD3ogaiRPtv870uTBDjI3S42LKTC1hlLrM",
+        authDomain: "Pnuwiki2024.firebaseapp.com",
+        databaseURL: "https://nuwiki2024.firebaseio.com",
+        projectId: "nuwiki2024",
+        storageBucket: "nuwiki2024.appspot.com",
+        messagingSenderId: "117360974314",
+        appId: "1:117360974314:web:b42c367177476d0b627a93",
+        measurementId: "G-7M672MYCDY",
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    document.getElementById('addItem').addEventListener('click', function() {
+        const div = document.getElementById('items');
+        const itemDiv = document.createElement('div');
+    
+        const nameLabel = document.createElement('label');
+        nameLabel.textContent = '物品: ';
+        const nameInput = document.createElement('input');
+        nameInput.type = 'text';
+        nameInput.name = 'items[0][name]';
+        nameLabel.appendChild(nameInput);
+    
+        const priceLabel = document.createElement('label');
+        priceLabel.textContent = '値段: ';
+        const priceInput = document.createElement('input');
+        priceInput.type = 'number';
+        priceInput.name = 'items[0][price]';
+        priceInput.pattern = '\\d*';
+        priceLabel.appendChild(priceInput);
+    
+        itemDiv.appendChild(nameLabel);
+        itemDiv.appendChild(document.createElement('br'));
+        itemDiv.appendChild(priceLabel);
+        itemDiv.appendChild(document.createElement('br'));
+    
+        div.appendChild(itemDiv);
+    });
+    document.getElementById('addSchedule').addEventListener('click', function() {
+        const div = document.getElementById('schedule');
+        const scheduleDiv = document.createElement('div');
+    
+        const monthLabel = document.createElement('label');
+        monthLabel.textContent = '月: ';
+        const monthInput = document.createElement('input');
+        monthInput.type = 'number';
+        monthInput.name = 'schedule[0][month]';
+        monthInput.min = '1';
+        monthInput.max = '12';
+        monthInput.required = true;
+        monthInput.pattern = '\\d*';
+        monthLabel.appendChild(monthInput);
+    
+        const nameLabel = document.createElement('label');
+        nameLabel.textContent = 'イベント名: ';
+        const nameInput = document.createElement('input');
+        nameInput.type = 'text';
+        nameInput.name = 'schedule[0][name]';
+        nameLabel.appendChild(nameInput);
+    
+        const periodLabel = document.createElement('label');
+        periodLabel.textContent = '期間: ';
+        const periodInput = document.createElement('input');
+        periodInput.type = 'text';
+        periodInput.name = 'schedule[0][period]';
+        periodLabel.appendChild(periodInput);
+    
+        const contentLabel = document.createElement('label');
+        contentLabel.textContent = '内容: ';
+        const contentInput = document.createElement('textarea');
+        contentInput.name = 'schedule[0][content]';
+        contentLabel.appendChild(contentInput);
+    
+        const costLabel = document.createElement('label');
+        costLabel.textContent = '費用: ';
+        const costInput = document.createElement('input');
+        costInput.type = 'number';
+        costInput.name = 'schedule[0][cost]';
+        costInput.pattern = '\\d*';
+        costLabel.appendChild(costInput);
+    
+        scheduleDiv.appendChild(monthLabel);
+        scheduleDiv.appendChild(document.createElement('br'));
+        scheduleDiv.appendChild(nameLabel);
+        scheduleDiv.appendChild(document.createElement('br'));
+        scheduleDiv.appendChild(periodLabel);
+        scheduleDiv.appendChild(document.createElement('br'));
+        scheduleDiv.appendChild(contentLabel);
+        scheduleDiv.appendChild(document.createElement('br'));
+        scheduleDiv.appendChild(costLabel);
+        scheduleDiv.appendChild(document.createElement('br'));
+    
+        div.appendChild(scheduleDiv);
+    });
+
+    // 予約フォームのリンクを作成する関数
+    const createReservationFormLink = async (partyId) => {
+        // ここで予約フォームのリンクを作成します
+        return 'https://yourwebsite.com/reservation.html?partyId=' + partyId;
+    };
+
+    document.getElementById('form').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        // 写真のinput要素を取得
+        const photo1 = document.getElementById('photo1').files[0];
+        const photo2 = document.getElementById('photo2').files[0];
+
+        // 写真をFirebase Storageにアップロードする関数
+        const uploadPhoto = async (photo, name) => {
+            if (!photo) return null;
+            const storageRef = firebase.storage().ref();
+            const photoRef = storageRef.child('photos/' + name);
+            try {
+                await photoRef.put(photo);
+                return await photoRef.getDownloadURL();
+            } catch (error) {
+                throw new Error('写真のアップロードに失敗しました: ' + error.message);
+            }
+        };
+
+        // 定員分の文字列を保持できるドキュメントを作成する関数
+const createPartyMemberDocument = async (capacity) => {
+    const data = {};
+    for(let i = 0; i < capacity; i++) {
+        data[i] = '';
+    }
+    try {
+        const docRef = await db.collection('party_member').add(data);
+        return docRef.id;
+    } catch (error) {
+        throw new Error('ドキュメントの作成に失敗しました: ' + error.message);
+    }
+};
+
+
+        // 写真をアップロード
+        Promise.all([
+            uploadPhoto(photo1, 'photo1'),
+            uploadPhoto(photo2, 'photo2')
+        ]).then(([photo1Url, photo2Url]) => {
+            // 写真のURLを含むデータを作成
+            const data = {
+                clubName: document.getElementById('clubName').value,
+                frequency: document.getElementById('frequency').value,
+                annualFee: document.getElementById('annualFee').value,
+                eventFee: document.getElementById('eventFee').value,
+                members: document.getElementById('members').value,
+                appeal: document.getElementById('appeal').value,
+                caution: document.getElementById('caution').value,
+                tags: Array.from(document.getElementsByClassName('tags')).map(input => input.value),
+                schedule: Array.from(document.getElementsByClassName('schedule')).map(input => input.value),
+                items: Array.from(document.getElementsByClassName('items')).map(input => input.value),
+                participation: document.getElementById('participation').value,
+                photo1: photo1Url,
+                photo2: photo2Url,
+                contactTwitter: document.getElementById('contactTwitter').value,
+                contactTwitter: document.getElementById('contactInstagram').value,
+                contactTwitter: document.getElementById('contactWeb').value,
+                contactTwitter: document.getElementById('contactDiscord').value
+            };
+
+            // データをFirestoreに保存
+            db.collection('clubs_data').add(data).then(function(docRef) {
+                // 予約フォームのリンクを作成
+                createReservationFormLink(docRef.id).then(function(link) {
+                    // リンクをデータに追加
+                    db.collection('clubs_data').doc(docRef.id).update({
+                        reservationFormLink: link
+                    }).then(function() {
+                        window.location.href = 'index.html';
+                        alert('送信に成功しました！');
+                    }).catch(function(error) {
+                        alert('Firestoreへの保存に失敗しました: ' + error.message);
+                    });
+                }).catch(function(error) {
+                    alert('予約フォームのリンクの作成に失敗しました: ' + error.message);
+                });
+            }).catch(function(error) {
+                alert('Firestoreへの保存に失敗しました: ' + error.message);
+            });
+        }).catch(function(error) {
+            alert(error.message);
+        });
+    });
+
+    </script>
+</body>

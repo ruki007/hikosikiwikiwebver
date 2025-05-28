@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Club Show</title>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style_club_show.css">
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
+  <link rel="icon" type="image/png" href="img/icon.jpg">
+
+</head>
+
+<body>
+  <div class="openbtn1"><span></span><span></span><span></span></div>
+  <nav id="g-nav">
+    <div id="g-nav-list">
+      <div class="accordion">
+        <a class="listitem" href="index.html">TOP</a>
+
+        <div class="option">
+          <input type="checkbox" id="toggle2" class="toggle">
+          <label class="title" for="toggle2">初めに</label>
+          <div class="content2">
+            <li><a class="nav-item underline" href="index.html">本サイトについて</a></li>
+            <li><a class="nav-item underline" href="login.html">ログイン/新規登録</a></li>
+            <li><a class="nav-item underline" href="index.html">管理人紹介(coming soon)</a></li>
+            <li><a class="nav-item underline" href="#"></a></li>
+          </div>
+        </div>
+
+        <div class="option">
+          <input type="checkbox" id="toggle3" class="toggle">
+          <label class="title" for="toggle3">お役立ち情報</label>
+          <div class="content2">
+            <li><a class="nav-item underline" href="#">マップ</a></li>
+            <li><a class="nav-item underline" href="#">周辺イベントまとめ(準備中)</a></li>
+            <li><a class="nav-item underline" href="#">アルバイト情報登録</a></li>
+            <li><a class="nav-item underline" href="#">アルバイト情報一覧</a></li>
+            <li><a class="nav-item underline" href="#"></a></li>
+          </div>
+        </div>
+
+        <div class="option">
+          <input type="checkbox" id="toggle4" class="toggle">
+          <label class="title" for="toggle4">部活動/サークル情報</label>
+          <div class="content2">
+            <li><a class="nav-item underline" href="club_show.html">サークル一覧</a></li>
+            <li><a class="nav-item underline" href="club_calendar copy.html">新歓カレンダー</a></li>
+            <li><a class="nav-item underline" href="research.html">部活ID検索</a></li>
+            <li><a class="nav-item underline" href="research2.html">新歓ID検索</a></li>
+            <li><a class="nav-item underline" href="#"></a></li>
+          </div>
+        </div>
+
+        <div class="option">
+          <input type="checkbox" id="toggle5" class="toggle">
+          <label class="title" for="toggle5">コラム/各種まとめ</label>
+          <div class="content2">
+            <li><a class="nav-item underline" href="zyugyou.html">授業・教授まとめ</a></li>
+            <li><a class="nav-item underline" href="coram.html">コラム</a></li>
+            <li><a class="nav-item underline" href="#"></a></li>
+          </div>
+        </div>
+
+        <div class="option">
+          <input type="checkbox" id="toggle7" class="toggle">
+          <label class="title" for="toggle7">ホーム</label>
+          <div class="content2">
+            <li><a class="nav-item underline" href="user_home.html">ユーザーホーム</a></li>
+            <li><a class="nav-item underline" href="club_home.html">部活動/サークルホーム</a></li>
+            <li><a class="nav-item underline" href="#"></a></li>
+          </div>
+        </div>
+
+        <div class="option">
+          <input type="checkbox" id="toggle6" class="toggle">
+          <label class="title" for="toggle6">部活動/サークル関係者へ</label>
+          <div class="content2">
+            <li><a class="nav-item underline" href="party_regist.html">新歓情報追加</a></li>
+            <li><a class="nav-item underline" href="club_regist.html">部活/サークル情報追加</a></li>
+            <li><a class="nav-item underline" href="#"></a></li>
+
+          </div>
+        </div>
+
+        <a class="listitem2" href="#">LOGIN</a>
+
+      </div>
+  </nav>
+  <div class="wrapper_all">
+    <header>
+      <h1>サークル一覧</h1>
+    </header>
+    <div class="wrapper_body">
+      <div class="container_input">
+        <input type="text" id="nameSearch" placeholder="Search by name">
+        <select id="frequencySearch">
+          <option value="">Select frequency...</option>
+          <option value="0">1回/2月</option>
+          <option value="1">1回/月</option>
+          <option value="2">2回/月</option>
+          <option value="3">1回/週</option>
+          <option value="4">2回/週</option>
+          <option value="5">3回/週</option>
+          <option value="6">4回/週</option>
+          <option value="7">5回/週</option>
+          <option value="8">6回/週</option>
+          <option value="9">7回/週</option>
+        </select>
+        <input type="number" id="annualFeeSearch" placeholder="Search by annual fee">
+      </div>
+
+      <div id="tagSearch">
+        <div class="tag_check"><input type="checkbox" id="tag1"><span>初心者歓迎</span></div>
+        <div class="tag_check"><input type="checkbox" id="tag2"><span>経験者募集</span></div>
+        <div class="tag_check"><input type="checkbox" id="tag3"><span>インカレあり</span></div>
+        <div class="tag_check"><input type="checkbox" id="tag4"><span>合宿あり</span></div>
+        <div class="tag_check"><input type="checkbox" id="tag5"><span>飲み会多め</span></div>
+        <div class="tag_check"><input type="checkbox" id="tag6"><span>ゆる～く楽しみたい方へ</span></div>
+        <div class="tag_check"><input type="checkbox" id="tag7"><span>部活/サークルも勉強も楽しみたい方へ</span></div>
+        <div class="tag_check"><input type="checkbox" id="tag8"><span>部活/サークルに青春をささげたい方へ</span></div>
+        <div class="tag_check"><input type="checkbox" id="tag9"><span>新しいことを始めたいあなたへ</span></div>
+      </div>
+      <div class="container_button">
+        <button onclick="search()">Search</button>
+        <button onclick="resetSearch()">Reset</button>
+      </div>
+      <div id="club-list"></div>
+    </div>
+
+  </div>
+
+  <br>
+  <br>
+  <br>
+  <br>
+  <footer>
+
+    <iframe src="./footer.html" frameborder="0" id="footer" role="presentation"></iframe>
+
+  </footer>
+
+  <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-auth.js"></script>
+  <script>
+    var firebaseConfig = {
+      apiKey: "AIzaSyD3ogaiRPtv870uTBDjI3S42LKTC1hlLrM",
+      authDomain: "Pnuwiki2024.firebaseapp.com",
+      databaseURL: "https://nuwiki2024.firebaseio.com",
+      projectId: "nuwiki2024",
+      storageBucket: "nuwiki2024.appspot.com",
+      messagingSenderId: "117360974314",
+      appId: "1:117360974314:web:b42c367177476d0b627a93",
+      measurementId: "G-7M672MYCDY"
+    };
+    firebase.initializeApp(firebaseConfig);
+    var db = firebase.firestore();
+    firebase.auth().onAuthStateChanged(function(user) {
+    if (!user) {
+      // ログインしていない場合はlogin.htmlにリダイレクト
+      window.location.replace("login.html");
+    }
+  });
+    function search() {
+      var nameSearch = document.getElementById('nameSearch').value.toLowerCase();
+      var frequencySearch = document.getElementById('frequencySearch').value;
+      var annualFeeSearch = document.getElementById('annualFeeSearch').value;
+      var tag1Search = document.getElementById('tag1').checked;
+      var tag2Search = document.getElementById('tag2').checked;
+      var tag3Search = document.getElementById('tag3').checked;
+      var tag4Search = document.getElementById('tag4').checked;
+      var tag5Search = document.getElementById('tag5').checked;
+      var tag6Search = document.getElementById('tag6').checked;
+      var tag7Search = document.getElementById('tag7').checked;
+      var tag8Search = document.getElementById('tag8').checked;
+      var tag9Search = document.getElementById('tag9').checked;
+
+      db.collection("circles").get().then((querySnapshot) => {
+        var clubListDiv = document.getElementById('club-list');
+        clubListDiv.innerHTML = '';
+        querySnapshot.forEach((doc) => {
+          var data = doc.data();
+          var name = data.name.toLowerCase();
+          var frequency = data.frequency;
+          var annualFee = data.annualFee;
+          var tag1 = data.tag1;
+          var tag2 = data.tag2;
+          var tag3 = data.tag3;
+          var tag4 = data.tag4;
+          var tag5 = data.tag5;
+          var tag6 = data.tag6;
+          var tag7 = data.tag7;
+          var tag8 = data.tag8;
+          var tag9 = data.tag9;
+
+          if ((nameSearch && !name.includes(nameSearch)) ||
+            (frequencySearch && frequency < frequencySearch) ||
+            (annualFeeSearch && annualFee > annualFeeSearch) ||
+            (tag1Search && !tag1) ||
+            (tag2Search && !tag2) ||
+            (tag3Search && !tag3) ||
+            (tag4Search && !tag4) ||
+            (tag5Search && !tag5) ||
+            (tag6Search && !tag6) ||
+            (tag7Search && !tag7) ||
+            (tag8Search && !tag8) ||
+            (tag9Search && !tag9)) {
+            return;
+          }
+
+          var appeal = data.appeal;
+          var clubDiv = document.createElement('div');
+          clubDiv.className = 'club-box';
+          var clubLink = document.createElement('a');
+          clubLink.textContent = name;
+          clubLink.href = 'club_detail.html?clubId=' + doc.id;
+          clubDiv.appendChild(clubLink);
+          clubDiv.appendChild(document.createTextNode(' - ' + appeal));
+          clubListDiv.appendChild(clubDiv);
+        });
+      });
+    }
+
+    function resetSearch() {
+      document.getElementById('nameSearch').value = '';
+      document.getElementById('frequencySearch').value = '';
+      document.getElementById('annualFeeSearch').value = '';
+      document.getElementById('tag1').checked = false;
+      document.getElementById('tag2').checked = false;
+      document.getElementById('tag3').checked = false;
+      document.getElementById('tag4').checked = false;
+      document.getElementById('tag5').checked = false;
+      document.getElementById('tag6').checked = false;
+      document.getElementById('tag7').checked = false;
+      document.getElementById('tag8').checked = false;
+      document.getElementById('tag9').checked = false;
+      search();
+    }
+
+    window.onload = search;
+
+    $(".openbtn1").click(function () {
+      $(this).toggleClass('active');//ボタンがクリックされたらactiveを付与
+      $("#g-nav").toggleClass('panelactive');//ナビゲーションにpanelactiveを付与
+    });
+
+    $("#g-nav a").click(function () {
+      $(".openbtn1").removeClass('active');//リンクがクリックされたらactiveを除去
+      $("#g-nav").removeClass('panelactive');//ナビゲーションのpanelactiveを除去
+    });
+
+    $(function () {
+      $(window).scroll(function () {
+        $('.js-fade').each(function () {//スクロールされたときにフェードイン
+          var pos = $(this).offset().top;
+          var scroll = $(window).scrollTop();
+          var windowHeight = $(window).height();
+          if (scroll > pos - windowHeight + 100) {
+            $(this).addClass('scroll');
+          }
+        });
+      });
+    });
+
+
+    // eachTextAnimeにappeartextというクラスを付ける
+    function textanimeControl() {
+      $('.textanime').each(function () {
+        var elemPos = $(this).offset().top - 50;
+        var scroll = $(window).scrollTop();
+        var windowHeight = $(window).height();
+        if (scroll >= elemPos - windowHeight) {
+          $(this).addClass("appeartext");
+
+        } else {
+          $(this).removeClass("appeartext");
+        }
+      });
+    }
+
+    // 画面をスクロール時
+    $(window).scroll(function () {
+      textanimeControl();
+    });
+
+    // 画面が読み込まれた時
+    $(window).on('load', function () {
+      var element = $(".textanime");
+      element.each(function () {
+        var text = $(this).text();
+        var textbox = "";
+        text.split('').forEach(function (t, i) {
+          if (t !== " ") {
+            if (i < 10) {
+              textbox += '<span style="animation-delay:.' + i + 's;">' + t + '</span>';
+            } else {
+              var n = i / 10;
+              textbox += '<span style="animation-delay:' + n + 's;">' + t + '</span>';
+            }
+
+          } else {
+            textbox += t;
+          }
+        });
+        $(this).html(textbox);
+      });
+
+      textanimeControl();
+    });        
+  </script>
+</body>
+
+</html>

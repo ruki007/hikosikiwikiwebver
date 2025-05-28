@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>名大非公式wiki</title>
+  <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-auth.js"></script>
+  <script>
+    var firebaseConfig = {
+      apiKey: "AIzaSyD3ogaiRPtv870uTBDjI3S42LKTC1hlLrM",
+      authDomain: "nuwiki2024.firebaseapp.com",
+      databaseURL: "https://nuwiki2024-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "nuwiki2024",
+      storageBucket: "nuwiki2024.appspot.com",
+      messagingSenderId: "117360974314",
+      appId: "1:117360974314:web:61f450a0ae18d958627a93",
+      measurementId: "G-PWX9FWE8T3"
+    };
+    firebase.initializeApp(firebaseConfig);
+
+    // Firebase のユーザー状態を監視
+    firebase.auth().onAuthStateChanged(function (user) {
+      if (user) {
+        // ログインしている場合の処理
+        document.querySelector(".login-bar").innerHTML = "ログイン済み：" + user.email;
+      }
+      else {
+        // ログインしていない場合の処理
+        document.querySelector(".login-bar").innerHTML = "<a href='login.html' class=login_text>ログイン</a>";
+      }
+    });
+
+    function logout() {
+      firebase.auth().signOut().then(function () {
+        // Sign-out successful.
+        window.location.reload(); // ページをリロードしてログアウト状態を反映
+      }).catch(function (error) {
+        // An error happened.
+        console.error("ログアウトエラー", error);
+      });
+    }
+  </script>
+
+
+  <link rel="stylesheet" href="style_index.css">
+</head>
+
+<body>
+  <div class="wrapper_all">
+    <div class="login-bar">
+      <div class="login_icon"></div>
+    </div>
+    <header>
+      <div class="header_item">
+        <h1><span>名古屋大学</span><span>非公式wiki</span><a href=".html">登録</a> </h1>
+        <h2>~NU wiki unofficial~</h2>
+      </div>
+    </header>
+
+    <div class="tab-wrapper">
+      <div class="tab-container">
+        <div class="tab" onclick="openTab('genre1')">初めに</div>
+        <div class="tab" onclick="openTab('genre2')">お役立ち情報</div>
+        <div class="tab" onclick="openTab('genre3')">部活動/サークル情報</div>
+        <div class="tab" onclick="openTab('genre4')">各種まとめ</div>
+      </div>
+    </div>
+    <!-- <div class="nav">
+    <div class="nav_container">
+      <div class="nav_item" onclick="openTab('genre1')">初めに</div>
+      <div class="nav_item" onclick="openTab('genre2')">お役立ち情報</div>
+      <div class="nav_item" onclick="openTab('genre3')">部活動/サークル情報</div>
+      <div class="nav_item" onclick="openTab('genre4')">各種まとめ</div>
+    </div>
+  </div> -->
+    <div id="genre1" class="content">
+      <!-- Content for Genre 1 -->
+      <a href="index.html">本サイトについて</a>
+      <!-- <a href="register.html">新規登録</a> -->
+      <a href="login.html">ログイン/新規登録</a>
+    </div>
+
+    <div id="genre2" class="content">
+      <!-- Content for Genre 2 -->
+      <a href="#site4">マップ</a>
+      <a href="#site5">周辺イベントまとめ</a>
+    </div>
+
+    <div id="genre3" class="content">
+      <!-- Content for Genre 3 -->
+      <a href="club.html">部活/サークル一覧</a>
+      <a href="password.html">部活/サークル情報の追加</a>
+      <a href="show_clubs.html">サークル一覧</a>
+      <a href="bukatu.html">新歓カレンダー</a>
+    </div>
+
+    <div id="genre4" class="content">
+      <!-- Content for Genre 4 -->
+      <a href="zyugyou.html">授業・教授まとめ</a>
+      <a href="coram.html">コラム</a>
+      <a href="#site12">Site 12</a>
+    </div>
+  </div>
+  <script>
+    function openTab(tabName) {
+      // Hide all content divs
+      var contentDivs = document.getElementsByClassName("content");
+      for (var i = 0; i < contentDivs.length; i++) {
+        contentDivs[i].classList.remove("active");
+      }
+
+      // Show the selected content div
+      var selectedContentDiv = document.getElementById(tabName);
+      selectedContentDiv.classList.add("active");
+
+      // Remove active class from all tabs
+      var tabs = document.getElementsByClassName("tab");
+      for (var i = 0; i < tabs.length; i++) {
+        tabs[i].classList.remove("active");
+        // tabs[i].style.backgroundColor = 'gray'; // Reset color of non-active tabs
+      }
+
+      // Add active class to the selected tab
+      var selectedTab = document.querySelector("[onclick=\"openTab('" + tabName + "')\"]");
+      selectedTab.classList.add("active");
+      // selectedTab.style.backgroundColor = 'gray'; // Change color of active tab
+    }
+  </script>
+  <div class="wrapper_all">
+    <main>
+      <h3>初めに</h3>
+      <p>こちらでは、初めてこのサイトをご覧になった方に一度は目を通していただきたい記事です。詳しくは↓に。</p>
+      <h4>本サイトについて</h4>
+      <p>本サイトは有志により作成された名古屋大学の非公式wikiです。<br>情報には多分に主観が含まれますのでご参考程度にご活用ください。</p>
+      <p>また、皆様からの情報を用いて常に更新し続けますので、情報提供をお待ちしております。
+        <br>連絡は<a href="mailto:meidaiwiki2024@gmail.com">こちら</a>まで。
+      </p>
+      <h4>新規登録</h4>
+      <li><a href="register.html">新規登録</a></li>
+      <h4>管理人紹介</h4>
+      <li><a href="ques.html">管理人紹介</a></li>
+      <!-- Add more list items as needed -->
+      <br>
+      <br>
+      <h3>お役立ち情報（仮）</h3>
+      <p>ここでは、名古屋大学でのキャンパスライフをより快適に過ごせるような情報を詰め込みました。（仮案）</p>
+      <h4>マップ</h4>
+      <li><a href="register.html">マップ</a></li>
+      <h4>周辺イベント</h4>
+      <li><a href="event.html">周辺イベント</a></li>
+      <br>
+      <br>
+
+      <h3>部活動・サークルまとめ</h3>
+      <p>ここでは、主に部活動関連を扱っています。新刊情報もこちらにあるので、是非。</p>
+      <a href="club.html">部活/サークル一覧</a>
+      <a href="password.html">部活/サークル情報の追加</a>
+      <a href="show_clubs.html">サークル一覧</a>
+      <br>
+      <br>
+      <h3>各種まとめ</h3>
+      <p>コラムとモラトリアムって韻踏めるよね、っていうギャグくらいの記事まとめです。</p>
+      <a href="zyugyou.php">授業・教授まとめ</a>
+      <a href="coram.html">コラム</a>
+      <a href="#site12">Site 12</a>
+
+    </main>
+  </div class="wrapper_all">
+  <br>
+  <br>
+  <br>
+  <br>
+
+
+
+  <footer>
+    <div class="fotter_tab">
+      <div>
+        <h4>連絡先</h4>
+        <p><a href="https://twitter.com/your_twitter_handle"><img src="./img/x_logo-black.png"
+              style="height: 1em;">Twitter</a></p>
+      </div>
+      <div>
+        <h4>タブ</h4>
+        <p><a href="#genre1">初めに</a><a href="#genre2">お知らせ</a><a href="#genre3">部活動/サークル情報</a><a
+            href="#genre4">各種まとめ</a></p>
+        <p><a href="#link1-1">リンク1-1</a><a href="#link2-1">リンク2-1</a></p>
+        <p><a href="#link1-2">リンク1-2</a></p>
+      </div>
+    </div>
+    <p>&#169; meidaiwiki2024</p>
+  </footer>
+
+</body>
+
+</html>

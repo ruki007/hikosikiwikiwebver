@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>名大非公式wiki</title>
+  <link rel="icon" type="image/png" href="img/icon.jpg">
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-auth.js"></script>
+
+  <script>
+    var firebaseConfig = {
+      apiKey: "AIzaSyD3ogaiRPtv870uTBDjI3S42LKTC1hlLrM",
+      authDomain: "nuwiki2024.firebaseapp.com",
+      databaseURL: "https://nuwiki2024-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "nuwiki2024",
+      storageBucket: "nuwiki2024.appspot.com",
+      messagingSenderId: "117360974314",
+      appId: "1:117360974314:web:61f450a0ae18d958627a93",
+      measurementId: "G-PWX9FWE8T3"
+    };
+    firebase.initializeApp(firebaseConfig);
+
+    // Firebase のユーザー状態を監視
+    firebase.auth().onAuthStateChanged(function (user) {
+      if (user) {
+        // ログインしている場合の処理
+        document.querySelector(".login-bar").innerHTML = "<a class=login_text>ログイン済み</a>";
+      }
+      else {
+        // ログインしていない場合の処理
+        document.querySelector(".login-bar").innerHTML = "<a href='login.html' class=login_text>ログイン</a>";
+      }
+    });
+
+    function logout() {
+      firebase.auth().signOut().then(function () {
+        // Sign-out successful.
+        window.location.reload(); // ページをリロードしてログアウト状態を反映
+      }).catch(function (error) {
+        // An error happened.
+        console.error("ログアウトエラー", error);
+      });
+    }
+  </script>
+
+
+  <link rel="stylesheet" href="style_index.css">
+</head>
+
+<body>
+  <div class="wrapper_all">
+    <div class="login-bar">
+      <div class="login_icon"></div>
+    </div>
+    <header>
+      <div class="header_item">
+        <h1><span>名古屋大学</span><span>非公式wiki</span></h1>
+        <h2>~NU wiki unofficial~</h2>
+      </div>
+    </header>
+
+    <div class="openbtn1"><span></span><span></span><span></span></div>
+    <nav id="g-nav">
+      <div id="g-nav-list">
+        <div class="accordion">
+          <a class="listitem" href="index.html">TOP</a>
+
+          <div class="option">
+            <input type="checkbox" id="toggle2" class="toggle">
+            <label class="title" for="toggle2">初めに</label>
+            <div class="content2">
+              <li><a class="nav-item underline" href="index.html">本サイトについて</a></li>
+              <li><a class="nav-item underline" href="login.html">ログイン/新規登録</a></li>
+              <li><a class="nav-item underline" href="intro.html">管理人紹介</a></li>
+              <li><a class="nav-item underline" href="#"></a></li>
+            </div>
+          </div>
+
+          <div class="option">
+            <input type="checkbox" id="toggle3" class="toggle">
+            <label class="title" for="toggle3">お役立ち情報</label>
+            <div class="content2">
+              <li><a class="nav-item underline" href="#">マップ</a></li>
+              <li><a class="nav-item underline" href="#">周辺イベントまとめ(準備中)</a></li>
+              <li><a class="nav-item underline" href="password3.html">アルバイト情報登録</a></li>
+              <li><a class="nav-item underline" href="work_show.html">アルバイト情報一覧</a></li>
+              <li><a class="nav-item underline" href="#"></a></li>
+            </div>
+          </div>
+
+          <div class="option">
+            <input type="checkbox" id="toggle4" class="toggle">
+            <label class="title" for="toggle4">部活動/サークル情報</label>
+            <div class="content2">
+              <li><a class="nav-item underline" href="club_show.html">サークル一覧</a></li>
+              <!-- <li><a class="nav-item underline" href="club_calendar copy.html">新歓カレンダー</a></li> -->
+              <li><a class="nav-item underline" href="research.html">部活ID検索</a></li>
+              <!-- <li><a class="nav-item underline" href="research2.html">新歓ID検索</a></li> -->
+              <li><a class="nav-item underline" href="#"></a></li>
+            </div>
+          </div>
+
+          <div class="option">
+            <input type="checkbox" id="toggle5" class="toggle">
+            <label class="title" for="toggle5">コラム/各種まとめ</label>
+            <div class="content2">
+              <li><a class="nav-item underline" href="zyugyou.html">授業・教授まとめ</a></li>
+              <li><a class="nav-item underline" href="coram.html">コラム</a></li>
+              <li><a class="nav-item underline" href="#"></a></li>
+            </div>
+          </div>
+
+          <div class="option">
+            <input type="checkbox" id="toggle7" class="toggle">
+            <label class="title" for="toggle7">ホーム</label>
+            <div class="content2">
+              <li><a class="nav-item underline" href="user_home.html">ユーザーホーム</a></li>
+              
+              <li><a class="nav-item underline" href="#"></a></li>
+            </div>
+          </div>
+
+          <div class="option">
+            <input type="checkbox" id="toggle6" class="toggle">
+            <label class="title" for="toggle6">部活動/サークル関係者へ</label>
+            <div class="content2">
+              <!-- <li><a class="nav-item underline" href="password2.html">新歓情報追加</a></li> -->
+              <li><a class="nav-item underline" href="password1.html">部活/サークル情報追加</a></li>
+              <li><a class="nav-item underline" href="password4.html">部活動/サークルホーム</a></li>
+              <li><a class="nav-item underline" href="#"></a></li>
+
+            </div>
+          </div>
+
+          <a class="listitem2" href="#">LOGIN</a>
+
+        </div>
+    </nav>
+
+    <!-- <div class="tab-wrapper">
+      <div class="tab-container">
+        <div class="tab" onclick="openTab('genre1')">初めに</div>
+        <div class="tab" onclick="openTab('genre2')">お役立ち情報</div>
+        <div class="tab" onclick="openTab('genre3')">部活動/サークル情報</div>
+        <div class="tab" onclick="openTab('genre4')">コラム/各種まとめ</div>
+        <div class="tab" onclick="openTab('genre5')">ホーム</div>
+        <div class="tab" onclick="openTab('genre6')">部活動/サークル関係者へ</div>
+      </div> -->
+    </div>
+    <div class="tab-wrapper">
+      <div class="tab-container">
+        <div class="tab" onclick="openTab('genre1')">初めに</div>
+        <div class="tab" onclick="openTab('genre2')">お役立ち情報</div>
+        <div class="tab" onclick="openTab('genre3')">部活動/サークル情報</div>
+        <div class="tab" onclick="openTab('genre4')">コラム/各種まとめ</div>
+        <div class="tab" onclick="openTab('genre5')">ホーム</div>
+        <div class="tab" onclick="openTab('genre6')">部活動/サークル関係者へ</div>
+      </div>
+    </div>
+    <!-- <div class="nav">
+    <div class="nav_container">
+      <div class="nav_item" onclick="openTab('genre1')">初めに</div>
+      <div class="nav_item" onclick="openTab('genre2')">お役立ち情報</div>
+      <div class="nav_item" onclick="openTab('genre3')">部活動/サークル情報</div>
+      <div class="nav_item" onclick="openTab('genre4')">各種まとめ</div>
+    </div>
+  　</div> -->
+    <div id="genre1" class="content">
+      <!-- Content for Genre 1 -->
+      <a href="index.html">本サイトについて</a>
+      <!-- <a href="register.html">新規登録</a> -->
+      <a href="login.html">ログイン/新規登録</a>
+      
+      <a href="intro.html">管理人紹介</a>
+    </div>
+
+    <div id="genre2" class="content">
+      <!-- Content for Genre 2 -->
+      <a href="#site4">マップ(準備中)</a>
+      <a href="#site5">周辺イベントまとめ(準備中)</a>
+      <a href="password3.html">アルバイト情報登録</a>
+      <a href="work_show.html">アルバイト情報一覧</a>
+    </div>
+
+    <div id="genre3" class="content">
+      <!-- Content for Genre 3 -->
+      <a href="club_show.html">サークル一覧</a>
+      <a href="club_calendar copy.html">新歓カレンダー</a>
+      <a href="research.html">部活ID検索</a>
+      <!-- <a href="research2.html">新歓ID検索</a> -->
+    </div>
+
+    <div id="genre4" class="content">
+      <!-- Content for Genre 4 -->
+      <a href="zyugyou.html">授業・教授まとめ</a>
+      <a href="coram.html">コラム</a>
+    </div>
+    <div id="genre5" class="content">
+      <!-- Content for Genre 5 -->
+      <a href="user_home.html">ユーザーホーム</a>
+      <a href="club_home.html">部活動/サークルホーム</a>
+    </div>
+    <div id="genre6" class="content">
+      <!-- Content for Genre 6 -->
+      <!-- <a href="password2.html">新歓情報追加</a> -->
+      <a href="password1.html">部活/サークル情報追加</a>
+  </div>
+    <script>
+      function openTab(tabName) {
+        // Hide all content divs
+        var contentDivs = document.getElementsByClassName("content");
+        for (var i = 0; i < contentDivs.length; i++) {
+          contentDivs[i].classList.remove("active");
+        }
+
+        // Show the selected content div
+        var selectedContentDiv = document.getElementById(tabName);
+        selectedContentDiv.classList.add("active");
+
+        // Remove active class from all tabs
+        var tabs = document.getElementsByClassName("tab");
+        for (var i = 0; i < tabs.length; i++) {
+          tabs[i].classList.remove("active");
+          // tabs[i].style.backgroundColor = 'gray'; // Reset color of non-active tabs
+        }
+
+        // Add active class to the selected tab
+        var selectedTab = document.querySelector("[onclick=\"openTab('" + tabName + "')\"]");
+        selectedTab.classList.add("active");
+        // selectedTab.style.backgroundColor = 'gray'; // Change color of active tab
+      }
+
+      function openTab(tabName) {
+  // Hide all content divs
+  var contentDivs = document.getElementsByClassName("content");
+  for (var i = 0; i < contentDivs.length; i++) {
+    contentDivs[i].classList.remove("active");
+  }
+
+  // Show the selected content div
+  var selectedContentDiv = document.getElementById(tabName);
+  selectedContentDiv.classList.add("active");
+
+  // Remove active class from all tabs
+  var tabs = document.getElementsByClassName("tab");
+  for (var i = 0; i < tabs.length; i++) {
+    tabs[i].classList.remove("active");
+   // Reset color of non-active tabs
+  }
+ 
+  // Add active class to the selected tab
+  var selectedTab = document.querySelector("[onclick=\"openTab('" + tabName + "')\"]");
+  selectedTab.classList.add("active");
+ 
+}
+      //以下追加
+      $(".openbtn1").click(function () {
+        $(this).toggleClass('active');//ボタンがクリックされたらactiveを付与
+        $("#g-nav").toggleClass('panelactive');//ナビゲーションにpanelactiveを付与
+      });
+
+      $("#g-nav a").click(function () {
+        $(".openbtn1").removeClass('active');//リンクがクリックされたらactiveを除去
+        $("#g-nav").removeClass('panelactive');//ナビゲーションのpanelactiveを除去
+      });
+
+      $(function () {
+        $(window).scroll(function () {
+          $('.js-fade').each(function () {//スクロールされたときにフェードイン
+            var pos = $(this).offset().top;
+            var scroll = $(window).scrollTop();
+            var windowHeight = $(window).height();
+            if (scroll > pos - windowHeight + 100) {
+              $(this).addClass('scroll');
+            }
+          });
+        });
+      });
+
+
+      // eachTextAnimeにappeartextというクラスを付ける
+      function textanimeControl() {
+        $('.textanime').each(function () {
+          var elemPos = $(this).offset().top - 50;
+          var scroll = $(window).scrollTop();
+          var windowHeight = $(window).height();
+          if (scroll >= elemPos - windowHeight) {
+            $(this).addClass("appeartext");
+
+          } else {
+            $(this).removeClass("appeartext");
+          }
+        });
+      }
+
+      // 画面をスクロール時
+      $(window).scroll(function () {
+        textanimeControl();
+      });
+
+      // 画面が読み込まれた時
+      $(window).on('load', function () {
+        var element = $(".textanime");
+        element.each(function () {
+          var text = $(this).text();
+          var textbox = "";
+          text.split('').forEach(function (t, i) {
+            if (t !== " ") {
+              if (i < 10) {
+                textbox += '<span style="animation-delay:.' + i + 's;">' + t + '</span>';
+              } else {
+                var n = i / 10;
+                textbox += '<span style="animation-delay:' + n + 's;">' + t + '</span>';
+              }
+
+            } else {
+              textbox += t;
+            }
+          });
+          $(this).html(textbox);
+        });
+
+        textanimeControl();
+      });
+    </script>
+    <div style="width: 95%; margin: auto;" class="wrapper_all">
+      <main>
+        <h3>注意 ログインできない方へ</h3>
+      <p>SafariやGoogle Chromeといった外部ブラウザで開くことを推奨します。SNSから送られたリンクでは、アクセスがブロックされる可能性が高いです。ご協力よろしくお願いします。
+      </p>
+      <h3>注意 新歓予約機能の廃止について</h3>
+
+      <p>トラブル防止のため、新歓予約機能を停止させていただきます。新歓の予約は部活動一覧から該当部活へご連絡ください。
+      </p>
+        <h3>（至急）一度部活動登録、新歓登録をしていただいた皆様へ</h3>
+        <p>こちらのコードミスにより、写真が保存されないバグが確認されました。お手数ですが、下段のリンクからもう一度写真の投稿をお願いいたします。</p>
+        <a href="syuusei.html">部活動写真修正</a>
+        <!-- <a href="syuusei2.html">新歓写真修正</a> -->
+        <a href="research.html">部活ID検索</a>
+      <!-- <a href="research2.html">新歓ID検索</a> -->
+        <h3>初めに</h3>
+        <p>こちらでは、初めてこのサイトをご覧になった方に一度は目を通していただきたい記事です。詳しくは↓に。</p>
+        <h4>本サイトについて</h4>
+        <p>本サイトは有志により作成された名古屋大学の非公式wikiです。<br>情報には多分に主観が含まれますのでご参考程度にご活用ください。</p>
+        <p>また、皆様からの情報を用いて常に更新し続けますので、情報提供をお待ちしております。
+          <br>連絡は<a href="mailto:meidaiwiki2024@gmail.com">こちら</a>まで。お問い合わせは<a href="question.html">こちら</a>まで。
+        </p>
+        <h4>新規登録</h4>
+        <li><a href="register.html">新規登録</a></li>
+        <h4>管理人紹介</h4>
+        <li><a href="ques.html">管理人紹介</a></li>
+        <!-- Add more list items as needed -->
+        <br>
+        <br>
+        <h3>お役立ち情報（仮）</h3>
+        <p>ここでは、名古屋大学でのキャンパスライフをより快適に過ごせるような情報を詰め込みました。（準備中）</p>
+        
+        <br>
+        <br>
+
+        <h3>部活動・サークルまとめ</h3>
+        <p>ここでは、主に部活動関連を扱っています。新刊情報もこちらにあるので、是非。</p>
+        <li><a class="nav-item underline" href="club_show.html">サークル一覧</a></li>
+              <li><a class="nav-item underline" href="club_calendar copy.html">新歓カレンダー</a></li>
+              <li><a class="nav-item underline" href="research.html">部活ID検索</a></li>
+              <li><a class="nav-item underline" href="research2.html">新歓ID検索</a></li>
+        <br>
+        <br>
+        <h3>各種まとめ</h3>
+        <p>コラムとモラトリアムって韻踏めるよね、っていうギャグくらいの記事まとめです。</p>
+        <a href="zyugyou.html">授業・教授まとめ</a>
+        <a href="coram.html">コラム</a>
+        <a href="#site12">Site 12</a>
+
+      </main>
+    </div class="wrapper_all">
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+
+
+
+    <footer>
+      
+      <iframe src="./footer.html" frameborder="0" id="footer" role="presentation"></iframe>
+      
+    </footer>
+
+
+    <!-- <footer>
+      <div class="fotter_tab">
+        <div>
+          <h4>連絡先</h4>
+          <p><a href="https://twitter.com/your_twitter_handle" target="_blank"><img src="img/X.png" style="height: 1em;">Twitter</a></p>
+        </div>
+        <div>
+          <h4>タブ</h4>
+          <p>
+              <a href="#genre1" target="_blank">初めに</a>
+              <a href="#genre2" target="_blank">お知らせ</a>
+              <a href="#genre3" target="_blank">部活動/サークル情報</a>
+              <a href="#genre4" target="_blank">各種まとめ</a>
+          </p>
+          <p>
+              <a href="#link1-1" target="_blank">リンク1-1</a>
+              <a href="#link2-1" target="_blank">リンク2-1</a>
+          </p>
+          <p>
+              <a href="#link1-2" target="_blank">リンク1-2</a>
+          </p>
+        </div>
+      </div>
+      <p>&#169; meidaiwiki2024</p>
+    </footer> -->
+
+</body>
+
+</html>

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新歓情報登録</title>
+    <link rel="stylesheet" href="style_party_regist.css">
+</head>
+
+<body>
+    <div class="wrapper">
+        <header>
+        <div>
+            <h1>新歓情報登録</h1>
+        </div>
+        </header>
+        <div class="container">
+            <form id="form">
+                <div class="box">
+                    <label>
+                        <span>部活動/サークル名</span>
+                        <input type="text" id="clubName" placeholder="入力してください">
+                    </label>
+                </div>
+                <div class="box">
+
+                    <label>
+                        <span>新歓日程</span>
+                        <input type="date" id="date">
+                    </label>
+                </div>
+                <div class="box">
+                    <label>
+                        <span>新歓予定時間</span>
+                        <input type="time" id="time">
+                    </label>
+                </div>
+                <div class="box">
+                    <label>
+                        <span>所要時間</span>
+                        <input type="number" id="duration" min="0" step="30" placeholder="半角数字を入力してください">
+                    </label>
+                </div>
+                <div class="box">
+                    <label>
+                        <span>新歓名称</span>
+                        <input type="text" id="eventName" placeholder="入力してください">
+                    </label>
+                </div>
+                <div class="box">
+                    <label>
+                        <span>新歓種類選択</span>
+                        <select id="eventType">
+                            <option value="参加型">参加型</option>
+                            <option value="体験会">体験会</option>
+                            <option value="ショー">ショー</option>
+                            <option value="説明会">説明会</option>
+                        </select>
+                    </label>
+                </div>
+                <div class="box">
+                    <label>
+                        <span>定員</span>
+                        <input type="number" id="capacity" min="0" max="999" placeholder="半角数字を入力してください">
+                    </label>
+                </div>
+                <div class="box">
+                    <label>
+                        <span>参加費</span>
+                        <input type="number" id="fee" min="0" step="100" placeholder="円">
+                    </label>
+                </div>
+                <div class="belongings box">
+                    <div id="items">
+                        <label>
+                            <span>持ち物
+                                <button type="button" id="addItem">
+                                    <!-- <img src="./add.svg" alt="add"class="plus"> -->
+                                    add
+                                </button>
+                            </span>
+                            <input type="text" class="item" placeholder="入力してください">
+                        </label>
+                    </div>
+                </div>
+                <div class="box">
+                    <label>
+                        <span>内容</span>
+                        <textarea id="description" maxlength="4000" placeholder="入力してください"></textarea>
+                    </label>
+                </div>
+                <div class="box">
+                    <label>
+                        <span>写真1</span>
+                        <input type="file" id="photo1" accept=".jpg">
+                    </label>
+                </div>
+                <div class="box">
+                    <label>
+                        <span>写真2</span>
+                        <input type="file" id="photo2" accept=".jpg">
+                    </label>
+                </div>
+                <div class="box">
+                    <label>
+                        <span>受け付け用パスワード</span>
+                        <input type="password" id="password" placeholder="入力してください入力してください">
+                    </label>
+                </div>
+                <div class="box">
+                    <label><span>要求情報</span>
+                        <ul>
+                            <li>
+                                <input type="radio" id="none" name="requestInfo" value="none">
+                                <label for="none">必要なし</label>
+                            </li>
+                            <li>
+                                <input type="radio" id="line" name="requestInfo" value="line">
+                                <label for="line">LINE</label>
+                            </li>
+                            <li>
+                                <input type="radio" id="email" name="requestInfo" value="email">
+                                <label for="email">メール</label>
+                            </li>
+                        </ul>
+                    </label>
+                </div>
+                <div class="box">
+                    <label>位置情報
+                        <input type="text" id="location" placeholder="入力してください">
+                    </label>
+                </div>
+
+
+                <button type="submit" class="send"><strong>送信</strong></button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-storage.js"></script>
+
+    <script>
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyD3ogaiRPtv870uTBDjI3S42LKTC1hlLrM",
+            authDomain: "Pnuwiki2024.firebaseapp.com",
+            databaseURL: "https://nuwiki2024.firebaseio.com",
+            projectId: "nuwiki2024",
+            storageBucket: "nuwiki2024.appspot.com",
+            messagingSenderId: "117360974314",
+            appId: "1:117360974314:web:b42c367177476d0b627a93",
+            measurementId: "G-7M672MYCDY",
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        document.getElementById('addItem').addEventListener('click', function () {
+            const div = document.getElementById('items');
+            const label = document.createElement('label');
+            // どうしても見た目が悪くなるのでコメントアウトしました
+            // 必要ならコメントアウト消してください
+            // label.textContent = '持ち物: ';
+
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.className = 'item';
+            label.appendChild(input);
+            div.appendChild(label);
+            // div.appendChild(document.createElement('br'));
+        });
+
+        // 予約フォームのリンクを作成する関数
+        const createReservationFormLink = async (partyId) => {
+            // ここで予約フォームのリンクを作成します
+            return 'https://nuwiki2024.web.app/partyreserve.html?partyId=' + partyId;
+        };
+
+        document.getElementById('form').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            // 写真のinput要素を取得
+            const photo1 = document.getElementById('photo1').files[0];
+            const photo2 = document.getElementById('photo2').files[0];
+
+            // 写真をFirebase Storageにアップロードする関数
+            // 写真をFirebase Storageにアップロードする関数
+const uploadPhoto = async (photo, name) => {
+    if (!photo) return null;
+    const storageRef = firebase.storage().ref();
+
+    // 現在の日時を取得
+    const now = new Date();
+    const timestamp = now.getFullYear() + '_' + (now.getMonth() + 1) + '_' + now.getDate() + '_' + now.getHours() + '_' + now.getMinutes() + '_' + now.getSeconds();
+
+    // ファイル名に日時を追加
+    const uniqueName = name + '_' + timestamp;
+
+    const photoRef = storageRef.child('photos/' + uniqueName);
+    try {
+        await photoRef.put(photo);
+        return await photoRef.getDownloadURL();
+    } catch (error) {
+        throw new Error('写真のアップロードに失敗しました: ' + error.message);
+    }
+};
+
+
+            // 定員分の文字列を保持できるドキュメントを作成する関数
+            const createPartyMemberDocument = async (capacity) => {
+                const data = {};
+                for (let i = 0; i < capacity; i++) {
+                    data[i] = '';
+                }
+                try {
+                    const docRef = await db.collection('party_member').add(data);
+                    return docRef.id;
+                } catch (error) {
+                    throw new Error('ドキュメントの作成に失敗しました: ' + error.message);
+                }
+            };
+
+
+            // 写真をアップロード
+            Promise.all([
+                uploadPhoto(photo1, 'photo1'),
+                uploadPhoto(photo2, 'photo2'),
+                createPartyMemberDocument(document.getElementById('capacity').value)
+            ]).then(([photo1Url, photo2Url, partyMemberDocId]) => {
+                // 写真のURLを含むデータを作成
+                const data = {
+                    clubName: document.getElementById('clubName').value,
+                    date: document.getElementById('date').value,
+                    time: document.getElementById('time').value,
+                    duration: document.getElementById('duration').value,
+                    eventName: document.getElementById('eventName').value,
+                    eventType: document.getElementById('eventType').value,
+                    capacity: document.getElementById('capacity').value,
+                    fee: document.getElementById('fee').value,
+                    items: Array.from(document.getElementsByClassName('item')).map(input => input.value),
+                    description: document.getElementById('description').value,
+                    requestInfo: document.querySelector('input[name="requestInfo"]:checked').value,
+                    location: document.getElementById('location').value,
+                    photo1: photo1Url,
+                    photo2: photo2Url,
+                    partyMemberDoc: partyMemberDocId
+                };
+
+                // データをFirestoreに保存
+                db.collection('clubs_party').add(data).then(function (docRef) {
+                    // 予約フォームのリンクを作成
+                    createReservationFormLink(docRef.id).then(function (link) {
+                        // リンクをデータに追加
+                        db.collection('clubs_party').doc(docRef.id).update({
+                            reservationFormLink: link
+                        }).then(function () {
+                            window.location.href = 'index.html';
+                            alert('送信に成功しました！');
+                        }).catch(function (error) {
+                            alert('Firestoreへの保存に失敗しました: ' + error.message);
+                        });
+                    }).catch(function (error) {
+                        alert('予約フォームのリンクの作成に失敗しました: ' + error.message);
+                    });
+                }).catch(function (error) {
+                    alert('Firestoreへの保存に失敗しました: ' + error.message);
+                });
+            }).catch(function (error) {
+                alert(error.message);
+            });
+        });
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title id="club-name">Club Admin</title>
+</head>
+<body>
+  <h1 id="club-title">Club Admin</h1>
+  <div id="party-info"></div>
+  <input type="text" id="party-id-input" placeholder="新歓IDを入力">
+  <button onclick="addParty()">追加</button>
+ 
+
+  <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-auth.js"></script>
+  <script>
+    // Firebase の設定
+    var firebaseConfig = {
+      apiKey: "AIzaSyD3ogaiRPtv870uTBDjI3S42LKTC1hlLrM",
+      authDomain: "Pnuwiki2024.firebaseapp.com",
+      databaseURL: "https://nuwiki2024.firebaseio.com",
+      projectId: "nuwiki2024",
+      storageBucket: "nuwiki2024.appspot.com",
+      messagingSenderId: "117360974314",
+      appId: "1:117360974314:web:b42c367177476d0b627a93",
+      measurementId: "G-7M672MYCDY",
+    };
+    // Firebase アプリの初期化
+    firebase.initializeApp(firebaseConfig);
+
+    // Firebase Authentication の参照
+    var auth = firebase.auth();
+
+    // URLからclubIdを取得
+    var urlParams = new URLSearchParams(window.location.search);
+    var clubId = urlParams.get('clubId');
+   
+    // Firestore の参照
+    var db = firebase.firestore();
+    var clubRef = db.collection('circles').doc(clubId);
+
+    // クラブ情報の取得と表示
+    clubRef.get().then(function(doc) {
+      if (doc.exists) {
+        var clubData = doc.data();
+        var partyDb = clubData.party;
+        document.getElementById('club-name').innerText = clubData.name;
+        document.getElementById('club-title').innerText = clubData.name;
+       
+
+        partyDb.forEach(function(partyId) {
+          var partyRef = db.collection('clubs_party').doc(partyId);
+          partyRef.get().then(function(partyDoc) {
+            if (partyDoc.exists) {
+              var partyData = partyDoc.data();
+              var partyInfoDiv = document.getElementById('party-info');
+              partyInfoDiv.innerHTML += "<p>" + partyData.eventName + 
+                " <a href='party_home.html?partyId=" + partyId + "'><button>管理</button></a>" +
+                " <button onclick='deleteParty(\"" + partyId + "\")'>削除</button></p>";
+            }
+          });
+        });
+      } else {
+        console.log("No such document!");
+      }
+    }).catch(function(error) {
+      console.log("Error getting document:", error);
+    });
+
+    function addParty() {
+      var partyIdInput = document.getElementById('party-id-input');
+      var partyId = partyIdInput.value;
+      if (!partyId) {
+        alert('新歓IDを入力してください。');
+        return;
+      }
+
+      var partyRef = db.collection('clubs_party').doc(partyId);
+
+      partyRef.get().then(function(doc) {
+        if (doc.exists) {
+          clubRef.get().then(function(clubDoc) {
+            if (clubDoc.exists) {
+              var clubData = clubDoc.data();
+              if (!clubData.party) {
+                clubData.party = [];
+              }
+              clubData.party.push(partyId);
+              clubRef.set(clubData).then(function() {
+                alert('新歓IDが追加されました。');
+                partyIdInput.value = '';
+              }).catch(function(error) {
+                console.error("Error updating document: ", error);
+              });
+            } else {
+              console.log("No such club document!");
+            }
+          }).catch(function(error) {
+            console.log("Error getting club document:", error);
+          });
+        } else {
+          alert('該当する新歓IDが見つかりませんでした。');
+        }
+      }).catch(function(error) {
+        console.log("Error getting party document:", error);
+      });
+    }
+
+    function deleteParty(partyId) {
+      clubRef.get().then(function(clubDoc) {
+        if (clubDoc.exists) {
+          var clubData = clubDoc.data();
+          var index = clubData.party.indexOf(partyId);
+          if (index > -1) {
+            clubData.party.splice(index, 1);
+          }
+          clubRef.set(clubData).then(function() {
+            alert('新歓IDが削除されました。');
+          }).catch(function(error) {
+            console.error("Error updating document: ", error);
+          });
+        } else {
+          console.log("No such club document!");
+        }
+      }).catch(function(error) {
+        console.log("Error getting club document:", error);
+      });
+    }
+  </script>
+</body>
+</html>

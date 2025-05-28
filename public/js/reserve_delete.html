@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-firestore.js"></script>
+</head>
+<body>
+    <h1 id="event-name"></h1>
+    <button id="delete-button">削除</button>
+
+    <script>
+        // Firebaseの設定と初期化
+        var firebaseConfig = {
+            apiKey: "AIzaSyD3ogaiRPtv870uTBDjI3S42LKTC1hlLrM",
+            authDomain: "Pnuwiki2024.firebaseapp.com",
+            databaseURL: "https://nuwiki2024.firebaseio.com",
+            projectId: "nuwiki2024",
+            storageBucket: "nuwiki2024.appspot.com",
+            messagingSenderId: "117360974314",
+            appId: "1:117360974314:web:b42c367177476d0b627a93",
+            measurementId: "G-7M672MYCDY"
+        };
+        firebase.initializeApp(firebaseConfig);
+
+        // Firestoreへの参照を取得
+        var db = firebase.firestore();
+
+        // URLからuserIdとpartyIdを取得
+        var urlParams = new URLSearchParams(window.location.search);
+        var userId = urlParams.get('userId');
+        var partyId = urlParams.get('partyId');
+
+        // 削除ボタンのクリックイベントを設定
+        document.getElementById('delete-button').addEventListener('click', function() {
+            // userドキュメントから該当のinfo項目を削除
+            db.collection('user').doc(userId).get().then(function(doc) {
+                if (doc.exists) {
+                    var infoArray = doc.data().info;
+                    if (infoArray.includes(partyId)) {
+                        return db.collection('user').doc(userId).update({
+                            info: firebase.firestore.FieldValue.arrayRemove(partyId)
+                        });
+                    } else {
+                        throw new Error("指定されたpartyIdがuserドキュメントのinfo項目に存在しません");
+                    }
+                } else {
+                    throw new Error("指定されたuserIdのuserドキュメントが存在しません");
+                }
+            }).then(function() {
+                console.log("userドキュメントから該当のinfo項目を削除しました");
+                // party_memberデータベース内の全てのドキュメントを取得
+                return db.collection('party_member').get();
+            }).then(function(querySnapshot) {
+                // 各ドキュメント内のフィールドを検索し、userIdが一致するものを空文字列に置き換え
+                querySnapshot.forEach(function(doc) {
+                    var fields = doc.data();
+                    for (var field in fields) {
+                        if (fields[field] == userId) {
+                            doc.ref.update({
+                                [field]: ""
+                            }).then(function() {
+                                console.log("party_memberドキュメントの該当フィールドの内容を空文字列に置き換えました");
+                            }).catch(function(error) {
+                                console.log("party_memberドキュメントの該当フィールドの内容を空文字列に置き換える際にエラーが発生しました: ", error);
+                            });
+                        }
+                    }
+                });
+                alert("成功: データが正常に削除されました");
+                window.location.href = "user_home.html";
+            }).catch(function(error) {
+                alert("エラー: " + error.message);
+            });
+        });
+
+        // clubs_partyとuserコレクションからデータを取得
+        db.collection('clubs_party').doc(partyId).get().then(function(doc) {
+            if (doc.exists) {
+                // eventNameをタイトルとして表示
+                document.getElementById('event-name').textContent = doc.data().eventName;
+
+                // partyMemberDocを用いてparty_memberデータベース内を検索
+                var partyMemberDoc = doc.data().partyMemberDoc;
+                db.collection('party_member').doc(partyMemberDoc).get().then(function(doc) {
+                    if (doc.exists) {
+                        // ここで該当ファイルを処理します
+                        console.log(doc.data());
+                    } else {
+                        console.log("No such document in party_member!");
+                    }
+                }).catch(function(error) {
+                    console.log("Error getting document in party_member:", error);
+                });
+            } else {
+                console.log("No such document in clubs_party!");
+            }
+        }).catch(function(error) {
+            console.log("Error getting document in clubs_party:", error);
+        });
+    </script>
+</body>
+</html>

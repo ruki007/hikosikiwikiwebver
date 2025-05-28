@@ -1,0 +1,540 @@
+/* カレンダーのスタイル */
+.wrapper {
+  margin: 15px auto;
+  max-width: 700px;
+}
+
+.container-calendar {
+  background: #ffffff;
+  /* padding: 15px; */
+  width: 100%;
+  margin: 0 auto;
+  overflow: auto;
+}
+
+.button-container-calendar button {
+  cursor: pointer;
+  display: inline-block;
+  zoom: 1;
+  background: #ffffff;
+  color: black;
+  border: 2px solid black;
+  border-radius: 4px;
+  padding: 5px 10px;
+}
+
+.button-container-calendar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.table-calendar {
+  border-collapse: collapse;
+  width: 100%;
+  border: 2px solid black;
+}
+
+.table-calendar th,
+.table-calendar td {
+  padding: 10px;
+  border: 1px solid #000000;
+  text-align: center;
+  vertical-align: top;
+}
+
+.date-picker {
+  font-size: 1rem;
+  text-align: center;
+  padding: 15px;
+  color: black;
+  /* テキストカラー */
+  background-color: #fff;
+  /* 背景色 */
+  border: none;
+  /* 枠線 */
+  font-family: Arial, Helvetica, sans-serif;
+  transition: background-color 0.3s ease;
+  /* ホバー時のトランジション */
+}
+
+/* 日付セルのホバースタイル */
+.date-picker:hover {
+  background-color: color-mix(in srgb, rgb(0, 110, 79) 20%, #d3d3d3);
+  /* ホバー時の背景色 */
+  cursor: pointer;
+  /* カーソルをポインターに変更 */
+}
+
+/*本日の日にちの色*/
+.date-picker.selected {
+  font-weight: bolder;
+  color: #ffffff;
+  background-color: #bdbdbd;
+
+
+}
+
+.date-picker.selected:hover {
+  background-color: color-mix(in srgb, rgb(0, 110, 79) 20%, #d3d3d3);
+  /* ホバー時の背景色 */
+  cursor: pointer;
+  /* カーソルをポインターに変更 */
+
+}
+
+#thead-month th {
+  background-color: #006e4f;
+  color: #fff;
+}
+
+.date-picker.selected span {
+  border-bottom: 2px solid currentColor;
+}
+
+/* 日曜 */
+.date-picker:nth-child(1) {
+  color: red;
+}
+
+/* 土曜 */
+.date-picker:nth-child(7) {
+  color: blue;
+}
+
+#monthAndYear {
+  text-align: center;
+  margin-top: 0;
+  background: #ffffff;
+  color: #000000;
+  font-size: 25px;
+  font-family: 'Arial';
+}
+
+.button-container-calendar {
+  position: relative;
+  margin-bottom: 1em;
+  overflow: hidden;
+  clear: both;
+}
+
+.event-day {
+  background-color: #006e4f;
+  color: white;
+  font-weight: 600;
+
+}
+
+#previous {
+  float: left;
+
+}
+
+#next {
+  float: right;
+
+}
+
+#previous:hover,
+#next:hover {
+  background-color: gray;
+  /* ホバー時の背景色 */
+  cursor: pointer;
+  /* カーソルをポインターに変更 */
+  color: white
+}
+
+#events-list {
+  color: black;
+}
+
+.footer-container-calendar {
+  margin-top: 1em;
+  border-top: 1px solid #dadada;
+  padding: 10px 0;
+  display: flex;
+  flex-wrap: wrap;
+
+}
+
+.footer-container-calendar label,
+.footer-container-calendar select,
+.footer-container-calendar input {
+  margin-bottom: 5px;
+  display: block;
+  font-weight: bold;
+  width: 100%;
+  margin-bottom: 5px;
+  color: black;
+  background-color: #ffffff;
+  padding: 5px;
+
+}
+
+.footer-container-calendar input {
+  margin-bottom: 5px;
+  display: block;
+  width: 98%;
+  margin-bottom: 5px;
+  background-color: #ffffff;
+  padding: 5px;
+  border: 2px solid black;
+
+}
+
+.footer-container-calendar select {
+  cursor: pointer;
+  display: inline-block;
+  zoom: 1;
+  background: #ffffff;
+  color: #454545;
+  border: 2px solid black;
+  border-radius: 3px;
+  padding: 5px 1em;
+}
+
+
+/* ログインバーのスタイル */
+.login-bar {
+  top: 0;
+  right: 0;
+  /* background: linear-gradient(to right, #00ff00, #008000); */
+  /* テキストの色 */
+  display: flex;
+  justify-content: flex-end;
+  /* 右寄せ */
+  z-index: 100;
+}
+
+/* ログインリンクのスタイル */
+.login-bar a {
+  position: absolute;
+  text-decoration: none;
+  font-weight: bold;
+  color: black;
+  /* border: 2px solid gray; */
+  background-color: whitesmoke;
+  padding: 4px;
+  border: 2px solid black;
+  border-radius: 20px;
+  &:hover {
+    background-color: gray;
+    color: white
+  }
+}
+
+
+/* 追加 */
+body {
+  margin: 0;
+  padding: 0;
+  header {
+    position: relative;
+    text-align: center;
+    /* background: linear-gradient(to right, #008000, #00ff00); */
+    background-color: #006E4F;
+    padding: 20px 0;
+    margin: 0;
+    /* width: 100%; */
+    font-family: 'Zen Antique', serif;
+    h1 {
+        color: white;
+        span {
+            display: inline-block;
+        }
+    }
+    h2 {
+        font-size: 0.8em;
+  
+    }
+  }
+  
+  .wrapper_body {
+    width: 95%;
+    margin: auto;
+  }
+}
+
+
+/*----------------------------追加部分---------------------------------*/
+
+/* --------------------ページ内リンクのスクロール----------------------- */
+html { scroll-behavior: smooth;}
+/*-----------------------フェードイン-------------------------------*/
+.js-fade {
+opacity: 0;
+visibility: hidden;
+transform: translateY(50px);
+transition: opacity 1s,visibility 1s, transform 1s;
+}
+
+.scroll {
+opacity: 1;
+visibility: visible;
+transform: translateY(0px);
+}
+
+.textanime span{opacity: 0;}
+.textanime.appeartext span{ animation:text_anime_on 1s ease-out forwards; }
+@keyframes text_anime_on {
+0% {opacity:0;}
+100% {opacity:1;}
+}
+
+#g-nav{
+    /*z-indexの数値を大きく*/
+    position:fixed;
+    z-index: 10000;
+    /*ナビのスタート位置と形状*/
+  top:0;
+    right: -120%;
+  width:100%;
+    height: 100vh;/*ナビの高さ*/
+  background:#ffffffe1;      /*ナビゲーションの背景*/
+    /*動き*/
+  transition: all 0.6s;
+  backdrop-filter: blur(3px);
+}
+
+/*アクティブクラス*/
+#g-nav.panelactive{
+    right: 0;
+}
+/*ナビゲーションの縦スクロール*/
+#g-nav.panelactive #g-nav-list{
+  /*ナビの数が増えた場合縦スクロール*/
+  position: fixed;
+  z-index: 999; 
+  width:100%;
+  height: 100vh;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+
+/*ナビゲーション*/
+#g-nav ul {
+    position: absolute;
+    z-index: 999;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+}
+
+/*リストのレイアウト*/
+
+#g-nav li{
+  list-style: none;
+    text-align: center;
+}
+
+#g-nav li a{
+  color: #333;
+  text-decoration: none;
+  padding:10px;
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: bold;
+}
+
+.accordion {
+  margin: 100px auto;
+  max-width: 60vw;
+}
+.toggle {
+display: none;
+}
+.option {
+position: relative;
+margin-bottom: 1em;
+}
+.title,
+.content {
+-webkit-backface-visibility: hidden;
+backface-visibility: hidden;
+transform: translateZ(0);
+transition: all 0.3s;
+}
+.title {
+font-size: 1.25rem;
+border-bottom: solid 1px #006E4F;
+padding: 1em;
+display: block;
+color: #333;
+font-weight: bold;
+cursor: pointer;
+}
+.title::after,
+.title::before {
+content: "";
+position: absolute;
+right: 1.25em;
+top: 1.25em;
+width: 2px;
+height: 0.75em;
+background-color: #006E4F;
+transition: all 0.2s;
+}
+.title::after {
+transform: rotate(90deg);
+}
+.content2 {
+max-height: 0;
+overflow: hidden;
+}
+.content2 li {
+  font-weight: normal;
+}
+.toggle:checked + .title + .content2 {
+max-height: 500px;
+transition: all 0.5s;
+}
+.toggle:checked + .title::before {
+transform: rotate(90deg) !important;
+}
+
+.toggle:checked + .title::before {
+transform: rotate(45deg) !important;
+}
+.toggle:checked + .title::after {
+transform: rotate(135deg) !important;
+}
+
+.listitem{
+  font-size: 1.25rem;
+  border-bottom: solid 1px #006E4F;
+  padding: 1em;
+  margin-bottom: 0.5em;
+  display: block;
+  color: #333;
+  font-weight: bold;
+}
+.listitem2{
+  font-size: 1.25rem;
+  margin-top: 3rem;
+  background-color: #006E4F;
+  padding: 1em;
+  display: block;
+  color: #ffffff;
+  font-weight: bold;
+  text-align: center;
+}
+
+.item-color{
+  color: #333;
+}
+
+.nav-item{
+  text-align: left;
+  margin-left: 1em;
+}
+
+
+
+
+
+/*----------------------------------- ボタン -------------------------------------------------------*/
+.openbtn1{
+  position:fixed;
+    z-index: 99999;/*ボタンを最前面に*/
+  top:10px;
+  right: 10px;
+  cursor: pointer;
+    width: 50px;
+    height:50px;
+}
+  
+/*×に変化*/  
+.openbtn1 span{
+    display: inline-block;
+    transition: all 0.4s;
+    position: absolute;
+    left: 14px;
+    height: 2px;
+    background-color: #000000;
+    width: 45%;
+  }
+
+.openbtn1 span:nth-of-type(1) {
+  top:15px; 
+}
+
+.openbtn1 span:nth-of-type(2) {
+  top:23px;
+}
+
+.openbtn1 span:nth-of-type(3) {
+  top:31px;
+}
+
+.openbtn1.active span:nth-of-type(1) {
+    top: 18px;
+    left: 18px;
+    transform: translateY(6px) rotate(-45deg);
+    width: 30%;
+}
+
+.openbtn1.active span:nth-of-type(2) {
+  opacity: 0;
+}
+
+.openbtn1.active span:nth-of-type(3){
+    top: 30px;
+    left: 18px;
+    transform: translateY(-6px) rotate(45deg);
+    width: 30%;
+}
+
+
+
+
+/* ---------------------------エフェクト系------------------------------ */
+.underline{
+color: #006E4F;
+display: inline-block;
+position: relative;
+text-decoration: none;
+}
+.underline::before{
+content: "";
+position: absolute;
+left: 0;
+bottom: -3px;
+width: 100%;
+height: 1px;
+background: #006E4F;
+transform: scale(0, 1);
+transition: 0.4s;
+}
+.underline:hover::before {
+transform: scale(1);
+}  
+
+
+/*------------------------------追加おわり--------------------------*/
+
+@media screen and (width < 760px) {
+  #footer {
+      display: block;
+      width: 100%;
+      /* heightは固定値 */
+      height: 550px;
+      margin: 0;
+      padding: 0;
+      border: 0;
+  }
+}
+@media screen and (width > 760px) {
+ 
+  #footer {
+      display: block;
+      background-color: whitesmoke;
+      width: 100%;
+      /* heightは固定値 */
+      height: 415px;
+      margin: 0;
+      padding: 0;
+      border: 0;
+    }
+}

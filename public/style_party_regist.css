@@ -1,0 +1,128 @@
+:root {
+    --text-color: #000;
+    --text-heaading-color: #fff;
+    --bg-heading-cplor: #006E4F;
+}
+body {
+    margin-top: 0;
+    /* line-height: 1.6; */
+    h1 {
+        color: var(--text-heaading-color);
+        background-color: var(--bg-heading-cplor);
+        text-align: center;
+        margin-top: 0;
+        padding: 10px;
+    }
+    h3 {
+        color: var(--text-heaading-color);
+        background-color: var(--bg-heading-cplor);
+        text-align: center;
+        margin-top: 0;
+        padding: 10px;
+        display: block;
+    }
+    form {
+        font-size: 1.3em;
+        text-align: center;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: space-around;
+        align-items: stretch;
+        align-content: stretch;
+        .schedule, .item, #weeklySchedule {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+
+        }
+        .box {
+            display: block;
+            border: 1px solid;
+            /* border-radius: 30px; */
+            margin: 20px auto;
+            padding: 10px;
+            min-width: 260px;
+            aspect-ratio: 4 / 3;
+            box-shadow: 4px 4px darkgray;
+            label {
+                span {
+                    display: inline-block;
+                    border-bottom: 3px dotted;
+                }
+                input,select,textarea {
+                    display: block;
+                    margin: 50px auto;
+                    width: 200px;
+                    border: 2px solid black;
+                    padding: 20px;
+                    border-radius: 30px;
+                    &:focus {
+                        box-shadow: 3px 3px gray;
+                        background-color: whitesmoke;
+                    }
+                }
+                textarea {
+                    height: 150px;
+                }
+                ul {
+                    list-style: none;
+                    /* margin: 0; */
+                    padding: 0;
+                    /* overflow: auto; */
+                    li {
+                        display:block;
+                        position: relative;
+                        margin: 15px 0;
+                        input {
+                            margin: 0;
+                            padding: 0;
+                            position: absolute;
+                            top:25%;
+                            left: -4em;
+                        }
+                    }
+                }
+            }
+        }
+
+        #addItem, #addSchedule {
+            width: 30px;
+            padding: 0;
+            aspect-ratio: 1 / 1;
+            margin-left: 3px;
+            .plus {
+                vertical-align: bottom;
+            }
+        }
+        .send {
+            display: block;
+            margin: 50px auto;
+            width: 200px;
+            background-color: #fff;
+            border: 2px solid black;
+            padding: 20px;
+            border-radius: 30px;
+            box-shadow: 3px 3px gray;
+            &:hover {
+                background-color: whitesmoke;
+                box-shadow: inset 2px 3px gray;
+            }
+        }
+        strong {
+            font-size: 1.4em;
+        }
+    }
+    header {
+        div {
+            margin: 10px;
+        }
+    }
+}
+.wrapper {
+    margin: 0 auto;
+    max-width: 960px;
+}
+.container  {
+    margin: 0 auto;
+}

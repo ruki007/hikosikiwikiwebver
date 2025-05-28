@@ -1,0 +1,8 @@
+
+        /* CSSスタイルをここに追加 */
+        #calendar div {
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+    

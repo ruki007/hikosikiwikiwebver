@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="ques.css">
+<head>
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-auth.js"></script>
+</head>
+<body>
+<form id="user">
+  <label for="name">ユーザー名:</label>
+  <input type="text" id="username" name="username" required>
+  <label for="department">学部学科</label>
+  <select id="department" name="department" required>
+    <option value="">選択してください</option>
+    <option value="専攻未定">専攻未定</option>
+    <option value="文学部">文学部</option>
+    <option value="法学部">法学部</option>
+    <option value="経済学部">経済学部</option>
+    <option value="教育学部">教育学部</option>
+    <option value="理学部">理学部</option>
+    <option value="自然情報学科">自然情報学科</option>
+    <option value="コンピュータ科学科">コンピュータ科学科</option>
+    <option value="人間・社会情報学科">人間・社会情報学科</option>
+    <option value="医学科">医学科</option>
+    <option value="化学生命工学科">化学生命工学科</option>
+    <option value="物理工学科">物理工学科</option>
+    <option value="マテリアル工学科">マテリアル工学科</option>
+    <option value="電気電子情報工学科">電気電子情報工学科</option>
+    <option value="エネルギー理工科">エネルギー理工科</option>
+    <option value="機会航空宇宙工学科">機械航空宇宙工学科</option>
+    <option value="環境土木・建築工学科">環境土木・建築工学科</option>
+    <option value="生物環境科学科">生物環境科学科</option>
+    <option value="資源生物科学科">資源生物科学科</option>
+    <option value="応用生命科学科">応用生命科学科</option>
+    <option value="看護学専攻">看護学専攻</option>
+    <option value="放射線技能科学専攻">放射線技能科学専攻</option>
+    <option value="検査技術科学専攻">検査技術科学専攻</option>
+    <option value="理学療法学専攻">理学療法学専攻</option>
+    <option value="作業療法学専攻">作業療法学専攻</option>
+  </select>
+  <label for="grade">学年</label>
+  <select id="grade" name="grade" required>
+    <option value="">選択してください</option>
+    <option value="B1">B1</option>
+    <option value="B2">B2</option>
+    <option value="B3">B3</option>
+    <option value="B4">B4</option>
+    <option value="B5">B5</option>
+    <option value="B6">B6</option>
+    <option value="M1">M1</option>
+    <option value="M2">M2</option>
+    <option value="D1">D1</option>
+    <option value="D2">D2</option>
+    <option value="D3">D3</option>
+  </select>
+  <label for="clubs">所属クラブ</label>
+  <input type="text" id="clubs" name="clubs" required>
+  <label for="role">ロール:</label>
+  <select id="role" name="role" onchange="showPasskey()" required>
+    <option value="">選択してください</option>
+    <option value="外部">外部</option>
+    <option value="学生">学生</option>
+    <option value="保護者">保護者</option>
+  </select>
+  <button type="submit">送信</button>
+</form>
+<br>
+<br>
+サークル長・部長、新歓関係の方、管理者は<a href="qu.html">コチラ</a>からログインしてください。
+<br>
+
+<script>
+  // Firebaseの設定と初期化
+  var firebaseConfig = {
+    apiKey: "AIzaSyD3ogaiRPtv870uTBDjI3S42LKTC1hlLrM",
+    authDomain: "Pnuwiki2024.firebaseapp.com",
+    databaseURL: "https://nuwiki2024.firebaseio.com",
+    projectId: "nuwiki2024",
+    storageBucket: "nuwiki2024.appspot.com",
+    messagingSenderId: "117360974314",
+    appId: "1:117360974314:web:b42c367177476d0b627a93",
+    measurementId: "G-7M672MYCDY",
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  var db = firebase.firestore();
+
+  function generateRandomString(length) {
+    var result = '';
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for (var i = 0; i < length; i++) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+  }
+
+  document.getElementById('user').addEventListener('submit', function(event) {
+    event.preventDefault(); // デフォルトの動作をキャンセル
+
+    var username = document.getElementById("username").value;
+    var role = document.getElementById("role").value;
+    var grade = document.getElementById("grade").value;
+    var department = document.getElementById("department").value;
+    var clubs = document.getElementById("clubs").value;
+    var user = firebase.auth().currentUser;
+// メールアドレスをドキュメントIDに設定
+var docId = user.uid;
+    if (username && role && grade && department && clubs) {
+      var info = Array.from({ length: 30 }, () => ""); // 30個の空の文字列を持つ配列を生成
+
+      db.collection("user").doc(docId).set({
+    name: username,
+    role: role,
+    grade: grade,
+    department: department,
+    clubs: clubs,
+    info: info // infoフィールドを追加
+})
+
+      .then(function() {
+        console.log("Document successfully written!");
+        alert("ご協力ありがとうございます。画面変わるまでOKを押してお待ちください。");
+        setTimeout(function() {
+          window.location.href = "index.html";
+        }, 3000);
+      })
+      .catch(function(error) {
+        console.error("Error writing document: ", error);
+        alert("データの送信に失敗しました：" + error);
+      });
+    } else {
+      alert("すべてのフィールドを入力してください。");
+    }
+
+    document.getElementById('user').reset();
+  });
+  firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+        // ユーザーがログインしている場合
+        var userId = user.uid; // ユーザーのUIDを取得
+        var username = document.getElementById("username").value;
+        var role = document.getElementById("role").value;
+        var grade = document.getElementById("grade").value;
+        var department = document.getElementById("department").value;
+        var clubs = document.getElementById("clubs").value;
+
+        if (username && role && grade && department && clubs) {
+            var info = Array.from({ length: 30 }, () => ""); // 30個の空の文字列を持つ配列を生成
+
+            db.collection("user").doc(userId).set({
+                name: username,
+                role: role,
+                grade: grade,
+                department: department,
+                clubs: clubs,
+                info: info // infoフィールドを追加
+            })
+            .then(function() {
+                console.log("Document successfully written!");
+                alert("ご協力ありがとうございます。画面変わるまでOKを押してお待ちください。");
+                setTimeout(function() {
+                    window.location.href = "index.html";
+                }, 3000);
+            })
+            .catch(function(error) {
+                console.error("Error writing document: ", error);
+                alert("データの送信に失敗しました：" + error);
+            });
+        } else {
+            alert("すべてのフィールドを入力してください。");
+        }
+
+        document.getElementById('user').reset();
+    } else {
+        // ユーザーがログインしていない場合
+        alert("ログインしていません。");
+    }
+});
+
+
+</script>
+</body>
+</html>

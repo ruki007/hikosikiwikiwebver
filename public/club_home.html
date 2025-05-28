@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Club Home</title>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style_club_home.css">
+</head>
+<body>
+  <div class="wrapper_all">
+    <h1 class="pc_user">Club Home</h1>
+    <h1 class="mobile_user">Club Home</h1>
+    <div id="club-info">
+      
+    </div>
+    
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.0.2/firebase-auth.js"></script>
+    <script>
+      // Firebase の設定
+      var firebaseConfig = {
+        apiKey: "AIzaSyD3ogaiRPtv870uTBDjI3S42LKTC1hlLrM",
+        authDomain: "Pnuwiki2024.firebaseapp.com",
+        databaseURL: "https://nuwiki2024.firebaseio.com",
+        projectId: "nuwiki2024",
+        storageBucket: "nuwiki2024.appspot.com",
+        messagingSenderId: "117360974314",
+        appId: "1:117360974314:web:b42c367177476d0b627a93",
+        measurementId: "G-7M672MYCDY",
+      };
+      // Firebase アプリの初期化
+      firebase.initializeApp(firebaseConfig);
+  
+      // Firebase Authentication の参照
+      var auth = firebase.auth();
+  
+      // ユーザーのログイン状態の監視
+      auth.onAuthStateChanged(function(user) {
+        if (user) {
+          // ユーザーがログインしている場合、ユーザー情報を取得
+          var uid = user.uid; // ユーザーのUIDを取得
+          var clubInfoDiv = document.getElementById('club-info');
+  
+          // Firestore の参照
+          var db = firebase.firestore();
+          var userRef = db.collection('user').doc(uid); // ユーザーのUIDに対応するドキュメントIDを指定して参照
+  
+          // ユーザー情報の取得と表示
+          userRef.get().then(function(doc) {
+            if (doc.exists) {
+              var userData = doc.data();
+              var circleDb = userData.circle_db;
+              circleDb.forEach(function(circleId) {
+                var circleRef = db.collection('circles').doc(circleId);
+                circleRef.get().then(function(circleDoc) {
+                  if (circleDoc.exists) {
+                    var circleData = circleDoc.data();
+                    clubInfoDiv.innerHTML += "<p>" + circleData.name + " <a href='club_admin.html?clubId=" + circleId + "'><button>管理</button></a></p>";
+                  }
+                });
+              });
+            } else {
+              console.log("No such document!");
+            }
+          }).catch(function(error) {
+            console.log("Error getting document:", error);
+          });
+        } else {
+          //ユーザーがログインしていない場合、ログインページにリダイレクト
+           window.location.replace("login.html");
+        }
+      });
+    </script>
+  </div>
+</body>
+</html>

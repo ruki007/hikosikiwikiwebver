@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <title>アルバイト情報入力</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style_party_regist.css">
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+            <h1>アルバイト情報入力</h1>
+        </header>
+        <div class="container">
+            <form id="form">
+                <!-- 他の入力項目省略 -->
+                <div class="box">
+                    <label><span>店名</span>
+                        <input type="text" id="name" placeholder="入力してください" required>
+                    </label>
+                </div>
+                <div class="box">
+                    <label><span>位置情報(00駅から徒歩00分、のような形で)</span>
+                        <input type="text" id="station" placeholder="入力してください" required>
+                    </label>
+                </div>
+                <div class="box">
+                    <label><span>時給</span>
+                        <input type="number" id="wage" required pattern="\d*">
+                    </label>
+                </div>
+                <div class="box">
+                        <label><span>シフト</span>
+                            <ul>
+                                <li><input type="checkbox" id="s1" value="土日祝のみOK"><label for="s1">土日祝のみOK</label></li>
+                                <li><input type="checkbox" id="s2" value="平日のみOK"><label for="s2">平日のみOK</label></li>
+                                <li><input type="checkbox" id="s3" value="週1日からOK"><label for="s3">週1日からOK</label></li>
+                                <li><input type="checkbox" id="s4" value="週2,3日からOK"><label for="s4">週2,3日からOK</label></li>
+                                <li><input type="checkbox" id="s5" value="週4日以上OK"><label for="s5">週4日以上OK</label></li>
+                            </ul>
+                        </label>
+                </div>
+                <div class="box">
+                    <label><span>働く時間</span>
+                        <ul>
+                            <li><input type="checkbox" id="t1" value="朝(5~12時)"><label for="t1">朝(5~12時)</label></li>
+                            <li><input type="checkbox" id="t2" value="昼(12時~)"><label for="t2">昼(12時~)</label></li>
+                            <li><input type="checkbox" id="t3" value="夕方(16時~)"><label for="t3">夕方(16時~)</label></li>
+                            <li><input type="checkbox" id="t4" value="夜(19時~)"><label for="t4">夜(19時)~</label></li>
+                            <li><input type="checkbox" id="t5" value="深夜/夜勤(22~5時)"><label for="t5">夜勤(22~5時)</label></li>
+                            <li><input type="checkbox" id="t6" value="短時間勤務"><label for="t6">短時間勤務</label></li>
+                            <li><input type="checkbox" id="t7" value="フルタイム歓迎"><label for="t7">フルタイム歓迎</label></li>
+                        </ul>
+                    </label>
+                </div>
+                <div class="box">
+                    <label><span>勤務期間</span>
+                        <ul>
+                            <li><input type="checkbox" id="span1" value="短期"><label for="span1">短期</label></li>
+                            <li><input type="checkbox" id="span2" value="単発/1日ok"><label for="span2">単発/一日OK</label></li>
+                            <li><input type="checkbox" id="span3" value="長期歓迎"><label for="span3">長期歓迎</label></li>
+                            <li><input type="checkbox" id="span4" value="休み期間限定"><label for="span4">休み期間限定</label></li>
+                        </ul>
+                    </label>
+                </div>
+            </form>
+            <div class="box">
+                <label><span>待遇</span>
+                    <ul>
+                        <li><input type="checkbox" id="g1" value="交通費支給"><label for="g1">交通費支給</label></li>
+                        <li><input type="checkbox" id="g2" value="賄い、食事補助あり"><label for="g2">賄い、食事補助あり</label></li>
+                        <li><input type="checkbox" id="g3" value="髪色髪型自由"><label for="g3">髪色髪型自由</label></li>
+                        <li><input type="checkbox" id="g4" value="服装自由"><label for="g4">服装自由</label></li>
+                        <li><input type="checkbox" id="g5" value="髭、ネイル、ピアスOK"><label for="g5">髭、ネイル、ピアスOK</label></li>
+                        <li><input type="checkbox" id="g6" value="制服あり"><label for="g6">制服あり</label></li>
+                        <li><input type="checkbox" id="g7" value="友達と応募Ok"><label for="g7">友達と応募Ok</label></li>
+                    </ul>
+                </label>
+            </div>
+           
+            <h3>現場の名大生の声</h3>
+
+            <form>
+                    <div class="box">
+                        <div id="membersVoice">
+                            <label><span>声1</span><textarea id="voice1" maxlength="4000"></textarea></label><br>
+                            <label><span>声2</span><textarea id="voice2" maxlength="4000"></textarea></label><br>
+                        </div>
+                    </div>
+                <h3>その他情報</h3>
+                <div class="box">
+                    <label><span>連絡先</span></label>
+                    <div>
+                        <label><span>電話番号</span><input type="text" id="contactphone"></label>
+                        <label><span>メール</span><input type="text" id="contactmail"></label>
+                        <label><span>公式サイト</span><input type="text" id="contactsite"></label>
+                        <label><span>あなたの連絡先（任意）</span><input type="text" id="contactadress"></label>
+                        <label><span>タウンワークのリンク</span><input type="text" id="contactwork"></label>
+                        <label><span>アピール</span><input type="text" id="appeal"></label>
+                    </div>
+                </div>
+                <div class="box">
+                    <label><span>写真1</span><input type="file" id="photo1" accept=".jpg"></label>
+                </div>
+                <div class="box">
+                    <label><span>写真2</span><input type="file" id="photo2" accept=".jpg"></label>
+                </div>
+                <button type="submit" class="send">送信</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-storage.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            // Firebase の設定
+            apiKey: "AIzaSyD3ogaiRPtv870uTBDjI3S42LKTC1hlLrM",
+        authDomain: "Pnuwiki2024.firebaseapp.com",
+        databaseURL: "https://nuwiki2024.firebaseio.com",
+        projectId: "nuwiki2024",
+        storageBucket: "nuwiki2024.appspot.com",
+        messagingSenderId: "117360974314",
+        appId: "1:117360974314:web:b42c367177476d0b627a93",
+        measurementId: "G-7M672MYCDY",
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        document.querySelector('.send').addEventListener('click', async function(event) {
+            event.preventDefault();
+
+            const photo1 = document.getElementById('photo1').files[0];
+            const photo2 = document.getElementById('photo2').files[0];
+
+            try {
+                const [photo1Url, photo2Url] = await Promise.all([
+                    uploadPhoto(photo1, 'photo1'),
+                    uploadPhoto(photo2, 'photo2')
+                ]);
+
+                const data = {
+    name: document.getElementById('name').value,
+    wage: document.getElementById('wage').value,
+    station: document.getElementById('station').value,
+     
+       s1: document.getElementById('s1').checked,
+        s2:document.getElementById('s2').checked,
+        s3:document.getElementById('s3').checked,
+        s4:document.getElementById('s4').checked,
+        s5:document.getElementById('s5').checked,
+        t1:document.getElementById('t1').checked,
+        t2:document.getElementById('t2').checked,
+        t3:document.getElementById('t3').checked,
+        t4:document.getElementById('t4').checked,
+        t5:document.getElementById('t5').checked,
+        t6:document.getElementById('t6').checked,
+        t7:document.getElementById('t7').checked,
+    
+    
+       span1: document.getElementById('span1').checked,
+        span2:document.getElementById('span2').checked,
+        span3:document.getElementById('span3').checked,
+        span4:document.getElementById('span4').checked,
+
+        g1:document.getElementById('g1').checked,
+        g2:document.getElementById('g2').checked,
+        g3:document.getElementById('g3').checked,
+        g4:document.getElementById('g4').checked,
+        g5:document.getElementById('g5').checked,
+        g6:document.getElementById('g6').checked,
+        g7:document.getElementById('g7').checked,
+
+    membersVoice: [
+        document.getElementById('voice1').value,
+        document.getElementById('voice2').value
+    ],
+    contact: {
+        phone: document.getElementById('contactphone').value,
+        mail: document.getElementById('contactmail').value,
+        site: document.getElementById('contactsite').value,
+        address: document.getElementById('contactadress').value,
+        work: document.getElementById('contactwork').value,
+        appeal: document.getElementById('appeal').value
+    },
+    photo1: photo1Url,
+    photo2: photo2Url
+};
+
+
+                // Firestore にデータを保存
+                await db.collection('work').add(data);
+                alert('アルバイト情報が正常に保存されました！');
+                location.reload(); //保存後にページをリロードしてフォームをクリアする
+            } catch (error) {
+                alert('データの保存中にエラーが発生しました：' + error.message);
+            }
+        });
+
+        const uploadPhoto = async (photo, name) => {
+            if (!photo) return null;
+            const storageRef = firebase.storage().ref();
+            const photoRef = storageRef.child('photos/' + name);
+            try {
+                await photoRef.put(photo);
+                return await photoRef.getDownloadURL();
+            } catch (error) {
+                throw new Error('写真のアップロードに失敗しました: ' + error.message);
+            }
+        };
+    </script>
+</body>
+</html>

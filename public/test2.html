@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>新歓予約</title>
+</head>
+<body>
+    <input type="text" id="userNameInput" placeholder="ユーザー名を入力">
+    <select id="requestInfoInput">
+        <option value="">なし</option>
+        <option value="LINE">LINE</option>
+        <option value="メール">メール</option>
+    </select>
+    <button id="submitButton" disabled>送信</button>
+
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-auth.js"></script>
+
+    <script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyD3ogaiRPtv870uTBDjI3S42LKTC1hlLrM",
+        authDomain: "Pnuwiki2024.firebaseapp.com",
+        databaseURL: "https://nuwiki2024.firebaseio.com",
+        projectId: "nuwiki2024",
+        storageBucket: "nuwiki2024.appspot.com",
+        messagingSenderId: "117360974314",
+        appId: "1:117360974314:web:b42c367177476d0b627a93",
+        measurementId: "G-7M672MYCDY",
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    const auth = firebase.auth();
+
+    auth.onAuthStateChanged(function(user) {
+        if (user) {
+            const userId = user.uid;
+            const userName = document.getElementById('userNameInput').value;
+            const requestInfo = document.getElementById('requestInfoInput').value;
+
+            db.collection('clubs_party').doc(userId).get().then(function(doc) {
+                if (doc.exists) {
+                    const partyId = doc.id;
+                    const data = doc.data();
+                    const partyMemberId = data.partyMemberDoc;
+                    db.collection('party_member').doc(partyMemberId).get().then(function(doc) {
+                        if (doc.exists) {
+                            const newData = {};
+                            newData['userName'] = userName;
+                            if (requestInfo === 'LINE') {
+                                const qrCode = prompt('QRコードの写真をアップロードしてください。');
+                                newData['qrCode'] = qrCode;
+                            } else if (requestInfo === 'メール') {
+                                const email = prompt('メールアドレスを入力してください。');
+                                newData['email'] = email;
+                            }
+                            db.collection('reservation').doc(partyId).set(newData).then(function() {
+                                db.collection('users').doc(userId).collection('info').add({partyId}).then(function() {
+                                    alert('送信が成功しました。');
+                                    window.location.href = 'index.html';
+                                }).catch(function(error) {
+                                    alert('ユーザー情報の更新に失敗しました: ' + error.message);
+                                });
+                            }).catch(function(error) {
+                                alert('送信の登録に失敗しました: ' + error.message);
+                            });
+                        } else {
+                            alert('指定されたIDの新歓情報が見つかりませんでした。');
+                        }
+                    }).catch(function(error) {
+                        alert('新歓情報の取得に失敗しました: ' + error.message);
+                    });
+                } else {
+                    alert('ログインしていません。');
+                }
+            }).catch(function(error) {
+                alert('新歓情報の取得に失敗しました: ' + error.message);
+            });
+        } else {
+            alert('ログインしていません。');
+        }
+    });
+
+    document.getElementById('userNameInput').addEventListener('input', function() {
+        const userName = document.getElementById('userNameInput').value;
+        const requestInfo = document.getElementById('requestInfoInput').value;
+        document.getElementById('submitButton').disabled = !userName || !requestInfo;
+    });
+
+    document.getElementById('requestInfoInput').addEventListener('change', function() {
+        const userName = document.getElementById('userNameInput').value;
+        const requestInfo = document.getElementById('requestInfoInput').value;
+        document.getElementById('submitButton').disabled = !userName || !requestInfo;
+    });
+
+    document.getElementById('submitButton').addEventListener('click', function() {
+        auth.signInAnonymously();
+    });
+    </script>
+</body>
+</html>
